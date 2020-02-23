@@ -9,6 +9,7 @@ Page.MySecurity = class MySecurity extends Page.Base {
 			'^user_create': '<i class="mdi mdi-account-plus">&nbsp;</i>User',
 			'^user_update': '<i class="mdi mdi-account-edit">&nbsp;</i>User',
 			'^user_login': '<i class="mdi mdi-account-key">&nbsp;</i>User',
+			'^user_password': '<i class="mdi mdi-account-key">&nbsp;</i>User',
 			'^message': '<i class="mdi mdi-email-outline">&nbsp;</i>Message',
 			'^error': '<i class="mdi mdi-alert-decagram">&nbsp;</i>Error',
 			'^warning': '<i class="mdi mdi-alert-circle">&nbsp;</i>Warning',
@@ -84,6 +85,9 @@ Page.MySecurity = class MySecurity extends Page.Base {
 				break;
 				case 'user_login':
 					desc = 'User logged in.';
+				break;
+				case 'user_password':
+					desc = 'User password was changed.';
 				break;
 				
 				// messages

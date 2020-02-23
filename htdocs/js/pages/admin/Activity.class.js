@@ -167,6 +167,10 @@ Page.ActivityLog = class ActivityLog extends Page.Base {
 					desc = "User logged in: <b>" + item.user.username + "</b> (" + item.user.full_name + ")";
 					actions.push( '<a href="#Users?sub=edit&username=' + item.user.username + '">Edit User</a>' );
 				break;
+				case 'user_password':
+					desc = "User password was changed.";
+					actions.push( '<a href="#Users?sub=edit&username=' + item.user.username + '">Edit User</a>' );
+				break;
 				
 				// misc
 				case 'error':
