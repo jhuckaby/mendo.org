@@ -101,15 +101,15 @@ Page.View = class PageView extends Page.Base {
 				}) + '</div><div style="margin-top:2px;">' + this.getFormCheckbox({
 					id: 'fe_reply_listserv',
 					auto: 'reply_listserv', // remember state
-					label: "Also send reply to the Announce ListServ"
+					label: "Also send reply to the ListServ"
 				}) + '</div>';
 			
 			html += '</div>';
 			
 			// buttons at bottom
 			html += '<div class="box_buttons right" style="padding-right:0;">';
-				html += '<div class="button" onMouseUp="$P().cancelReplyConfirm()"><i class="mdi mdi-cancel">&nbsp;</i>Discard</div>';
-				html += '<div class="button" onMouseUp="$P().attachFiles()"><i class="mdi mdi-link-variant-plus">&nbsp;</i>Attach Files...</div>';
+				html += '<div class="button mobile_collapse" onMouseUp="$P().cancelReplyConfirm()"><i class="mdi mdi-cancel">&nbsp;</i><span>Discard</span></div>';
+				html += '<div class="button mobile_collapse" onMouseUp="$P().attachFiles()"><i class="mdi mdi-link-variant-plus">&nbsp;</i><span>Attach Files...</span></div>';
 				html += '<div class="button primary" onMouseUp="$P().sendReply()"><i class="mdi mdi-email-send-outline">&nbsp;</i>Send Reply</div>';
 			html += '</div>'; // box_buttons
 			

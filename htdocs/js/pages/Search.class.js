@@ -56,7 +56,7 @@ Page.Search = class Search extends Page.Base {
 			
 			// search box
 			html += '<div class="search_box">';
-				html += '<i class="mdi mdi-magnify">&nbsp;</i><input type="text" id="fe_s_query" placeholder="Enter search query..." value="' + escape_text_field_value(args.query || '') + '">';
+				html += '<i class="mdi mdi-magnify">&nbsp;</i><input type="text" id="fe_s_query" maxlength="128" placeholder="Enter search query..." value="' + escape_text_field_value(args.query || '') + '">';
 			html += '</div>';
 			
 			// options

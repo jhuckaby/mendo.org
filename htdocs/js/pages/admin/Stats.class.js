@@ -40,8 +40,6 @@ Page.Stats = class PageStats extends Page.Base {
 		var html = '';
 		var stats = resp.stats;
 		
-		console.log( resp );
-		
 		html += '<div class="stat_box_row">';
 		
 		////
@@ -49,6 +47,7 @@ Page.Stats = class PageStats extends Page.Base {
 		////
 		html += '<div class="box stat_box">';
 		html += '<div class="box_title">';
+			html += '<i class="mdi mdi-calendar-today">&nbsp;</i>';
 			html += 'Daily Totals';
 			// html += '<div class="box_subtitle">(Resets at midnight)</div>';
 		html += '</div>';
@@ -62,15 +61,15 @@ Page.Stats = class PageStats extends Page.Base {
 			);
 			html += this.renderStat(
 				'Web Requests', 
-				commify(stats.day.requests || 0) + ' (' + Math.floor((stats.day.requests || 0) / elapsed) + '/sec avg)'
+				commify(stats.day.requests || 0) // + ' (' + Math.floor((stats.day.requests || 0) / elapsed) + '/sec)'
 			);
 			html += this.renderStat(
 				'Bandwith In', 
-				get_text_from_bytes(stats.day.bytes_in || 0) + ' (' + get_text_from_bytes((stats.day.bytes_in || 0) / elapsed) + '/sec avg)'
+				get_text_from_bytes(stats.day.bytes_in || 0) // + ' (' + get_text_from_bytes((stats.day.bytes_in || 0) / elapsed) + '/sec)'
 			);
 			html += this.renderStat(
 				'Bandwith Out', 
-				get_text_from_bytes(stats.day.bytes_out || 0) + ' (' + get_text_from_bytes((stats.day.bytes_out || 0) / elapsed) + '/sec avg)'
+				get_text_from_bytes(stats.day.bytes_out || 0) // + ' (' + get_text_from_bytes((stats.day.bytes_out || 0) / elapsed) + '/sec)'
 			);
 			
 			html += this.renderStat(
@@ -106,6 +105,7 @@ Page.Stats = class PageStats extends Page.Base {
 		////
 		html += '<div class="box stat_box">';
 		html += '<div class="box_title">';
+			html += '<i class="mdi mdi-database">&nbsp;</i>';
 			html += 'Database Stats';
 			// html += '<div class="box_subtitle">(Resets at midnight)</div>';
 		html += '</div>';
@@ -157,6 +157,7 @@ Page.Stats = class PageStats extends Page.Base {
 		////
 		html += '<div class="box stat_box">';
 		html += '<div class="box_title">';
+			html += '<i class="mdi mdi-server-network">&nbsp;</i>';
 			html += 'Server Resources';
 			// html += '<div class="box_subtitle">(Resets at midnight)</div>';
 		html += '</div>';
@@ -188,6 +189,7 @@ Page.Stats = class PageStats extends Page.Base {
 		////
 		html += '<div class="box stat_box">';
 		html += '<div class="box_title">';
+			html += '<i class="mdi mdi-robot">&nbsp;</i>';
 			html += 'Machine Learning';
 			// html += '<div class="box_subtitle">(Resets at midnight)</div>';
 		html += '</div>';

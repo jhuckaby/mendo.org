@@ -323,6 +323,10 @@ div.rc_icon {
 	border: 1px solid var(--red);
 }
 
+.sidebar_foot_pad {
+	height: 20px;
+}
+
 /* Stats Page */
 
 .stat_box_row {
@@ -336,6 +340,7 @@ div.rc_icon {
 }
 .box.stat_box .box_title {
 	padding-bottom: 0px;
+	font-size: 15px;
 }
 
 .stat_row {
@@ -849,6 +854,10 @@ i.favorite {
 	
 	.stat_box_row {
 		grid-template-columns: 1fr;
+	}
+	
+	.sidebar_foot_pad {
+		height: 60px;
 	}
 }
 
