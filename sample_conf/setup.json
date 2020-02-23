@@ -1,0 +1,179 @@
+{
+	"storage": [
+		[ "put", "users/admin", {
+			"username": "admin",
+			"password": "$2a$10$VAF.FNvz1JqhCAB5rCh9GOa965eYWH3fcgWIuQFAmsZnnVS/.ye1y",
+			"full_name": "Administrator",
+			"email": "admin@localhost",
+			"active": 1,
+			"modified": 1434125333,
+			"created": 1434125333,
+			"salt": "salty",
+			"privileges": {
+				"admin": 1
+			},
+			"exclude_tags": [],
+			"exclude_froms": [],
+			"searches": [],
+			"verified": true,
+			"date_format": "[ddd] [mmm] [d] [yyyy] [h12]:[mi] [ampm]",
+			"text_format": "markdown",
+			"font_family": "Lato",
+			"font_size": "14px",
+			"line_breaks": false,
+			"inline_images": true,
+			"signature": "",
+			"opt_out": false
+		} ],
+		[ "listCreate", "global/users", { "page_size": 1000 } ],
+		[ "listPush", "global/users", { "username": "admin" } ],
+		[ "listCreate", "global/api_keys", { "page_size": 100 } ],
+		[ "listCreate", "logs/activity", { "page_size": 100 } ],
+		
+		[ "listCreate", "global/tags", { "page_size": 100 } ],
+		[ "listCreate", "global/locations", { "page_size": 100 } ],
+		[ "listCreate", "global/bans", { "page_size": 100 } ],
+		
+		[ "hashCreate", "global/emails", { "page_size": 1000 } ],
+		[ "hashPut", "global/emails", "admin@localhost", "admin" ]
+	],
+	
+	"tag_list": [
+		["Arts", "brush"],
+		["Classes", "google-classroom"],
+		["Classifieds", "coin-outline"],
+		["Crafts", "hammer"],
+		["Entertainment", "glass-cocktail"],
+		["Events", "calendar-blank"],
+		["Food", "food"],
+		["Literature", "book-open-page-variant"],
+		["Music", "music-clef-treble"],
+		["Neighborhood", "home-group"],
+		["News", "newspaper"],
+		["Off-Topic", "content-cut"],
+		["Petitions", "ballot-outline"],
+		["Pets", "cat"],
+		["Politics", "gavel"],
+		["Radio", "antenna"],
+		["Real Estate", "home"],
+		["Recommendations", "bullseye-arrow"],
+		["Religion", "church"],
+		["School", "school"],
+		["Services", "engine-outline"],
+		["Space", "earth"],
+		["Technology", "cursor-default-outline"],
+		["Theater", "drama-masks"],
+		["Transportation", "car-multiple"],
+		["Unsorted", "filter-outline"],
+		["Utilities", "flash"],
+		["Wanted", "crosshairs-question"],
+		["Weather", "weather-lightning"]
+	],
+	
+	"location_list": [
+		"Albion",
+		"Anchor Bay",
+		"Boonville",
+		"Branscomb",
+		"Brooktrails",
+		"Calpella",
+		"Caspar",
+		"Cleone",
+		"Comptche",
+		"Covelo",
+		"Dos Rios",
+		"Elk",
+		"Fort Bragg",
+		"Gualala",
+		"Hopland",
+		"Inglenook",
+		"Laytonville",
+		"Leggett",
+		"Little River",
+		"Longvale",
+		"Manchester",
+		"Mendocino",
+		"Navarro",
+		"Noyo",
+		"Philo",
+		"Piercy",
+		"Pine Grove",
+		"Point Arena",
+		"Potter Valley",
+		"Redwood Valley",
+		"Rockport",
+		"Talmage",
+		"Ukiah",
+		"Wanhala",
+		"Westport",
+		"Willits",
+		"Yorkville"
+	],
+	
+	"build": {
+		"common": [
+			[ "symlinkCompress", "node_modules/jquery/dist/jquery.min.js", "htdocs/js/external/" ],
+			[ "symlinkCompress", "node_modules/jquery/dist/jquery.min.map", "htdocs/js/external/" ],
+			
+			[ "symlinkCompress", "node_modules/zeroupload/zeroupload.min.js", "htdocs/js/external/" ],
+			
+			[ "symlinkCompress", "node_modules/@mdi/font/css/materialdesignicons.min.css", "htdocs/css/" ],
+			[ "symlinkCompress", "node_modules/@mdi/font/css/materialdesignicons.min.css.map", "htdocs/css/" ],
+			[ "symlinkCompress", "node_modules/@mdi/font/css/materialdesignicons.css.map", "htdocs/css/" ],
+			[ "copyFiles", "node_modules/@mdi/font/fonts/*", "htdocs/fonts/" ],
+			
+			[ "symlinkCompress", "node_modules/moment/min/moment.min.js", "htdocs/js/external/" ],
+			[ "symlinkCompress", "node_modules/moment-timezone/builds/moment-timezone-with-data.min.js", "htdocs/js/external/" ],
+			[ "symlinkCompress", "node_modules/jstimezonedetect/dist/jstz.min.js", "htdocs/js/external/" ],
+			[ "symlinkCompress", "node_modules/unscroll/unscroll.min.js", "htdocs/js/external/" ],
+			[ "symlinkCompress", "node_modules/marked/marked.min.js", "htdocs/js/external/" ],
+			
+			[ "symlinkFile", "node_modules/orchestra-theme/js", "htdocs/js/common" ],
+			[ "symlinkFile", "node_modules/orchestra-theme/css/normalize.css", "htdocs/css/" ],
+			[ "symlinkFile", "node_modules/orchestra-theme/css/base.css", "htdocs/css/" ],
+			[ "copyFiles", "node_modules/orchestra-theme/fonts/*", "htdocs/fonts/" ],
+			
+			[ "chmodFiles", "755", "bin/*" ]
+		],
+		"dev": [
+			[ "deleteFiles", "htdocs/css/_combo*" ],
+			[ "deleteFiles", "htdocs/js/_combo*" ],
+			[ "deleteFile", "htdocs/index.html" ],
+			[ "deleteFile", "htdocs/index.html.gz" ],
+			[ "symlinkFile", "htdocs/index-dev.html", "htdocs/index.html" ],
+			[ "symlinkFile", "sample_conf", "conf" ]
+		],
+		"dist": [
+			[ "copyDir", "sample_conf", "conf", { "exclusive": true } ],
+			[ "copyFile", "htdocs/index-dev.html", "htdocs/index.html" ],
+			{
+				"action": "bundleCompress",
+				"uglify": false,
+				"header": "/* Copyright (c) Mendo.org. */",
+				"dest_bundle": "htdocs/js/_combo.js",
+				"html_file": "htdocs/index.html",
+				"match_key": "COMBINE_SCRIPT",
+				"dest_bundle_tag": "<script src=\"js/_combo.js?v=[version]\"></script>"
+			},
+			{
+				"action": "bundleCompress",
+				"strip_source_maps": true,
+				"dest_bundle": "htdocs/css/_combo.css",
+				"html_file": "htdocs/index.html",
+				"match_key": "COMBINE_STYLE",
+				"dest_bundle_tag": "<link rel=\"stylesheet\" href=\"css/_combo.css?v=[version]\">"
+			},
+			{
+				"action": "printMessage",
+				"lines": [
+					"Welcome to Mendo.org!",
+					"First time installing?  You should configure your settings in '/opt/mendo/conf/config.json'.",
+					"Next, type: '/opt/mendo/bin/control.sh setup' to init storage.",
+					"Then, to start the service, type: '/opt/mendo/bin/control.sh start'.",
+					"For full docs, please visit: http://github.com/jhuckaby/mendo.org",
+					"Enjoy!"
+				]
+			}
+		]
+	}
+}

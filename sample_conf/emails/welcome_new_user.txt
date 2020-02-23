@@ -1,0 +1,14 @@
+To: [/user/email]
+From: [/config/email_from]
+Subject: Welcome to Mendo.org!
+
+Hey [/user/full_name],
+
+Welcome to Mendo.org!  Your new account username is "[/user/username]".  Please verify your account by clicking the following link, or copying & pasting it into your browser:
+
+[/self_url]#Verify?user=[/user/username]&auth=[/user/salt]
+
+Once you are verified you can post topics and replies to the ListServ using Mendo.org.
+
+Regards,
+The Mendo.org Team

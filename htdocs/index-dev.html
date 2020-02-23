@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Loading...</title>
+	<meta name="description" content="A simple web app.">
+	<meta name="author" content="Joseph Huckaby">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+	<link rel="shortcut icon" href="/favicon.ico">
+	<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+	<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#3791F5">
+	<meta name="theme-color" content="#3791F5">
+	
+	<!-- BUILD: COMBINE_STYLE_START -->
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/base.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/search.css">
+	<link rel="stylesheet" href="css/materialdesignicons.min.css">
+	<!-- BUILD: COMBINE_STYLE_END -->
+</head>
+
+<body>
+	<!-- This is for the floating fixed message notification system -->
+	<div id="d_message" class="message" style="display:none" onMouseUp="app.hideMessage(250)">
+		<div id="d_message_inner" class="message_inner"></div>
+	</div>
+	
+	<div class="sidebar">
+		<div class="title"></div>
+		
+		<div class="section_title expanded"><i class="ctrl mdi mdi-chevron-down"></i><i class="icon mdi mdi-home">&nbsp;</i>Main</div>
+		<div class="section">
+			<a href="#NewTopic" id="tab_NewTopic" class="section_item"><i class="icon mdi mdi-file-document-edit-outline">&nbsp;</i>Post New Topic</a>
+			<a href="#RecentNew" id="tab_RecentNew" class="section_item"><i class="icon mdi mdi-calendar-clock">&nbsp;</i>Recent Topics</a>
+			<a href="#RecentHot" id="tab_RecentHot" class="section_item"><i class="icon mdi mdi-fire">&nbsp;</i>Hot Topics</a>
+			<a href="#Calendar" id="tab_Calendar" class="section_item"><i class="icon mdi mdi-calendar-multiple">&nbsp;</i>Calendar</a>
+			<a href="#Search" id="tab_Search" class="section_item"><i class="icon mdi mdi-cloud-search-outline">&nbsp;</i>Search</a>
+			<a href="#Favorites" id="tab_Favorites" class="section_item"><i class="icon mdi mdi-heart-multiple">&nbsp;</i>Favorites</a>
+		</div>
+		
+		<div class="section_title expanded"><i class="ctrl mdi mdi-chevron-down"></i><i class="icon mdi mdi-email-search-outline">&nbsp;</i>My Searches</div>
+		<div id="d_section_my_searches" class="section"></div>
+		
+		<div class="section_title expanded"><i class="ctrl mdi mdi-chevron-down"></i><i class="icon mdi mdi-tag-multiple">&nbsp;</i>Categories</div>
+		<div id="d_section_tags" class="section"></div>
+		
+		<div class="section_title"><i class="ctrl mdi mdi-chevron-down"></i><i class="icon mdi mdi-map-marker-multiple">&nbsp;</i>Locations</div>
+		<div id="d_section_locations" class="section"></div>
+		
+		<div class="section_title expanded"><i class="ctrl mdi mdi-chevron-down"></i><i class="icon mdi mdi-cogs">&nbsp;</i>Settings</div>
+		<div class="section">
+			<a href="#MyAccount" id="tab_MyAccount" class="section_item"><i class="icon mdi mdi-account">&nbsp;</i>My Account</a>
+			<a href="#MySecurity" id="tab_MySecurity" class="section_item"><i class="icon mdi mdi-shield-account">&nbsp;</i>Security Log</a>
+			<a href="#MySettings" id="tab_MySettings" class="section_item"><i class="icon mdi mdi-settings">&nbsp;</i>Preferences</a>
+		</div>
+		
+		<div id="d_sidebar_admin_group" style="margin-top:10px">
+			<div class="section_title expanded"><i class="ctrl mdi mdi-chevron-down"></i><i class="icon mdi mdi-lock">&nbsp;</i>Admin</div>
+			<div class="section">
+				<a href="#ActivityLog" id="tab_ActivityLog" class="section_item"><i class="icon mdi mdi-script-text-outline">&nbsp;</i>Activity Log</a>
+				<a href="#Stats" id="tab_Stats" class="section_item"><i class="icon mdi mdi-finance">&nbsp;</i>Site Stats</a>
+				<a href="#APIKeys" id="tab_APIKeys" class="section_item"><i class="icon mdi mdi-key">&nbsp;</i>API Keys</a>
+				<a href="#Bans" id="tab_Bans" class="section_item"><i class="icon mdi mdi-target-account">&nbsp;</i>Global Bans</a>
+				<a href="#Tags" id="tab_Tags" class="section_item"><i class="icon mdi mdi-tag-multiple">&nbsp;</i>Categories</a>
+				<a href="#Locations" id="tab_Locations" class="section_item"><i class="icon mdi mdi-map-marker-multiple">&nbsp;</i>Locations</a>
+				<a href="#Users" id="tab_Users" class="section_item"><i class="icon mdi mdi-account-supervisor">&nbsp;</i>Users</a>
+			</div>
+		</div>
+		
+		<div class="section_title expanded"><i class="ctrl mdi mdi-chevron-down"></i><i class="icon mdi mdi-folder-open-outline">&nbsp;</i>Documents</div>
+		<div class="section">
+			<a href="#Document?id=welcome" id="tab_Document_welcome" class="section_item"><i class="icon mdi mdi-file-document-outline">&nbsp;</i>Welcome!</a>
+			<a href="#Document?id=terms-of-service" id="tab_Document_terms-of-service" class="section_item"><i class="icon mdi mdi-file-document-outline">&nbsp;</i>Terms of Service</a>
+			<a href="#Document?id=privacy-policy" id="tab_Document_privacy-policy" class="section_item"><i class="icon mdi mdi-file-document-outline">&nbsp;</i>Privacy Policy</a>
+			<a href="#Document?id=opt-out" id="tab_Document_opt-out" class="section_item"><i class="icon mdi mdi-file-document-outline">&nbsp;</i>Opt Out</a>
+		</div>
+		
+		<div id="tab_Tag" style="display:none"></div>
+		<div id="tab_Location" style="display:none"></div>
+		<div id="tab_View" style="display:none"></div>
+		<div id="tab_Document" style="display:none"></div>
+		<div id="tab_Login" style="display:none"></div>
+		<div id="tab_Verify" style="display:none"></div>
+		<div id="tab_Home" style="display:none"></div>
+		
+		<div style="height:20px;"></div>
+	</div>
+	
+	<div class="header">
+		<div id="d_logo_overlay" onMouseUp="Nav.go('Home')"></div>
+		<div id="d_sidebar_toggle"><i class="mdi mdi-menu-open"></i></div>
+		<div id="d_header_user_container" class="right">
+			
+		</div>
+		<div class="header_title"></div>
+		<div class="clear"></div>
+	</div>
+	
+	<div class="main">
+	</div>
+	
+	<!-- Footer -->
+	<div id="d_footer">
+		<div class="left">
+			&copy; 2020 Mendo.org. MIT Licensed.
+		</div>
+		<div id="d_footer_version" class="right"></div>
+		<div class="clear"></div>
+	</div>
+	
+	<script src="js/external/jquery.min.js"></script>
+	
+	<!-- BUILD: COMBINE_SCRIPT_START -->
+	<script src="js/external/zeroupload.min.js"></script>
+	<script src="js/external/unscroll.min.js"></script>
+	<script src="js/external/marked.min.js"></script>
+	<script src="js/common/misc.js"></script>
+	<script src="js/common/tools.js"></script>
+	<script src="js/common/datetime.js"></script>
+	<script src="js/common/page.js"></script>
+	<script src="js/common/dialog.js"></script>
+	<script src="js/common/popover.js"></script>
+	<script src="js/common/select.js"></script>
+	<script src="js/common/calendar.js"></script>
+	<script src="js/common/base.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/pages/Base.class.js"></script>
+	<script src="js/pages/Home.class.js"></script>
+	<script src="js/pages/RecentNew.class.js"></script>
+	<script src="js/pages/RecentHot.class.js"></script>
+	<script src="js/pages/Calendar.class.js"></script>
+	<script src="js/pages/Favorites.class.js"></script>
+	<script src="js/pages/Search.class.js"></script>
+	<script src="js/pages/NewTopic.class.js"></script>
+	<script src="js/pages/Tag.class.js"></script>
+	<script src="js/pages/Location.class.js"></script>
+	<script src="js/pages/View.class.js"></script>
+	<script src="js/pages/Document.class.js"></script>
+	<script src="js/pages/Login.class.js"></script>
+	<script src="js/pages/Verify.class.js"></script>
+	<script src="js/pages/user/MyAccount.class.js"></script>
+	<script src="js/pages/user/MySettings.class.js"></script>
+	<script src="js/pages/user/MySecurity.class.js"></script>
+	<script src="js/pages/admin/Users.class.js"></script>
+	<script src="js/pages/admin/Activity.class.js"></script>
+	<script src="js/pages/admin/APIKeys.class.js"></script>
+	<script src="js/pages/admin/Locations.class.js"></script>
+	<script src="js/pages/admin/Tags.class.js"></script>
+	<script src="js/pages/admin/Bans.class.js"></script>
+	<script src="js/pages/admin/Stats.class.js"></script>
+	<!-- BUILD: COMBINE_SCRIPT_END -->
+	
+	<script src="/api/app/config?callback=app.receiveConfig"></script>
+
+</body>
+</html>

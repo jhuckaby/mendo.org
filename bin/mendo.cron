@@ -1,0 +1,11 @@
+# Mendo.org Crontab
+# See: https://github.com/jhuckaby/mendo.org
+
+# Monitor Mendo.org daemon once per minute (Upstart).
+* * * * * root /opt/mendo/bin/monitor.js
+
+# Nightly backup of entire DB to S3
+15 03 * * * root /opt/mendo/bin/backup.sh
+
+# SSL cert renewal
+15 04 * * * root /usr/bin/certbot renew --post-hook "/opt/mendo/bin/control.sh restart" >/dev/null 2>&1

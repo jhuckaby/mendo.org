@@ -1,0 +1,14 @@
+To: [/user/email]
+From: [/config/email_from]
+Subject: Please verify your new e-mail address for Mendo.org
+
+Hey [/user/full_name],
+
+It looks like you changed your e-mail address for Mendo.org.  If this was you, please verify the new address by clicking the following link, or copying & pasting it into your browser:
+
+[/self_url]#Verify?user=[/user/username]&auth=[/user/salt]
+
+Once you are verified you can post topics and replies to the ListServ using Mendo.org.
+
+Regards,
+The Mendo.org Team

@@ -1,0 +1,67 @@
+{
+	"name": "mendo.org",
+	"version": "0.9.1",
+	"description": "A community forum / discourse app with a web based UI.",
+	"author": "Joseph Huckaby <jhuckaby@gmail.com>",
+	"homepage": "https://github.com/jhuckaby/mendo.org",
+	"license": "MIT",
+	"main": "lib/main.js",
+	"scripts": {
+		"start": "bin/control.sh start",
+		"debug": "bin/control.sh debug",
+		"boot": "pixl-boot install --script bin/control.sh",
+		"unboot": "pixl-boot uninstall"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/jhuckaby/mendo.org"
+	},
+	"bugs": {
+		"url": "https://github.com/jhuckaby/mendo.org/issues"
+	},
+	"keywords": [
+		"mendo",
+		"mendocino",
+		"listserv",
+		"node",
+		"javascript",
+		"webapp"
+	],
+	"dependencies": {
+		"aws-sdk": "2.610.0",
+		"async": "2.6.1",
+		"jimp": "0.6.4",
+		"mime": "2.4.4",
+		"fasttext.js": "1.1.2",
+		"uglify-js": "2.8.22",
+		"bcrypt-node": "0.1.0",
+		"jquery": "3.4.1",
+		"zeroupload": "^1.0.0",
+		"@mdi/font": "4.9.95",
+		"unscroll": "1.0.7",
+		"marked": "0.8.0",
+		"planer": "1.1.1",
+		"mailparser": "2.7.7",
+		"chrono-node": "1.4.2",
+		"he": "1.1.1",
+		"unidecode": "0.1.8",
+		"useragent": "2.3.0",
+		"class-plus": "^1.0.0",
+		"pixl-args": "^1.0.3",
+		"pixl-cli": "^1.0.11",
+		"pixl-config": "^1.0.9",
+		"pixl-tools": "^1.0.24",
+		"pixl-logger": "^1.0.18",
+		"pixl-request": "^1.0.26",
+		"pixl-mail": "^1.0.9",
+		"pixl-perf": "^1.0.6",
+		"pixl-server": "^1.0.23",
+		"pixl-server-storage": "^3.0.0",
+		"pixl-server-unbase": "^1.0.3",
+		"pixl-server-web": "^1.1.28",
+		"pixl-server-api": "^1.0.1",
+		"pixl-server-user": "^1.0.13",
+		"pixl-boot": "^2.0.0",
+		"orchestra-theme": "^1.0.0"
+	}
+}

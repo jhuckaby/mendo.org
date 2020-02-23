@@ -1,0 +1,19 @@
+To: [/user/email]
+From: [/config/email_from]
+Subject: Mendo.org Sessions Logged Out
+
+Hey [/user/full_name],
+
+Upon your request, we have deleted all user sessions associated with your account.  The following sessions were found and deleted:
+
+[/report]
+
+(End of report)
+
+If you have any questions, or if you did not request this action, please e-mail us at support@mendo.org.
+
+This request was sent from IP address: [/session/ip]
+Using the following user agent: [/useragent]
+
+Regards,
+The Mendo.org Team

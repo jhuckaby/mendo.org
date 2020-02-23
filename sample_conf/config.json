@@ -1,0 +1,255 @@
+{
+	"base_app_url": "http://localhost:5522",
+	"email_from": "admin@localhost",
+	"smtp_hostname": "localhost",
+	"smtp_port": 25,
+	"secret_key": "CHANGE_ME",
+	
+	"log_dir": "logs",
+	"log_filename": "[component].log",
+	"log_columns": ["hires_epoch", "date", "hostname", "pid", "component", "category", "code", "msg", "data"],
+	"log_archive_path": "logs/archives/[yyyy]/[mm]/[dd]/[filename]-[yyyy]-[mm]-[dd].log.gz",
+	"log_crashes": true,
+	"pid_file": "logs/mendo.pid",
+	"debug_level": 9,
+	"maintenance": "04:00",
+	"list_row_max": 10000,
+	"expiration": "5 years",
+	"track_user_activity": true,
+	"ttl": 300,
+	
+	"web_hooks": {},
+	
+	"listserv_address": "announce@lists.mcn.org",
+	"email_override": "",
+	"special_fwd_address": "",
+	"special_fwd_match": "\\b(support|ingest)@mendo\\.org\\b",
+	
+	"email_prep": {
+		"subject_strip": "^(\\w+\\:\\s*)*\\[.+\\]\\-\\s*",
+		"body_strip": "\\n[_-]{50,}\\n[\\S\\s]*$"
+	},
+	
+	"redirects": {
+		"^/privacy": "/#Document?id=privacy-policy",
+		"^/terms": "/#Document?id=terms-of-service",
+		"^/optout": "/#Document?id=opt-out",
+		"^/login": "/#Login",
+		"^/signup": "/#Login?create=1"
+	},
+	
+	"default_user": {
+		"exclude_tags": ["offtopic"],
+		"exclude_froms": [],
+		"verified": false,
+		"date_format": "[ddd] [mmm] [d] [yyyy] [h12]:[mi] [ampm]",
+		"text_format": "markdown",
+		"font_family": "Lato",
+		"font_size": "14px",
+		"line_breaks": false,
+		"inline_images": true,
+		"signature": "\n\nSent via Mendo.org\n",
+		"opt_out": false
+	},
+	
+	"client": {
+		"name": "Mendo.org",
+		"debug": 1,
+		"privilege_list": [
+			{ "id": "admin", "title": "Administrator" },
+			{ "id": "post_topics", "title": "Post Topics" },
+			{ "id": "post_replies", "title": "Post Replies" },
+			{ "id": "hashtags", "title": "Hashtags" },
+			{ "id": "mbox", "title": "Downloads" }
+		],
+		"items_per_page": 50
+	},
+	
+	"ML": {
+		"enabled": true,
+		"dir": "ml",
+		"mode": "suggest",
+		"train_schedule": "03:00",
+		"train_options": {
+			"thread": 4
+		}
+	},
+	
+	"S3MailIngest": {
+		"schedule": "",
+		"base_dir": "mail",
+		"key_prefix": "incoming/",
+		"api_key": "internal",
+		
+		"AWS": {},
+		"S3": {}
+	},
+	
+	"Storage": {
+		"engine": "Filesystem",
+		"list_page_size": 50,
+		"concurrency": 4,
+		"transactions": true,
+		"trans_auto_recover": true,
+		"log_event_types": { "get": 1, "put": 1, "head": 1, "delete": 1, "expire_set": 1, "perf_min": 1, "commit":1, "index":1, "unindex":1, "search":0, "sort":0, "maint": 1 },
+		
+		"Filesystem": {
+			"base_dir": "data",
+			"key_namespaces": 1,
+			"raw_file_paths": 1,
+			"no_fsync": 1,
+			
+			"cache": {
+				"enabled": true,
+				"maxItems": 100000,
+				"maxBytes": 104857600
+			}
+		}
+	},
+	
+	"WebServer": {
+		"http_port": 5522,
+		"http_htdocs_dir": "htdocs",
+		"http_max_upload_size": 10485760,
+		"http_static_ttl": 31536000,
+		"http_static_index": "index.html",
+		"http_server_signature": "Mendo.org v1.0",
+		"http_compress_text": true,
+		"http_enable_brotli": true,
+		"http_timeout": 30,
+		"http_regex_json": "(text|javascript|js|json)",
+		"http_clean_headers": true,
+		"http_log_socket_errors": true,
+		"http_response_headers": {
+			"Access-Control-Allow-Origin": "*"
+		},
+		"http_max_connections": 2048,
+		"http_max_concurrent_requests": 32,
+		"http_log_requests": true,
+		
+		"https": false,
+		"https_port": 5523,
+		"https_cert_file": "conf/ssl.crt",
+		"https_key_file": "conf/ssl.key",
+		"https_force": false,
+		"https_timeout": 30,
+		"https_header_detect": {
+			"Front-End-Https": "^on$",
+			"X-Url-Scheme": "^https$",
+			"X-Forwarded-Protocol": "^https$",
+			"X-Forwarded-Proto": "^https$",
+			"X-Forwarded-Ssl": "^on$"
+		}
+	},
+	
+	"User": {
+		"session_expire_days": 365,
+		"max_failed_logins_per_hour": 5,
+		"max_forgot_passwords_per_hour": 3,
+		"free_accounts": true,
+		"sort_global_users": false,
+		"use_bcrypt": true,
+		"valid_username_match": "^[\\w]+$",
+		
+		"email_templates": {
+			"welcome_new_user": "conf/emails/welcome_new_user.txt",
+			"changed_password": "conf/emails/changed_password.txt",
+			"recover_password": "conf/emails/recover_password.txt",
+			"verify_email": "conf/emails/verify_email.txt",
+			"logout_all_sessions": "conf/emails/logout_all_sessions.txt"
+		},
+		
+		"default_privileges": {
+			"post_topics": 1,
+			"post_replies": 1,
+			"hashtags": 1,
+			"mbox": 1
+		}
+	},
+	
+	"Unbase": {
+		"indexes": {
+			"messages": {
+				"default_search_field": "body",
+				"fields": [
+					{
+						"id": "type",
+						"source": "/type",
+						"master_list": true
+					},
+					{
+						"id": "tags",
+						"source": "/tags",
+						"master_list": true,
+						"default_value": "unsorted"
+					},
+					{
+						"id": "locations",
+						"source": "/locations",
+						"master_list": true,
+						"default_value": "_none_"
+					},
+					{
+						"id": "favorites",
+						"source": "/favorites"
+					},
+					{
+						"id": "parent",
+						"source": "/parent"
+					},
+					{
+						"id": "date",
+						"source": "/date",
+						"type": "date"
+					},
+					{
+						"id": "when",
+						"source": "/when",
+						"type": "date"
+					},
+					{
+						"id": "from",
+						"source": "[/from] [/username]",
+						"min_word_length": 3,
+						"max_word_length": 32,
+						"max_words": 10,
+						"use_remove_words": false,
+						"use_stemmer": false
+					},
+					{
+						"id": "subject",
+						"source": "/subject",
+						"min_word_length": 3,
+						"max_word_length": 32,
+						"max_words": 50,
+						"use_remove_words": true,
+						"use_stemmer": true
+					},
+					{
+						"id": "body",
+						"source": "[/subject] [/from] [/body]",
+						"min_word_length": 3,
+						"max_word_length": 32,
+						"max_words": 500,
+						"use_remove_words": true,
+						"use_stemmer": true
+					},
+					{
+						"id": "replies",
+						"source": "/replies",
+						"type": "number"
+					}
+				],
+				"sorters": [
+					{
+						"id": "replies",
+						"source": "/replies",
+						"type": "number"
+					}
+				],
+				"remove_words": ["the", "of", "and", "a", "to", "in", "is", "you", "that", "it", "he", "was", "for", "on", "are", "as", "with", "his", "they", "I", "at", "be", "this", "have", "from", "or", "one", "had", "by", "word", "but", "not", "what", "all", "were", "we", "when", "your", "can", "said", "there", "use", "an", "each", "which", "she", "do", "how", "their", "if", "will", "up", "other", "about", "out", "many", "then", "them", "these", "so", "some", "her", "would", "make", "like", "him", "into", "has", "look", "two", "more", "go", "see", "no", "way", "could", "my", "than", "been", "who", "its", "now", "did", "get", "come", "made"]
+			}
+		}
+	}
+	
+}

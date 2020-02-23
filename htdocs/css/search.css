@@ -1,0 +1,133 @@
+/* Calendar Form */
+
+div.search_box {
+	position: relative;
+	height: 30px;
+	color: var(--label-color);
+	opacity: 1;
+	transition: 0.2s ease all;
+	
+	display: flex;
+	align-items: center;
+	font-weight: normal;
+	text-transform: none;
+	color: var(--body-text-color);
+	
+	margin-bottom: 20px;	
+}
+
+div.search_box > i.mdi-magnify {
+	position: absolute;
+	left: 6px;
+	font-size: 15px;
+	color: var(--icon-color);
+}
+div.search_box > input[type="text"] {
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	width: 100%;
+	height: 28px;
+	line-height: 20px;
+	padding-left: 22px;
+	border: 1px solid var(--border-color);
+	background: var(--form-background-color); 
+	border-radius: 8px;
+	font-size: 14px;
+	color: var(--body-text-color);
+	transition: 0.2s ease all;
+}
+div.search_box > input[type="text"]:focus {
+	border: 1px solid var(--theme-color-half);
+}
+
+.search_total {
+	position: relative;
+	top: -1px;
+	line-height: 12px;
+	margin-top: -12px;
+	
+	font-size: 12px;
+	font-style: italic;
+	text-align: center;
+	color: var(--label-color);
+}
+
+/* Form Grid */
+
+.form_grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-areas: "a b c d";
+	grid-column-gap: 20px;
+	margin-bottom: 30px;
+}
+.form_grid:last-child {
+	margin-bottom: 0px;
+}
+
+.form_grid .form_row {
+	grid-template-columns: 1fr;
+	
+	grid-template-areas:
+		"a"
+		"b"
+		"d";
+	
+	grid-column-gap: 20px;
+}
+.form_grid .form_row > div.fr_label {
+	justify-self: start;
+	margin-bottom: 6px;
+}
+.form_grid .form_row > div.fr_suffix {
+	display: none;
+}
+
+/* Tablets */
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	.form_grid {
+		grid-template-columns: 1fr 1fr;
+		grid-template-areas: 
+			"a b"
+			"c d";
+		grid-row-gap: 20px;
+	}
+	
+	#btn_s_download {
+		display: none;
+	}
+}
+
+/* Phones */
+
+@media only screen and (min-width: 240px) and (max-width: 767px) {
+	.form_grid {
+		grid-template-columns: 1fr;
+		grid-template-areas: 
+			"b"
+			"b"
+			"c"
+			"d";
+		grid-row-gap: 20px;
+	}
+	
+	#btn_s_download {
+		display: none;
+	}
+	
+	.search_total {
+		top: 0px;
+		line-height: 12px;
+		margin-top: -5px;
+		margin-bottom: 5px;
+		padding-bottom: 4px;
+	}
+}
+
+/* Smaller Phones */
+
+@media only screen and (min-width: 240px) and (max-width: 500px) {
+	
+}
