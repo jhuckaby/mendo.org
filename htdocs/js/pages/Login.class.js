@@ -378,6 +378,7 @@ Page.Login = class Login extends Page.Base {
 		
 		html += '<div class="dialog inline">';
 			html += '<div class="dialog_title">Reset Password</div>';
+			html += '<div class="dialog_help">Please enter a new password for your account.</div>';
 			html += '<div class="box_content">';
 				
 				// username
@@ -393,7 +394,7 @@ Page.Login = class Login extends Page.Base {
 				});
 				
 				html += this.getFormRow({
-					label: 'Password:',
+					label: 'New Password:',
 					content: this.getFormText({
 						id: 'fe_reset_password',
 						type: 'password',

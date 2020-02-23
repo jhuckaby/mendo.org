@@ -20,6 +20,7 @@ Page.Verify = class Verify extends Page.Base {
 	
 	receiveVerification(resp) {
 		// user is now verified!  redirect to login and show overlay message
+		app.user.verified = true; // just UI decoration here
 		Nav.go('RecentNew');
 		app.showMessage('success', "Your e-mail address has been successfully verified.  You can now post topics and replies.");
 	}

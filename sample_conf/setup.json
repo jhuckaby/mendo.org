@@ -130,7 +130,8 @@
 			[ "symlinkFile", "node_modules/orchestra-theme/css/base.css", "htdocs/css/" ],
 			[ "copyFiles", "node_modules/orchestra-theme/fonts/*", "htdocs/fonts/" ],
 			
-			[ "chmodFiles", "755", "bin/*" ]
+			[ "chmodFiles", "755", "bin/*" ],
+			[ "chmodFiles", "644", "bin/*.cron" ]
 		],
 		"dev": [
 			[ "deleteFiles", "htdocs/css/_combo*" ],
