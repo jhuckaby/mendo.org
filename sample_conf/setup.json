@@ -122,9 +122,6 @@
 			[ "symlinkCompress", "node_modules/@mdi/font/css/materialdesignicons.css.map", "htdocs/css/" ],
 			[ "copyFiles", "node_modules/@mdi/font/fonts/*", "htdocs/fonts/" ],
 			
-			[ "symlinkCompress", "node_modules/moment/min/moment.min.js", "htdocs/js/external/" ],
-			[ "symlinkCompress", "node_modules/moment-timezone/builds/moment-timezone-with-data.min.js", "htdocs/js/external/" ],
-			[ "symlinkCompress", "node_modules/jstimezonedetect/dist/jstz.min.js", "htdocs/js/external/" ],
 			[ "symlinkCompress", "node_modules/unscroll/unscroll.min.js", "htdocs/js/external/" ],
 			[ "symlinkCompress", "node_modules/marked/marked.min.js", "htdocs/js/external/" ],
 			
