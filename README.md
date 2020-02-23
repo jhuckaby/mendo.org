@@ -1,5 +1,7 @@
 # Overview
 
+![Mendo.org Logo](https://pixlcore.com/software/mendo.org/images/logo-title-full.png)
+
 **Mendo.org** is a community forum / discourse app with a web based UI.  It is designed to integrate with the [MCN Announce ListServ](http://www.mcn.org/email/listserv.html) for automatic message ingest, but it can also run independently of that system.  It is basically a big shared mailbox for everyone to read, and to send e-mails to.
 
 Each incoming e-mail becomes a new "topic" if it has a unique subject line that has not been used recently.  Then, if more e-mails come in with the same (or very similar) subject, they are considered to be "replies" to that topic, and they are displayed in a simple threaded fashion.  Topics are categorized automatically by our staff (and coming soon, AI).
