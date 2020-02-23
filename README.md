@@ -1001,9 +1001,12 @@ I highly recommend placing the following `.gitignore` file at the base of the pr
 /ml
 htdocs/index.html
 htdocs/js/external/*
-htdocs/fonts/mat*
+htdocs/js/common
+htdocs/fonts/*
 htdocs/css/font*
 htdocs/css/mat*
+htdocs/css/base.css
+htdocs/css/normalize.css
 ```
 
 ## Starting in Debug Mode
