@@ -1,6 +1,6 @@
 {
 	"name": "mendo.org",
-	"version": "0.9.7",
+	"version": "0.9.8",
 	"description": "A community forum / discourse app with a web based UI.",
 	"author": "Joseph Huckaby <jhuckaby@gmail.com>",
 	"homepage": "https://github.com/jhuckaby/mendo.org",
@@ -50,6 +50,7 @@
 		"pixl-args": "^1.0.3",
 		"pixl-cli": "^1.0.11",
 		"pixl-config": "^1.0.9",
+		"pixl-cache": "^1.0.6",
 		"pixl-tools": "^1.0.24",
 		"pixl-logger": "^1.0.18",
 		"pixl-request": "^1.0.26",
