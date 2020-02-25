@@ -631,7 +631,10 @@ Page.Base = class Base extends Page {
 		$('#fe_ert_type').on('change', function() {
 			var new_type = $(this).val();
 			if (new_type != 'reply') $('#d_ert_parent').hide();
-			else $('#d_ert_parent').show();
+			else {
+				$('#d_ert_parent').show();
+				$('#fe_ert_parent').focus();
+			}
 		});
 		
 		$(elem).closest('div.box').addClass('highlight');
@@ -729,6 +732,11 @@ Page.Base = class Base extends Page {
 				if (idx !== false) {
 					// change load more to refresh, as pagination has changed
 					self.div.find('div.load_more').html( '<div class="button center" onMouseUp="$P().refresh()">Refresh...</div>' );
+				}
+				
+				// remove suggestions
+				if (app.isAdmin()) {
+					$elem.closest('div.box').find('div.message_footer div.message_footer_widget.mfw_suggest').empty();
 				}
 			} ); // api.post
 		}); // Dialog.confirm
