@@ -8,4 +8,4 @@
 15 03 * * * root /opt/mendo/bin/backup.sh
 
 # SSL cert renewal
-15 04 * * * root /usr/bin/certbot renew --post-hook "/opt/mendo/bin/control.sh restart" >/dev/null 2>&1
+15 05 * * * root /usr/bin/certbot renew --post-hook "/opt/mendo/bin/control.sh restart" >/dev/null 2>&1
