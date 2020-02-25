@@ -16,6 +16,7 @@
 	"list_row_max": 10000,
 	"expiration": "5 years",
 	"track_user_activity": true,
+	"message_id_cache_size": 1000,
 	"ttl": 300,
 	
 	"web_hooks": {},
