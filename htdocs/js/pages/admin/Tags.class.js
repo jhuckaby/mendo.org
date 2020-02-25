@@ -108,7 +108,7 @@ Page.Tags = class Tags extends Page.Base {
 		this.tag = {
 			id: "",
 			title: "",
-			icon: "mdi-tag"
+			icon: "tag"
 		};
 		
 		html += this.get_tag_edit_html();
