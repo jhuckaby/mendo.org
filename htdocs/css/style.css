@@ -36,6 +36,16 @@ body.admin div.box_title.subject {
 	padding-right: 240px;
 }
 
+div.box_title.subject > a {
+	color: var(--body-text-color) !important;
+}
+div.box_title.subject > a:hover {
+	color: var(--theme-color) !important;
+}
+div.box_title.subject > a:active {
+	color: var(--theme-color-half) !important;
+}
+
 div.box_title_widget.btw_nav {
 	font-size: 13px;
 }
@@ -146,7 +156,11 @@ div.box.cal.today {
 }
 
 div.box.cal > div.box_title {
-	color: var(--label-color);
+	color: var(--green);
+	padding-bottom: 0px;
+	/* border-bottom: 1px solid var(--icon-color);
+	padding-bottom: 4px;
+	margin-bottom: 4px; */
 }
 div.box.cal.today > div.box_title {
 	color: var(--theme-color);
@@ -160,7 +174,15 @@ div.cal_subject {
 	text-transform: none;
 	font-size: 15px;
 	font-weight: bold;
-	color: var(--label-color);
+}
+div.cal_subject > a {
+	color: var(--body-text-color) !important;
+}
+div.cal_subject > a:hover {
+	color: var(--theme-color) !important;
+}
+div.cal_subject > a:active {
+	color: var(--theme-color-half) !important;
 }
 
 div.cal_footer {
@@ -320,7 +342,7 @@ div.rc_icon {
 }
 
 .box.red {
-	border: 1px solid var(--red);
+	border: 1px solid var(--red) !important;
 }
 
 .sidebar_foot_pad {
@@ -605,12 +627,37 @@ div.box_admin_spacer {
 	background-color: var(--border-color);
 }
 
+/* Misc */
+
 i.favorite {
 	color: var(--pink);
 }
 
 .wrap_mobile {
 	white-space: nowrap;
+}
+
+.fr_content .checkbox_container label i {
+	text-indent: 0;
+}
+
+.nowrap {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.dialog.inline {
+	margin-top: 60px;
+	margin-bottom: 60px;
+}
+
+.section_item.filtered {
+	color: var(--icon-color);
+}
+
+.multiselect > .item {
+	font-size: 13px;
 }
 
 /* Basic Responsive Overrides */
@@ -674,6 +721,13 @@ i.favorite {
 	
 	.form_row {
 		grid-template-columns: 2fr 6fr 1fr;
+	}
+	.form_row.widest {
+		grid-template-columns: 1fr 20fr 1fr !important;
+		
+		grid-template-areas:
+			"a b c"
+			". d ." !important;
 	}
 	#d_ms_example_text {
 		display: none;
@@ -807,6 +861,14 @@ i.favorite {
 		display: none;
 	}
 	
+	.form_row.widest {
+		grid-template-columns: 1fr 20fr 1fr !important;
+		
+		grid-template-areas:
+			"a b c"
+			". d ." !important;
+	}
+	
 	.dialog.inline {
 		margin-top: 25px;
 		margin-bottom: 25px;
@@ -858,6 +920,10 @@ i.favorite {
 	
 	.sidebar_foot_pad {
 		height: 60px;
+	}
+	
+	.mobile_hide {
+		display: none;
 	}
 }
 
