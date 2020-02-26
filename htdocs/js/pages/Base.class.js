@@ -227,7 +227,7 @@ Page.Base = class Base extends Page {
 		else html += '<i class="mdi mdi-heart-outline"></i></div>';
 		
 		// block
-		html += '<div class="box_admin_icon_widget" title="Block Sender" onMouseUp="$P().editRecordBlock(' + idx + ',this)"><i class="mdi mdi-cancel"></i></div>';
+		html += '<div class="box_admin_icon_widget" title="Block Content" onMouseUp="$P().editRecordBlock(' + idx + ',this)"><i class="mdi mdi-cancel"></i></div>';
 		
 		// reply
 		html += '<div class="box_admin_icon_widget" title="Reply" onMouseUp="$P().editRecordReply(' + idx + ',this)"><i class="mdi mdi-reply-all"></i></div>';
@@ -254,11 +254,11 @@ Page.Base = class Base extends Page {
 			var foot_widgets = [];
 			if (record.replies > 1) {
 				if (this.ID == 'View') foot_widgets.push(record.replies + ' Replies<span class="num_hidden"></span>');
-				else foot_widgets.push('<a href="#View?id=' + record.id + '">' + record.replies + ' Replies</a>');
+				else foot_widgets.push('<a href="#View?id=' + record.id + '" style="font-weight:bold">' + record.replies + ' Replies</a>');
 			}
 			else if (record.replies == 1) {
 				if (this.ID == 'View') foot_widgets.push('1 Reply<span class="num_hidden"></span>');
-				else foot_widgets.push('<a href="#View?id=' + record.id + '">1 Reply</a>');
+				else foot_widgets.push('<a href="#View?id=' + record.id + '" style="font-weight:bold">1 Reply</a>');
 			}
 			else {
 				foot_widgets.push('No Replies');
@@ -343,6 +343,10 @@ Page.Base = class Base extends Page {
 			}
 			
 			Popover.detach();
+			
+			if (new_tags.length > 3) {
+				return app.doError("Topics should only have 3 categories max.  Please remove one before adding more.");
+			}
 			
 			// update record, then update UI
 			record.tags = new_tags.join(',');
@@ -433,54 +437,95 @@ Page.Base = class Base extends Page {
 	}
 	
 	editRecordBlock(idx, elem) {
-		// add sender to user's block list
+		// add sender or categories to user's exclude lists
 		var self = this;
 		var record = this.getRecordFromIdx(idx);
 		var email = record.from.match(/([\w\.\-]+\@[\w\.\-]+)/) ? RegExp.$1 : record.from;
 		
-		if (app.user.exclude_froms.includes(email)) {
-			app.doError("This sender is already in your blocked list.  Please refresh to see updated content.");
-			return;
-		}
+		var html = '';
+		html += '<div class="dialog_help" style="margin-bottom:0;">Please select which content you want to block.  You can choose to block all e-mails from this sender, and/or hide the entire categories in which the message is tagged.  Edit your selections later on the <b>Preferences</b> page.</div>';
+		html += '<div class="box_content" style="padding-bottom:15px; max-width:600px;">';
 		
-		// confirm first
-		var msg = "Are you sure you want to block the sender &ldquo;<b>" + encode_entities(record.from) + "</b>&rdquo;?  You can manage your blocked senders on the <b>Preferences</b> page.";
+		html += this.getFormRow({
+			class: 'widest',
+			label: '',
+			content: this.getFormCheckbox({
+				id: 'fe_erb_block',
+				checked: true,
+				// checked: !!app.user.exclude_froms.includes(email),
+				label: '<span class="">Block sender &ldquo;<b>' + encode_entities(email) + '</b>&rdquo;</span>'
+			})
+		});
 		
-		Dialog.confirm( '<span style="color:red">Block Sender</span>', msg, 'Add Block', function(result) {
-			if (result) {
+		var tags = record.tags ? record.tags.split(/\,\s*/) : [];
+		tags.forEach( function(tag) {
+			html += self.getFormRow({
+				class: 'widest',
+				label: '',
+				content: self.getFormCheckbox({
+					id: 'fe_erb_filter_' + tag,
+					checked: !!app.user.exclude_tags.includes(tag),
+					label: '<span class="nowrap">Filter entire category: <b>' + self.getNiceTag(tag) + '</b></span>'
+				})
+			});
+		}); // foreach tag
+		
+		html += '</div>';
+		Dialog.confirm( '<span style="color:red">Block Content</span>', html, 'Save Changes', function(result) {
+			if (!result) return;
+			
+			// add or remove sender block
+			var checked = $('#fe_erb_block').is(':checked');
+			if (checked && !app.user.exclude_froms.includes(email)) {
 				app.user.exclude_froms.push( email );
-				Dialog.showProgress( 1.0, "Saving preferences..." );
+			}
+			else if (!checked && app.user.exclude_froms.includes(email)) {
+				app.user.exclude_froms.splice( app.user.exclude_froms.indexOf(email), 1 );
+			}
+			
+			// add or remove tag filters
+			tags.forEach( function(tag) {
+				var checked = $('#fe_erb_filter_' + tag).is(':checked');
+				if (checked && !app.user.exclude_tags.includes(tag)) {
+					app.user.exclude_tags.push( tag );
+				}
+				else if (!checked && app.user.exclude_tags.includes(tag)) {
+					app.user.exclude_tags.splice( app.user.exclude_tags.indexOf(tag), 1 );
+				}
+			}); // foreach tag
+			
+			Dialog.showProgress( 1.0, "Saving preferences..." );
+			
+			app.api.post( 'app/user_settings', {
+				exclude_froms: app.user.exclude_froms,
+				exclude_tags: app.user.exclude_tags
+			}, 
+			function(resp) {
+				// save complete
+				Dialog.hideProgress();
+				app.showMessage('success', "Your blocking / filtering changes have been saved.");
+				app.user = resp.user;
+				app.prepUser();
 				
-				app.api.post( 'app/user_settings', {
-					exclude_froms: app.user.exclude_froms
-				}, 
-				function(resp) {
-					// save complete
-					Dialog.hideProgress();
-					app.showMessage('success', "The sender was successfully added to your block list.");
-					app.user = resp.user;
-					app.prepUser();
-					
-					// do not reapply filters on favorites page
-					if (self.ID == 'Favorites') return;
-					
-					// dynamically refresh page (topic or reply layout)
-					// (this is a no-op on the favorites screen)
-					var records = self.records || self.replies || [];
-					
-					self.div.find('div.message_container').each( function() {
-						var $this = $(this);
-						var idx = parseInt( $this.data('idx') );
-						var record = records[idx];
-						if (!self.userFilterRecord(record)) $this.hide();
-					}); // each
-					
-					// Note: Blocking does NOT affect pagination (client-side filter)
-					// So there is no need to do the load more --> refresh button
-					
-				} ); // api resp
-			} // confirmed
-		} ); // Dialog.confirm
+				// do not reapply filters on favorites page
+				if (self.ID == 'Favorites') return;
+				
+				// dynamically refresh page (topic or reply layout)
+				// (this is a no-op on the favorites screen)
+				var records = self.records || self.replies || [];
+				
+				self.div.find('div.message_container').each( function() {
+					var $this = $(this);
+					var idx = parseInt( $this.data('idx') );
+					var record = records[idx];
+					if (!self.userFilterRecord(record)) $this.hide();
+				}); // each
+				
+				// Note: Blocking does NOT affect pagination (client-side filter)
+				// So there is no need to do the load more --> refresh button
+				
+			} ); // api resp
+		}); // Dialog.confirm
 		
 		$(elem).closest('div.box').addClass('highlight');
 		Dialog.onHide = function() {
@@ -586,22 +631,30 @@ Page.Base = class Base extends Page {
 			
 			if (new_type == record.type) return; // no change
 			
+			var updates = {
+				id: record.id,
+				type: new_type
+			};
+			
 			// update record, then update UI
 			record.type = new_type;
 			if (new_type == 'reply') {
-				record.parent = parent_id;
-				record.tags = '';
-				record.locations = '';
-				record.replies = 0;
-				record.when = '';
+				// changing to reply
+				updates.parent = parent_id;
+				updates.tags = '';
+				updates.locations = '';
+				updates.replies = 0;
+				updates.when = '';
 			}
 			else {
-				record.parent = '';
+				// changing to topic
+				updates.parent = '';
+				if (!record.tags) updates.tags = 'unsorted';
 			}
 			
 			Dialog.showProgress( 1.0, "Changing message type..." );
 			
-			app.api.post( 'app/update_message', { id: record.id, type: record.type, parent: record.parent }, function(resp) {
+			app.api.post( 'app/update_message', updates, function(resp) {
 				Dialog.hideProgress();
 				app.showMessage('success', "The message type was updated successfully.");
 				app.cacheBust = hires_time_now();
@@ -748,6 +801,10 @@ Page.Base = class Base extends Page {
 		Dialog.onHide = function() {
 			$(elem).closest('div.box').removeClass('highlight');
 		};
+		
+		$('#fe_erc_start, #fe_erc_end').on('change', function() {
+			$('#fe_erc_event').prop('checked', true);
+		});
 	}
 	
 	calendarCopyStartEnd() {
@@ -811,9 +868,9 @@ Page.Base = class Base extends Page {
 		}
 		
 		var nav_widget = '';
-		nav_widget += '<a href="' + this.selfNav({ date: this.getPrevMonth() }) + '">&laquo; <b>Prev Month</b></a>';
+		nav_widget += '<a href="' + this.selfNav({ date: this.getPrevMonth() }) + '">&laquo; <b>Prev <span class="mobile_hide">Month</span></b></a>';
 		if (args.future || (args.date < get_date_args().yyyy_mm)) {
-			nav_widget += '&nbsp;&nbsp;|&nbsp;&nbsp;<a href="' + this.selfNav({ date: this.getNextMonth() }) + '"><b>Next Month</b> &raquo;</a>';
+			nav_widget += '&nbsp;&nbsp;|&nbsp;&nbsp;<a href="' + this.selfNav({ date: this.getNextMonth() }) + '"><b>Next <span class="mobile_hide">Month</span></b> &raquo;</a>';
 		}
 		
 		html += '<div class="box" style="border:none;">';
