@@ -204,12 +204,9 @@ Page.MySettings = class MySettings extends Page.Base {
 		});
 	}
 	
-	saveChanges() {
-		// save changes to user info
-		app.clearError();
-		Dialog.showProgress( 1.0, "Saving preferences..." );
-		
-		app.api.post( 'app/user_settings', {
+	get_settings_form_json() {
+		// get all form settings into object for saving
+		return {
 			date_format: this.div.find('#fe_ms_date_fmt').val(),
 			text_format: this.div.find('#fe_ms_text_fmt').val(),
 			font_family: this.div.find('#fe_ms_font_family').val(),
@@ -219,19 +216,64 @@ Page.MySettings = class MySettings extends Page.Base {
 			signature: this.div.find('#fe_ms_signature').val(),
 			exclude_tags: this.div.find('#fe_ms_filters').val(),
 			exclude_froms: this.div.find('#fe_ms_blocks').val()
-		}, 
-		function(resp) {
+		};
+	}
+	
+	is_dirty() {
+		// return true if user made changes, false otherwise
+		var user = app.user;
+		if (!user) return false; // sanity
+		if (!this.div.find('#fe_ms_date_fmt').length) return false;
+		
+		var json = this.get_settings_form_json();
+		if (json.date_format != user.date_format) return true;
+		if (json.text_format != user.text_format) return true;
+		if (json.font_family != user.font_family) return true;
+		if (json.font_size != user.font_size) return true;
+		if (json.line_breaks != user.line_breaks) return true;
+		if (json.inline_images != user.inline_images) return true;
+		if (json.signature != user.signature) return true;
+		if (json.exclude_tags.join(',') != user.exclude_tags.join(',')) return true;
+		if (json.exclude_froms.join(',') != user.exclude_froms.join(',')) return true;
+		
+		return false;
+	}
+	
+	saveChanges() {
+		// save changes to user info
+		app.clearError();
+		Dialog.showProgress( 1.0, "Saving preferences..." );
+		
+		var json = this.get_settings_form_json();
+		
+		app.api.post( 'app/user_settings', json, function(resp) {
 			// save complete
 			Dialog.hideProgress();
+			app.clearPageAnchorCache();
 			app.showMessage('success', "Your settings were saved successfully.");
 			
 			app.user = resp.user;
 			app.prepUser();
+			app.initSidebarTabs();
 		} );
 	}
 	
 	onDeactivate() {
 		// called when page is deactivated
+		
+		// auto-save in background if user made changes
+		if (this.is_dirty()) {
+			var json = this.get_settings_form_json();
+			merge_hash_into( app.user, json );
+			app.prepUser();
+			app.initSidebarTabs();
+			app.clearPageAnchorCache();
+			
+			app.api.post( 'app/user_settings', json, function(resp) {
+				app.showMessage('success', "Your settings were saved successfully.");
+			}); // api.post
+		}
+		
 		this.div.html( '' );
 		return true;
 	}
