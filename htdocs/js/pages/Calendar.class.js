@@ -12,7 +12,7 @@ Page.Calendar = class Calendar extends Page.Base {
 		this.args = args;
 		
 		app.setWindowTitle('Calendar');
-		app.setHeaderTitle( '<i class="mdi mdi-calendar-multiple">&nbsp;</i>Calendar' );
+		app.setHeaderTitle( '<i class="mdi mdi-calendar-multiple">&nbsp;</i>Calendar of Events' );
 		app.showSidebar(true);
 		
 		// resume if coming back
@@ -36,7 +36,7 @@ Page.Calendar = class Calendar extends Page.Base {
 		}
 		
 		html += this.getStandardPageHeader({
-			title: 'Events for ' + dargs.mmmm + ' ' + dargs.yyyy,
+			title: '' + dargs.mmmm + ' ' + dargs.yyyy,
 			subtitle: '(Sorted by date)',
 			widget: widget,
 			date: args.date,
@@ -87,7 +87,7 @@ Page.Calendar = class Calendar extends Page.Base {
 			var nice_date = format_date(epoch, '[dddd], [mmmm] [mday]');
 			var is_today = !!(dargs.yyyy_mm_dd == today_dargs.yyyy_mm_dd);
 			
-			if (is_today) html += '<div class="today"></div>';
+			if (is_today) html += '<div class="today"></div>'; // anchor / scroll point
 			
 			var records = good_records.filter( function(record) {
 				return (record.when.indexOf(dargs.yyyy_mm_dd) > -1);
@@ -95,7 +95,7 @@ Page.Calendar = class Calendar extends Page.Base {
 			
 			if (records.length) {
 				html += '<div class="box cal ' + (is_today ? 'today' : '') + '">';
-				html += '<div class="box_title" style="padding-bottom:0"><i class="mdi mdi-calendar-text">&nbsp;</i>' + nice_date + (is_today ? ' (Today)' : '') + '</div>';
+				html += '<div class="box_title"><i class="mdi mdi-calendar-text">&nbsp;</i>' + nice_date + (is_today ? ' (Today)' : '') + '</div>';
 				html += '<div class="box_content" style="padding-top:0;">';
 				
 				records.forEach( function(record) {
@@ -111,7 +111,7 @@ Page.Calendar = class Calendar extends Page.Base {
 					var nice_end_date = format_date( dates[dates.length - 1], '[mmm] [mday]' );
 					var nice_date_range = '<i class="mdi mdi-calendar-blank">&nbsp;</i>' + nice_start_date;
 					if (nice_end_date != nice_start_date) nice_date_range += ' - ' + nice_end_date;
-					widgets.push( nice_date_range );
+					// widgets.push( nice_date_range );
 					
 					var tags = self.recordRemoveTagCSV(record.tags, 'events');
 					if (tags) {
