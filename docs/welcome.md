@@ -83,7 +83,7 @@ But to answer your question, your e-mails sent to the ListServ or messages poste
 
 We will do our best to prevent hackers from compromising the site, and our administrators will delete all spam messages that make it through.  Trolls are a more complicated topic, however.  You should read our [terms of service](/terms) for details, but in short, we will delete any message we deem inappropriate (examples include fake news, hate speech, adult content, etc.), or more often we will move messages into an "Off-Topic" category, which is hidden for all users by default.  For repeated offenses we may ban accounts and/or block sender addresses.
 
-Also, you can block any senders that you want when using Mendo.org.  Every message has a convenient <i class="mdi mdi-cancel"></i> **Block Sender** icon in the top-right corner, which you can click and never see another e-mail from them ever again.  You can also hide entire categories if they don't suit your fancy.  Your settings are saved with your account (you can manage your blocked senders list and category filters on the [Preferences](#MySettings) page).
+Also, you can block any senders that you want when using Mendo.org.  Every message has a convenient <i class="mdi mdi-cancel"></i> **Block Sender** icon in the top-right corner, which you can click and never see another e-mail from them ever again.  You can also hide entire categories if they don't suit your fancy.  Your settings are saved with your account (you can manage your blocked senders list and category filters on the Preferences page).
 
 ### How are messages categorized?
 
