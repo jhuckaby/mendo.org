@@ -166,14 +166,14 @@ app.extend({
 		// tag (category) tabs
 		var $section = $('#d_section_tags').empty();
 		this.tags.sort( function(a, b) {
-			return a.id.localeCompare( b.id );
+			return a.title.localeCompare( b.title );
 		} );
 		this.tags.forEach( function(tag) {
 			if (tag.id == 'events') return; // reserved for calendar
 			var $tag = $('<a></a>')
 				.prop('id', 'tab_Tag_' + tag.id)
 				.attr('href', '#Tag?id=' + tag.id)
-				.addClass('section_item')
+				.addClass('section_item' + (app.user.exclude_tags.includes(tag.id) ? ' filtered' : '') )
 				.html( '<i class="mdi mdi-' + (tag.icon || 'tag') + '">&nbsp;</i>' + tag.title );
 			$section.append( $tag );
 		} );
