@@ -43,6 +43,26 @@ Page.Tag = class PageTag extends Page.Base {
 		
 		var html = '';
 		
+		// see if entire tag is filtered
+		if (app.user.exclude_tags.includes(tag.id) && !("filter" in args)) {
+			html += '<div style="height:60px;"></div>';
+			
+			html += '<div class="box">';
+				html += '<div class="box_title error">Category Filtered</div>';
+				html += '<div class="box_content">This category is filtered out in your user settings, meaning you will never see any topics tagged <b>' + this.getNiceTag(tag.id) + '</b>.  You can manage your filters and change this setting on the <b><a href="#MySettings">Preferences</a></b> screen.<br/><br/><a href="#Tag?id=' + tag.id + '&filter=0"><i class="mdi mdi-arrow-down-circle-outline">&nbsp;</i>Temporarily disable my filters here</a></div>';
+			html += '</div>';
+			
+			html += '<div style="height:60px;"></div>';
+			this.div.html( html );
+			return true;
+		}
+		if (("filter" in this.args) && (this.args.filter == 0)) {
+			html += '<div class="box" style="border:none;">';
+				// html += '<div class="box_title" style="padding-bottom:0">Filters Disabled</div>';
+				html += '<div class="box_content"><b><i class="mdi mdi-information-outline">&nbsp;</i>Notice:</b> Your filters have been temporarily disabled on this page.  The topics shown here would normally be hidden from your view.</div>';
+			html += '</div>';
+		}
+		
 		/* if (!args.date) args.date = get_date_args().yyyy_mm;
 		var dargs = get_date_args( args.date + '/01 00:00:00' );
 		
@@ -70,22 +90,6 @@ Page.Tag = class PageTag extends Page.Base {
 		app.api.get( 'app/search', this.opts, this.receiveTopics.bind(this) );
 		
 		return true;
-	}
-	
-	userFilterRecord(record) {
-		// apply user filters to record, hide if necessary
-		// return false == hide
-		var result = true;
-		
-		if (record.from && record.from.match(app.userExcludeFromMatch)) result = false;
-		
-		if (!result && this.args && ("filter" in this.args) && (this.args.filter == 0)) {
-			// special filter=0 mode, shows filtered results but highlights them in red
-			record.boxClass = 'red';
-			result = true;
-		}
-		
-		return result;
 	}
 	
 	receiveTopics(resp) {
