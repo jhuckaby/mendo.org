@@ -11,8 +11,8 @@ Page.View = class PageView extends Page.Base {
 		if (!args) args = {};
 		this.args = args;
 		
-		app.setWindowTitle('View Topic');
-		app.setHeaderTitle( '<i class="mdi mdi-email-open-outline">&nbsp;</i>View Topic' );
+		app.setWindowTitle('View Thread');
+		app.setHeaderTitle( '<i class="mdi mdi-email-open-outline">&nbsp;</i>View Thread' );
 		app.showSidebar(true);
 		
 		var html = '';
@@ -71,6 +71,9 @@ Page.View = class PageView extends Page.Base {
 		if (record.replies) {
 			html += '<div id="d_replies"><div class="loading_container"><div class="loading"></div></div></div>';
 		}
+		else if (!this.args.reply) {
+			html += '<div id="d_replies"><div class="load_more"><div class="button center" onMouseUp="$P().editRecordReply(false,null)"><i class="mdi mdi-arrow-down-circle-outline">&nbsp;</i>Post Reply...</div></div></div>';
+		}
 		else {
 			html += '<div id="d_replies"></div>';
 		}
@@ -80,6 +83,10 @@ Page.View = class PageView extends Page.Base {
 			html += '<div class="box">';
 			html += '<div class="box_title"></div>'; // will be dynamically populated
 			html += '<div class="box_content" style="padding-top:0; padding-bottom:0;">';
+			
+			if (app.user.text_format == 'markdown') {
+				html += this.getEditToolbar('fe_reply_body');
+			}
 			
 			html += '<div class="reply">' + this.getFormTextarea({
 				id: 'fe_reply_body',
@@ -257,6 +264,8 @@ Page.View = class PageView extends Page.Base {
 			return app.doError("Sorry, but to send replies you must first verify your e-mail address.  Please click the link in the e-mail sent to you.");
 		}
 		
+		this.div.find('#d_replies .load_more').remove();
+		
 		$reply.show();
 		$(document).scrollTop( $reply.offset().top );
 		
@@ -321,6 +330,11 @@ Page.View = class PageView extends Page.Base {
 		delete localStorage.saveReply;
 		this.div.find('#fe_reply_body').val('');
 		this.div.find('#d_reply').hide();
+		
+		// no replies?  re-add button
+		if (!this.record.replies) {
+			this.div.find('#d_replies').html( '<div class="load_more"><div class="button center" onMouseUp="$P().editRecordReply(false,null)"><i class="mdi mdi-arrow-down-circle-outline">&nbsp;</i>Post Reply...</div>' );
+		}
 	}
 	
 	attachFiles() {
@@ -387,6 +401,19 @@ Page.View = class PageView extends Page.Base {
 		// avatar upload error
 		Dialog.hideProgress();
 		app.doError("Upload Failed: " + message);
+	}
+	
+	getPreviewRecord() {
+		// get mock record object suitable for preview
+		var record = {
+			type: 'reply',
+			date: time_now(),
+			body: this.div.find('#fe_reply_body').val(),
+			subject: this.replyRecord.subject,
+			from: app.user.full_name + ' <' + app.user.email + '>'
+		};
+		this.prepDisplayRecord(record, 0);
+		return record;
 	}
 	
 	sendReply() {
@@ -504,8 +531,14 @@ Page.View = class PageView extends Page.Base {
 		$('#fe_mbox_filename').focus().get(0).setSelectionRange(0, filename.length - 5);
 	}
 	
+	onResize() {
+		// resize preview overlay if active
+		this.editRepositionPreview();
+	}
+	
 	onDeactivate() {
 		// called when page is deactivated
+		this.editHidePreview();
 		ZeroUpload.removeDropTarget( "#fe_reply_body" );
 		this.div.html( '' );
 		return true;
