@@ -14,7 +14,8 @@ Page.Home = class Home extends Page.Base {
 			return true;
 		}
 		
-		app.setWindowTitle('Home');
+		// app.setWindowTitle('Home');
+		document.title = 'Mendo.org';
 		app.setHeaderTitle( '' );
 		app.showSidebar(false);
 		$('body').addClass('relative');
@@ -45,17 +46,10 @@ Page.Home = class Home extends Page.Base {
 		// receive markdown from server, render it
 		var html = '';
 		
-		if (navigator.userAgent.match(/\bMSIE\b/)) {
-			html += '<div class="box red">';
-				html += '<div class="box_title error">Unsupported Browser</div>';
-				html += '<div class="box_content" style="font-size:16px;">We are so sorry, but you appear to be using a legecy version of Microsoft Internet Explorer, which is an unsupported browser.  The Mendo.org application may not function properly for you.  We highly recommend that you upgrade to the latest <a href="https://www.microsoft.com/en-us/windows/microsoft-edge">Microsoft Edge</a>, or use an alternative browser such as <a href="https://www.google.com/chrome/">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/new/">Mozilla Firefox</a>.</div>';
-			html += '</div>';
-		}
-		
 		html += '<div class="box">';
 		html += '<div class="box_content">';
 		// html += '<div class="markdown-body" style="' + this.getUserFontStyle() + '">';
-		html += '<div class="markdown-body" style="font-size:16px;">';
+		html += '<div class="markdown-body code" style="font-size:16px;">';
 		
 		html += '<img id="i_welcome_hero" src="images/ipad-screenshot-' + app.getPref('theme') + '-sm.png" align="right">';
 		
