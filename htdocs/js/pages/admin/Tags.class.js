@@ -154,6 +154,7 @@ Page.Tags = class Tags extends Page.Base {
 		this.tag.created = this.tag.modified = time_now();
 		app.tags.push( this.tag );
 		app.initSidebarTabs();
+		app.clearPageAnchorCache();
 		
 		Nav.go('Tags?sub=list');
 		app.showMessage('success', "The new category was created successfully.");
@@ -218,6 +219,7 @@ Page.Tags = class Tags extends Page.Base {
 		var tag = find_object( app.tags, { id: this.tag.id } );
 		if (tag) merge_hash_into( tag, this.tag );
 		app.initSidebarTabs();
+		app.clearPageAnchorCache();
 		
 		Nav.go( 'Tags?sub=list' );
 		app.showMessage('success', "The category was saved successfully.");
@@ -245,6 +247,7 @@ Page.Tags = class Tags extends Page.Base {
 		var idx = find_object_idx( app.tags, { id: this.tag.id } );
 		if (idx > -1) app.tags.splice( idx, 1 );
 		app.initSidebarTabs();
+		app.clearPageAnchorCache();
 		
 		Nav.go('Tags?sub=list', 'force');
 		app.showMessage('success', "The category &ldquo;" + this.tag.title + "&rdquo; was deleted successfully.");
