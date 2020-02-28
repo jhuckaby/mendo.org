@@ -215,7 +215,7 @@ Page.MyAccount = class MyAccount extends Page.Base {
 				$field.removeClass('warning');
 			}
 			else {
-				$elem.css('color','red').html('<i class="mdi mdi-alert-circle">&nbsp;&nbsp;</i><b>Unverified</b>&nbsp;&nbsp;<span class="link" onMouseUp="$P().showVerifyDialog()">(What\'s this?)</span>');
+				$elem.css('color','red').html('<span class="nowrap"><i class="mdi mdi-alert-circle">&nbsp;&nbsp;</i><b>Unverified</b></span>&nbsp; <span class="link" onMouseUp="$P().showVerifyDialog()">(What\'s&nbsp;this?)</span>');
 				// $field.addClass('warning');
 			}
 		}
