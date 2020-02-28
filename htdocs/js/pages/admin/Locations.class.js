@@ -153,6 +153,7 @@ Page.Locations = class Locations extends Page.Base {
 		this.location.created = this.location.modified = time_now();
 		app.locations.push( this.location );
 		app.initSidebarTabs();
+		app.clearPageAnchorCache();
 		
 		Nav.go('Locations?sub=list');
 		app.showMessage('success', "The new location was created successfully.");
@@ -217,6 +218,7 @@ Page.Locations = class Locations extends Page.Base {
 		var loc = find_object( app.locations, { id: this.location.id } );
 		if (loc) merge_hash_into( loc, this.location );
 		app.initSidebarTabs();
+		app.clearPageAnchorCache();
 		
 		Nav.go( 'Locations?sub=list' );
 		app.showMessage('success', "The location was saved successfully.");
@@ -244,6 +246,7 @@ Page.Locations = class Locations extends Page.Base {
 		var idx = find_object_idx( app.locations, { id: this.location.id } );
 		if (idx > -1) app.locations.splice( idx, 1 );
 		app.initSidebarTabs();
+		app.clearPageAnchorCache();
 		
 		Nav.go('Locations?sub=list', 'force');
 		app.showMessage('success', "The location &ldquo;" + this.location.title + "&rdquo; was deleted successfully.");
