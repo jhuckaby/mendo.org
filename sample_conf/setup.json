@@ -158,19 +158,6 @@
 				"action": "bundleCompress",
 				"uglify": false,
 				"header": "/* Copyright (c) Mendo.org. */",
-				"dest_bundle": "htdocs/js/_ie.js",
-				"src_html_file": "htdocs/index.html",
-				"dest_html_file": "htdocs/ie.html",
-				"match_key": "COMBINE_SCRIPT",
-				"dest_bundle_tag": "<script src=\"js/_ie.js?v=[version]\"></script>",
-				"babel": {
-					"presets": [ "env", { "ie": 11 } ]
-				}
-			},
-			{
-				"action": "bundleCompress",
-				"uglify": false,
-				"header": "/* Copyright (c) Mendo.org. */",
 				"dest_bundle": "htdocs/js/_combo.js",
 				"src_html_file": "htdocs/index.html",
 				"dest_html_file": "htdocs/index.html",

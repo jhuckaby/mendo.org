@@ -13,7 +13,6 @@ var os = require('os');
 var cp = require('child_process');
 var async = require('async');
 var UglifyJS = require("uglify-js");
-var Babel = require('babel-core');
 
 var Tools = require('pixl-tools');
 var mkdirp = Tools.mkdirp;
@@ -301,15 +300,6 @@ var bundleCompress = exports.bundleCompress = function bundleCompress( args, cal
 			//     /*# sourceMappingURL=materialdesignicons.min.css.map */
 			if (args.strip_source_maps) {
 				raw_output = raw_output.replace(/sourceMappingURL\=\S+/g, "");
-			}
-			
-			if (args.babel) {
-				try {
-					raw_output = Babel.transform( raw_output, args.babel );
-				}
-				catch (err) {
-					return callback(err);
-				}
 			}
 			
 			// write out our bundle
