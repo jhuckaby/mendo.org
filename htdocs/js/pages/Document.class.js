@@ -44,7 +44,7 @@ Page.Document = class Document extends Page.Base {
 		}
 		
 		this.div.html('<div class="loading_container"><div class="loading"></div></div>');
-		app.api.get( 'app/doc', { id: args.id }, this.receiveDoc.bind(this) );
+		app.api.get( 'app/doc', { id: args.id }, this.receiveDoc.bind(this), this.fullPageError.bind(this) );
 		
 		return true;
 	}
@@ -55,7 +55,7 @@ Page.Document = class Document extends Page.Base {
 		
 		html += '<div class="box">';
 		html += '<div class="box_content">';
-		html += '<div class="markdown-body" style="' + (app.user ? this.getUserFontStyle() : 'font-size:16px') + '">';
+		html += '<div class="markdown-body code" style="' + (app.user ? this.getUserFontStyle() : 'font-size:16px') + '">';
 		
 		html += marked(resp.data, {
 			gfm: true,
