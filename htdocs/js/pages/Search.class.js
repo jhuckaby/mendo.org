@@ -63,7 +63,7 @@ Page.Search = class Search extends Page.Base {
 			html += '<div class="form_grid" style="margin-bottom:25px">';
 			
 				html += '<div class="form_cell">';
-					// categories
+					// tags
 					html += this.getFormRow({
 						label: '<i class="icon mdi mdi-tag-multiple">&nbsp;</i>Categories:',
 						content: this.getFormMenuMulti({
@@ -71,7 +71,7 @@ Page.Search = class Search extends Page.Base {
 							title: 'Select Categories',
 							placeholder: 'All Categories',
 							options: app.tags,
-							values: args.categories ? args.categories.split(/\,\s*/) : [],
+							values: args.tags ? args.tags.split(/\,\s*/) : [],
 							'data-shrinkwrap': 1
 						})
 					});
@@ -209,7 +209,7 @@ Page.Search = class Search extends Page.Base {
 		};
 		
 		var cats = this.div.find('#fe_s_cats').val();
-		if (cats.length) args.categories = cats.join(',');
+		if (cats.length) args.tags = cats.join(',');
 		
 		var locs = this.div.find('#fe_s_locs').val();
 		if (locs.length) args.locations = locs.join(',');
@@ -220,7 +220,7 @@ Page.Search = class Search extends Page.Base {
 		var sort = this.div.find('#fe_s_sort').val();
 		if (sort != 'date_desc') args.sort = sort;
 		
-		if (!args.query && !args.categories && !args.locations && !args.date) return null;
+		if (!args.query && !args.tags && !args.locations && !args.date) return null;
 		
 		return args;
 	}
@@ -238,7 +238,7 @@ Page.Search = class Search extends Page.Base {
 	getSearchQuery(args) {
 		// construct actual unbase simple query syntax
 		var query = args.query.toLowerCase().trim();
-		if (args.categories) query += ' tags:' + args.categories.split(/\,\s*/).join('|');
+		if (args.tags) query += ' tags:' + args.tags.split(/\,\s*/).join('|');
 		if (args.locations) query += ' locations:' + args.locations.split(/\,\s*/).join('|');
 		
 		if (args.date) {
@@ -474,7 +474,7 @@ Page.Search = class Search extends Page.Base {
 		var filename = '';
 		if (this.args.preset) filename = this.args.preset.replace(/\W+/g, '-');
 		else if (sargs.query) filename = sargs.query.replace(/\W+/g, '-');
-		else if (sargs.categories) filename = sargs.categories.replace(/\W+/g, '-');
+		else if (sargs.tags) filename = sargs.tags.replace(/\W+/g, '-');
 		else if (sargs.locations) filename = sargs.locations.replace(/\W+/g, '-');
 		else if (sargs.date) filename = sargs.date.replace(/\W+/g, '-');
 		else filename = 'search-results';
