@@ -38,13 +38,19 @@ Page.NewTopic = class NewTopic extends Page.Base {
 			onKeyUp: '$P().lazySaveComposeText()'
 		}) + '</div>';
 		
+		this.hasToolbar = false;
+		if (app.user.text_format == 'markdown') {
+			html += this.getEditToolbar('fe_post_body');
+			this.hasToolbar = true;
+		}
+		
 		// post body
 		html += '<div class="reply">' + this.getFormTextarea({
 			id: 'fe_post_body',
 			value: '',
 			maxlength: 65535,
 			placeholder: 'Enter body text here...',
-			style: 'width:100%; ' + this.getUserFontStyle(),
+			style: 'width:100%; padding:10px; ' + this.getUserFontStyle(),
 			onKeyDown: 'captureTabs(this,event)',
 			onKeyUp: '$P().lazySaveComposeText()'
 		}) + '</div>';
@@ -111,9 +117,11 @@ Page.NewTopic = class NewTopic extends Page.Base {
 	
 	onResize(dims) {
 		// resize post body to fit
+		var fudge = this.hasToolbar ? 310 : 280;
 		this.div.find('#fe_post_body').css({
-			height: '' + Math.floor( dims.height - 280 ) + 'px'
+			height: '' + Math.floor( dims.height - fudge ) + 'px'
 		});
+		this.editRepositionPreview();
 	}
 	
 	lazySaveComposeText() {
@@ -227,6 +235,19 @@ Page.NewTopic = class NewTopic extends Page.Base {
 		app.doError("Upload Failed: " + message);
 	}
 	
+	getPreviewRecord() {
+		// get mock record object suitable for preview
+		var record = {
+			type: 'topic',
+			date: time_now(),
+			body: this.div.find('#fe_post_body').val(),
+			subject: this.div.find('#fe_post_subject').val(),
+			from: app.user.full_name + ' <' + app.user.email + '>'
+		};
+		this.prepDisplayRecord(record);
+		return record;
+	}
+	
 	sendPost() {
 		// post new topic
 		var self = this;
@@ -262,6 +283,7 @@ Page.NewTopic = class NewTopic extends Page.Base {
 	
 	onDeactivate() {
 		// called when page is deactivated
+		this.editHidePreview();
 		ZeroUpload.removeDropTarget( "#fe_post_body" );
 		this.div.html( '' );
 		return true;
