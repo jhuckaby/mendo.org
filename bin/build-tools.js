@@ -13,6 +13,7 @@ var os = require('os');
 var cp = require('child_process');
 var async = require('async');
 var UglifyJS = require("uglify-js");
+var Babel = require('babel-core');
 
 var Tools = require('pixl-tools');
 var mkdirp = Tools.mkdirp;
@@ -255,14 +256,15 @@ var filterDir = exports.filterDir = function filterDir( src_dir, opts, callback 
 
 var bundleCompress = exports.bundleCompress = function bundleCompress( args, callback ) {
 	// compress bundle of files
-	var html_file = args.html_file;
-	var html_dir = path.dirname( html_file );
+	var src_html_file = args.src_html_file;
+	var dest_html_file = args.dest_html_file;
+	var html_dir = path.dirname( dest_html_file );
 	
 	if (!fileExistsSync( path.dirname(args.dest_bundle) )) {
 		mkdirp.sync( path.dirname(args.dest_bundle) );
 	}
 	
-	var raw_html = fs.readFileSync( html_file, 'utf8' );
+	var raw_html = fs.readFileSync( src_html_file, 'utf8' );
 	var regexp = new RegExp( "\\<\\!\\-\\-\\s+BUILD\\:\\s*"+args.match_key+"_START\\s*\\-\\-\\>([^]+)\\<\\!\\-\\-\\s*BUILD\\:\\s+"+args.match_key+"_END\\s*\\-\\-\\>" );
 	
 	if (raw_html.match(regexp)) {
@@ -301,21 +303,30 @@ var bundleCompress = exports.bundleCompress = function bundleCompress( args, cal
 				raw_output = raw_output.replace(/sourceMappingURL\=\S+/g, "");
 			}
 			
+			if (args.babel) {
+				try {
+					raw_output = Babel.transform( raw_output, args.babel );
+				}
+				catch (err) {
+					return callback(err);
+				}
+			}
+			
 			// write out our bundle
 			console.log(" --> " + args.dest_bundle);
 			fs.writeFileSync(args.dest_bundle, raw_output);
 			
 			// swap a ref link into a copy of the HTML
-			console.log(" --> " + html_file );
+			console.log(" --> " + dest_html_file );
 			raw_html = raw_html.replace( regexp, Tools.sub( args.dest_bundle_tag, args ) );
-			fs.writeFileSync(html_file, raw_html);
+			fs.writeFileSync(dest_html_file, raw_html);
 			
 			// now make a compressed version of the bundle
 			compressFile( args.dest_bundle, args.dest_bundle + '.gz', function(err) {
 				if (err) return callback(err);
 				
 				// and compress the final HTML as well
-				compressFile( html_file, html_file + '.gz', callback );
+				compressFile( dest_html_file, dest_html_file + '.gz', callback );
 			});
 			
 		} // found files
