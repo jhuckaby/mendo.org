@@ -39,7 +39,11 @@ Page.Base = class Base extends Page {
 		if (typeof(tag) == 'string') {
 			var tag_def = find_object( app.tags, { id: tag } );
 			if (tag_def) tag = tag_def;
-			else tag = { id: tag, title: tag };
+			else {
+				// deleted tag, no link
+				tag = { id: tag, title: tag };
+				link = false;
+			}
 		}
 		
 		var html = '';
@@ -131,14 +135,15 @@ Page.Base = class Base extends Page {
 		return this.selfNav(merge_objects(this.args, args));
 	}
 	
-	expandInlineImages() {
+	expandInlineImages(elem) {
 		// expand all inline image URLs on page
 		// this only works in markdown mode
 		var self = this;
 		if (!app.user.inline_images) return;
 		if (app.user.text_format != 'markdown') return;
+		if (!elem) elem = this.div;
 		
-		this.div.find('div.box div.message_body p a').each( function() {
+		elem.find('div.message_body p a').each( function() {
 			var $this = $(this);
 			var href = $this.attr('href') || '';
 			if (!href.match(/\.(jpg|jpeg|gif|png)(\?|$)/i)) return; // supported images only
@@ -513,13 +518,22 @@ Page.Base = class Base extends Page {
 				// dynamically refresh page (topic or reply layout)
 				// (this is a no-op on the favorites screen)
 				var records = self.records || self.replies || [];
+				var $conts = self.div.find('div.message_container');
+				var num_conts = $conts.length;
+				var num_hidden = 0;
 				
-				self.div.find('div.message_container').each( function() {
+				$conts.each( function() {
 					var $this = $(this);
 					var idx = parseInt( $this.data('idx') );
 					var record = records[idx];
-					if (!self.userFilterRecord(record)) $this.hide();
+					if (!self.userFilterRecord(record)) { $this.hide(); num_hidden++; }
 				}); // each
+				
+				if ((idx !== false) && (num_hidden == num_conts)) {
+					// user filtered ALL messages on current page -- refresh
+					delete self.lastAnchor;
+					Nav.refresh();
+				}
 				
 				// Note: Blocking does NOT affect pagination (client-side filter)
 				// So there is no need to do the load more --> refresh button
@@ -1023,6 +1037,226 @@ Page.Base = class Base extends Page {
 		} // multi-date
 		
 		return dates.join(', ');
+	}
+	
+	// Editor Toolbar
+	
+	getEditToolbar(id) {
+		// return HTML for editor toolbar buttons and help link
+		var html = '';
+		this.editorID = id;
+		
+		html += '<div class="editor_toolbar">';
+			html += '<div class="editor_toolbar_button" title="Header 1" onMouseUp="$P().editInsertHeader(1)"><i class="mdi mdi-format-header-1"></i></div>';
+			html += '<div class="editor_toolbar_button" title="Header 2" onMouseUp="$P().editInsertHeader(2)"><i class="mdi mdi-format-header-2"></i></div>';
+			html += '<div class="editor_toolbar_button" title="Header 3" onMouseUp="$P().editInsertHeader(3)"><i class="mdi mdi-format-header-3"></i></div>';
+			// html += '<div class="editor_toolbar_button" title="Header 4" onMouseUp="$P().editInsertH4()"><i class="mdi mdi-format-header-4"></i></div>';
+			
+			html += '<div class="editor_toolbar_divider"></div>';
+			
+			html += '<div class="editor_toolbar_button" title="Bold" onMouseUp="$P().editToggleBold()"><i class="mdi mdi-format-bold"></i></div>';
+			html += '<div class="editor_toolbar_button" title="Italic" onMouseUp="$P().editToggleItalic()"><i class="mdi mdi-format-italic"></i></div>';
+			html += '<div class="editor_toolbar_button" title="Strikethrough" onMouseUp="$P().editToggleStrike()"><i class="mdi mdi-format-strikethrough"></i></div>';
+			
+			html += '<div class="editor_toolbar_divider"></div>';
+			
+			html += '<div class="editor_toolbar_button" title="Insert Bullet List" onMouseUp="$P().editInsertList()"><i class="mdi mdi-format-list-bulleted-square"></i></div>';
+			html += '<div class="editor_toolbar_button" title="Insert Numbered List" onMouseUp="$P().editInsertNumList()"><i class="mdi mdi-format-list-numbered"></i></div>';
+			html += '<div class="editor_toolbar_button" title="Insert Blockquote" onMouseUp="$P().editInsertQuote()"><i class="mdi mdi-format-quote-open"></i></div>';
+			
+			html += '<div class="editor_toolbar_divider"></div>';
+			
+			html += '<div class="editor_toolbar_button" id="btn_show_preview" title="Show Preview" onMouseUp="$P().editShowPreview()"><i class="mdi mdi-file-find-outline"></i></div>';
+			
+			html += '<div class="editor_toolbar_help"><a href="#Document?id=markdown" target="_blank">What\'s this?</a></div>';
+			
+			html += '<div class="clear"></div>';
+		html += '</div>';
+		
+		return html;
+	}
+	
+	editorSurroundText(chars) {
+		// surround selection with chars, or remove them
+		var $input = this.div.find('#' + this.editorID);
+		var input = $input.get(0);
+		
+		input.focus();
+		
+		var before = input.value.substring(0, input.selectionStart);
+		var selection = input.value.substring(input.selectionStart, input.selectionEnd);
+		var after = input.value.substring(input.selectionEnd);
+		
+		var endsWith = new RegExp( escape_regexp(chars) + '$' );
+		var startsWith = new RegExp( '^' + escape_regexp(chars) );
+		
+		if (before.match(endsWith) && after.match(startsWith)) {
+			// remove bold
+			before = before.replace(endsWith, '');
+			after = after.replace(startsWith, '');
+		}
+		else {
+			// add bold
+			before += chars;
+			after = chars + after;
+		}
+		
+		input.value = before + selection + after;
+		input.setRangeText(selection, before.length, before.length + selection.length, "select");
+		
+		$input.trigger('keyup'); // lazy save
+	}
+	
+	editorInsertBlockElem(text) {
+		// insert block level element, like # or - or >
+		var $input = this.div.find('#' + this.editorID);
+		var input = $input.get(0);
+		
+		input.focus();
+		
+		var before = input.value.substring(0, input.selectionStart);
+		var selection = input.value.substring(input.selectionStart, input.selectionEnd);
+		var after = input.value.substring(input.selectionEnd);
+		
+		if (!before.match(/\n\n$/)) {
+			if (before.match(/\n$/)) before += "\n";
+			else if (before.length) before += "\n\n";
+		}
+		if (!after.match(/^\n\n/)) {
+			if (after.match(/^\n/)) after = "\n" + after;
+			else if (after.length) after = "\n\n" + after;
+			else after = "\n" + after;
+		}
+		
+		text += selection;
+		
+		input.value = before + text + after;
+		input.setRangeText(text, before.length, before.length + text.length, "end");
+		
+		$input.trigger('keyup'); // lazy save
+	}
+	
+	editToggleBold() {
+		this.editorSurroundText('**');
+	}
+	
+	editToggleItalic() {
+		this.editorSurroundText('*');
+	}
+	
+	editToggleStrike() {
+		this.editorSurroundText('~~');
+	}
+	
+	editToggleCode() {
+		this.editorSurroundText('`');
+	}
+	
+	editInsertHeader(level) {
+		var prefix = '';
+		for (var idx = 0; idx < level; idx++) prefix += '#';
+		this.editorInsertBlockElem(prefix + ' ');
+	}
+	
+	editInsertList() {
+		this.editorInsertBlockElem('- ');
+	}
+	
+	editInsertNumList() {
+		this.editorInsertBlockElem('1. ');
+	}
+	
+	editInsertQuote() {
+		this.editorInsertBlockElem('> ');
+	}
+	
+	editShowPreview() {
+		// show live markdown preview
+		var self = this;
+		var $input = this.div.find('#' + this.editorID);
+		var record = this.getPreviewRecord();
+		var html = '';
+		
+		// html += '<div class="box" style="margin:0">';
+			html += '<div class="box_title subject">' + record.disp.subject + '';
+				html += '<div>';
+					html += '<div class="box_subtitle from">' + record.disp.from + '</div>';
+					html += '<div class="box_subtitle date">' + record.disp.date + '</div>';
+				html += '</div>';
+			html += '</div>';
+			html += '<div class="message_body">' + record.disp.body + '</div>';
+			html += '<div class="message_footer" style="height:0"></div>';
+		// html += '</div>'; // box
+		
+		var pos = $input.offset();
+		var width = $input.width();
+		var height = $input.height();
+		
+		var div = $('<div></div>').prop('id', 'd_post_preview').addClass('box').css({
+			position: 'absolute',
+			left: '' + pos.left + 'px',
+			top: '' + pos.top + 'px',
+			width: '' + width + 'px',
+			height: '' + height + 'px',
+			margin: '0',
+			'overflow-x': 'hidden',
+			'overflow-y': 'auto',
+			zIndex: 1000
+		}).html(html);
+		
+		$('body').append(div);
+		$input.css('visibility', 'hidden');
+		this.div.find('#btn_show_preview').addClass('selected');
+		this.editPreviewActive = true;
+		
+		if ($('#popoverlay').length) {
+			$('#popoverlay').stop().remove();
+		}
+		
+		var $overlay = $('<div id="popoverlay"></div>').css('opacity', 0);
+		$('body').append($overlay);
+		$overlay.fadeTo( 500, 0.5 ).click(function() {
+			self.editHidePreview();
+		});
+		
+		unscroll();
+		
+		this.expandInlineImages( $('#d_post_preview') );
+	}
+	
+	editRepositionPreview() {
+		// reposition preview overlay on window resize
+		if (this.editPreviewActive) {
+			var $input = this.div.find('#' + this.editorID);
+			var pos = $input.offset();
+			var width = $input.width();
+			var height = $input.height();
+			
+			$('#d_post_preview').css({
+				left: '' + pos.left + 'px',
+				top: '' + pos.top + 'px',
+				width: '' + width + 'px',
+				height: '' + height + 'px'
+			});
+		}
+	}
+	
+	editHidePreview() {
+		// hide editor live preview
+		if (this.editPreviewActive) {
+			delete this.editPreviewActive;
+			
+			$('#popoverlay').stop().fadeOut( 300, function() { $(this).remove(); } );
+			unscroll.reset();
+			
+			$('#d_post_preview').remove();
+			this.div.find('#btn_show_preview').removeClass('selected');
+			
+			var $input = this.div.find('#' + this.editorID);
+			$input.css('visibility', 'visible');
+			
+			setTimeout( function() { $input.focus(); }, 250 );
+		}
 	}
 	
 };
