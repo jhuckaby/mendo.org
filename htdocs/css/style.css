@@ -349,6 +349,75 @@ div.rc_icon {
 	height: 20px;
 }
 
+/* Editor Toolbar */
+
+div.editor_toolbar {
+	margin-top: -6px;
+}
+
+div.editor_toolbar_button {
+	position: relative;
+	float: left;
+	width: 30px;
+	height: 30px;
+	margin-top: 0px;
+	margin-right: 4px;
+	margin-bottom: 4px;
+	color: var(--label-color);
+	border: 1px solid var(--border-color);
+	background: var(--box-background-color);
+	border-radius: 4px;
+	cursor: pointer;
+	opacity: 0.95;
+	transition: 0.2s ease all;
+	
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	
+	font-size: 18px;
+	line-height: 29px;
+	text-align: center;
+}
+div.editor_toolbar_button:hover {
+	color: var(--theme-color);
+	border: 1px solid var(--theme-color-half);
+	box-shadow: 0px 2px 1px var(--shadow-color);
+	opacity: 1.0;
+}
+div.editor_toolbar_button:active {
+	color: var(--body-text-color);
+}
+div.editor_toolbar_button.selected {
+	color: white;
+	background: var(--theme-color);
+	border: 1px solid var(--theme-color-half);
+	box-shadow: 0px 2px 1px var(--shadow-color);
+	opacity: 1.0;
+}
+
+div.editor_toolbar_divider {
+	float: left;
+	width: 2px;
+	margin-top: 5px;
+	height: 20px;
+	margin-right: 8px;
+	margin-left: 4px;
+	background-color: var(--border-color);
+}
+
+div.editor_toolbar_help {
+	float: left;
+	height: 30px;
+	line-height: 30px;
+	margin-left: 10px;
+	font-size: 12px;
+}
+
+body.ie div.editor_toolbar {
+	display: none;
+}
+
 /* Stats Page */
 
 .stat_box_row {
@@ -471,7 +540,7 @@ div.rc_icon {
 	margin-bottom: 16px;
 	font-weight: 600;
 	line-height: 1.25;
-	color: var(--theme-color);
+	color: var(--body-text-color);
 }
 
 .markdown-body p,
@@ -560,6 +629,15 @@ div.rc_icon {
 	padding: 2px 4px 4px 4px;
 	/* font-size: 13px; */
 	font-size: 0.85em;
+}
+
+.markdown-body.code h1,
+.markdown-body.code h2,
+.markdown-body.code h3,
+.markdown-body.code h4,
+.markdown-body.code h5,
+.markdown-body.code h6 {
+	color: var(--theme-color);
 }
 
 .markdown-body.code p code {
@@ -923,6 +1001,10 @@ i.favorite {
 	}
 	
 	.mobile_hide {
+		display: none;
+	}
+	
+	div.editor_toolbar {
 		display: none;
 	}
 }
