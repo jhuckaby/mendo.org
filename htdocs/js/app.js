@@ -109,6 +109,9 @@ app.extend({
 		else if (ua.match(/Firefox/)) {
 			$('body').addClass('firefox');
 		}
+		else if (ua.match(/(MSIE|Trident)/)) {
+			$('body').addClass('ie');
+		}
 		
 		// restore expanded/compact view pref (implemented as CSS)
 		if (!this.getPref('expand_views')) $('body').addClass('compact');
