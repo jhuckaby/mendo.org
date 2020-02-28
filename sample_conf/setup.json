@@ -145,23 +145,37 @@
 		],
 		"dist": [
 			[ "copyDir", "sample_conf", "conf", { "exclusive": true } ],
-			[ "copyFile", "htdocs/index-dev.html", "htdocs/index.html" ],
+			{
+				"action": "bundleCompress",
+				"strip_source_maps": true,
+				"dest_bundle": "htdocs/css/_combo.css",
+				"src_html_file": "htdocs/index-dev.html",
+				"dest_html_file": "htdocs/index.html",
+				"match_key": "COMBINE_STYLE",
+				"dest_bundle_tag": "<link rel=\"stylesheet\" href=\"css/_combo.css?v=[version]\">"
+			},
+			{
+				"action": "bundleCompress",
+				"uglify": false,
+				"header": "/* Copyright (c) Mendo.org. */",
+				"dest_bundle": "htdocs/js/_ie.js",
+				"src_html_file": "htdocs/index.html",
+				"dest_html_file": "htdocs/ie.html",
+				"match_key": "COMBINE_SCRIPT",
+				"dest_bundle_tag": "<script src=\"js/_ie.js?v=[version]\"></script>",
+				"babel": {
+					"presets": [ "env", { "ie": 11 } ]
+				}
+			},
 			{
 				"action": "bundleCompress",
 				"uglify": false,
 				"header": "/* Copyright (c) Mendo.org. */",
 				"dest_bundle": "htdocs/js/_combo.js",
-				"html_file": "htdocs/index.html",
+				"src_html_file": "htdocs/index.html",
+				"dest_html_file": "htdocs/index.html",
 				"match_key": "COMBINE_SCRIPT",
 				"dest_bundle_tag": "<script src=\"js/_combo.js?v=[version]\"></script>"
-			},
-			{
-				"action": "bundleCompress",
-				"strip_source_maps": true,
-				"dest_bundle": "htdocs/css/_combo.css",
-				"html_file": "htdocs/index.html",
-				"match_key": "COMBINE_STYLE",
-				"dest_bundle_tag": "<link rel=\"stylesheet\" href=\"css/_combo.css?v=[version]\">"
 			},
 			{
 				"action": "printMessage",
