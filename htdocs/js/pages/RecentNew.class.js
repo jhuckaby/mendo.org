@@ -25,7 +25,11 @@ Page.RecentNew = class RecentNew extends Page.Base {
 		
 		var html = '';
 		
-		if (!args.date) args.date = get_date_args().yyyy_mm;
+		if (!args.date) {
+			if (app.lastRecentHotDate) args.date = app.lastRecentHotDate;
+			else args.date = get_date_args().yyyy_mm;
+		}
+		app.lastRecentHotDate = args.date;
 		var dargs = get_date_args( args.date + '/01 00:00:00' );
 		
 		html += this.getStandardPageHeader({
@@ -89,12 +93,20 @@ Page.RecentNew = class RecentNew extends Page.Base {
 			html += '<div class="box"><div class="box_content"><div class="inline_page_message">No topics found for the current month.</div></div></div>';
 		}
 		if (resp.total && (this.opts.offset + resp.records.length < resp.total)) {
-			html += '<div class="load_more"><div class="button center" onMouseUp="$P().loadMoreTopics()">Load More...</div></div>';
+			html += '<div class="load_more"><div class="button center" onMouseUp="$P().loadMoreTopics()"><i class="mdi mdi-arrow-down-circle-outline">&nbsp;</i>Load More...</div></div>';
+		}
+		else if (resp.total) {
+			html += '<div class="load_more"><div class="button center" onMouseUp="$P().goPrevMonth()"><i class="mdi mdi-calendar-arrow-left">&nbsp;</i>Show Older...</div></div>';
 		}
 		
 		$recent.append( html );
 		this.expandInlineImages();
 		this.onScrollDebounce();
+	}
+	
+	goPrevMonth() {
+		// jump to previous month
+		Nav.go( this.selfNav({ date: this.getPrevMonth() }) );
 	}
 	
 	onScrollDebounce() {
