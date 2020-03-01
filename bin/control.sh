@@ -100,7 +100,7 @@ do
 		    echo "$ARG: $NAME already running (pid $PID)"
 		    continue
 		fi
-		node --trace-warnings $HOMEDIR/lib/main.js --debug --debug_level 9 --echo "Mendo WebServer API User Transaction Error Unbase ML" --color "$@"
+		node --trace-warnings $HOMEDIR/lib/main.js --debug --debug_level 9 --echo "Mendo WebServer API User Transaction Error Unbase ML" "$@"
 	;;
 	setup)
 		node $HOMEDIR/bin/storage-cli.js setup
