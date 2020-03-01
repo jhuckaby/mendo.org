@@ -99,7 +99,7 @@ Page.Calendar = class Calendar extends Page.Base {
 				html += '<div class="box_content" style="padding-top:0;">';
 				
 				records.forEach( function(record) {
-					var nice_subject = self.getNiceSubject(record.subject);
+					var nice_subject = self.getNiceSubject( record.title || record.subject );
 					
 					var widgets = [];
 					widgets.push(
