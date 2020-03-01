@@ -52,12 +52,22 @@ Page.Document = class Document extends Page.Base {
 	receiveDoc(resp) {
 		// receive markdown from server, render it
 		var html = '';
+		var text = resp.data;
+		
+		// promote first heading into title, if user is logged in and it's a level 1 or 2 header
+		if (app.user && text.match(/^\#{1,2}\s+([^\n]+)\n\n/)) {
+			var title = RegExp.$1;
+			app.setWindowTitle( title );
+			app.setHeaderTitle( '<i class="mdi mdi-file-document-outline">&nbsp;</i>' + title );
+			text = text.replace(/^\#{1,2}\s+([^\n]+)\n\n/, '');
+		}
 		
 		html += '<div class="box">';
 		html += '<div class="box_content">';
 		html += '<div class="markdown-body code" style="' + (app.user ? this.getUserFontStyle() : 'font-size:16px') + '">';
+		// html += '<div class="markdown-body code" style="font-size:16px">';
 		
-		html += marked(resp.data, {
+		html += marked(text, {
 			gfm: true,
 			tables: true,
 			breaks: false,
