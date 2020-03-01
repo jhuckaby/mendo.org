@@ -44,7 +44,7 @@ Page.Tag = class PageTag extends Page.Base {
 		var html = '';
 		
 		// see if entire tag is filtered
-		if (app.user.exclude_tags.includes(tag.id) && !("filter" in args)) {
+		if (app.user.exclude_tags.includes(tag.id) && !("filter" in args) && app.user.enable_filters) {
 			html += '<div style="height:60px;"></div>';
 			
 			html += '<div class="box">';
@@ -62,6 +62,11 @@ Page.Tag = class PageTag extends Page.Base {
 				html += '<div class="box_content"><b><i class="mdi mdi-information-outline">&nbsp;</i>Notice:</b> Your filters have been temporarily disabled on this page.  The topics shown here would normally be hidden from your view.</div>';
 			html += '</div>';
 		}
+		
+		html += this.getMiniPageHeader({
+			title: 'All Topics',
+			subtitle: '(Newest on top)'
+		});
 		
 		/* if (!args.date) args.date = get_date_args().yyyy_mm;
 		var dargs = get_date_args( args.date + '/01 00:00:00' );
@@ -128,7 +133,7 @@ Page.Tag = class PageTag extends Page.Base {
 			html += '<div class="box"><div class="box_content"><div class="inline_page_message">No topics found for category "' + this.tag.title + '".</div></div></div>';
 		}
 		if (resp.total && (this.opts.offset + resp.records.length < resp.total)) {
-			html += '<div class="load_more"><div class="button center" onMouseUp="$P().loadMoreTopics()">Load More...</div></div>';
+			html += '<div class="load_more"><div class="button center" onMouseUp="$P().loadMoreTopics()"><i class="mdi mdi-arrow-down-circle-outline">&nbsp;</i>Load More...</div></div>';
 		}
 		
 		$recent.append( html );
