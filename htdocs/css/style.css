@@ -539,7 +539,7 @@ body.ie div.editor_toolbar {
 	margin-top: 0;
 	margin-bottom: 16px;
 	/* word-break: break-word; */
-	line-height: 1.25;
+	line-height: 1.5;
 }
 
 .markdown-body ul ul,
@@ -732,6 +732,17 @@ i.favorite {
 	grid-template-areas: "b";
 	grid-column-gap: 20px;
 	margin-bottom: 15px;
+}
+
+.mfw_cal a {
+	/* font-weight: bold; */
+	color: var(--green);
+}
+.mfw_cal a:hover {
+	color: var(--theme-color);
+}
+.mfw_cal a:active {
+	color: var(--theme-color-half);
 }
 
 /* Basic Responsive Overrides */
