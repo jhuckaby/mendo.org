@@ -24,6 +24,13 @@ Page.Favorites = class Favorites extends Page.Base {
 		// this.lastAnchor = anchor;
 		
 		var html = '';
+		
+		html += this.getMiniPageHeader({
+			title: 'All Favorites',
+			subtitle: '(Newest on top)',
+			widget: '<span class="link" onMouseUp="$P().doDownload()"><i class="mdi mdi-cloud-download-outline">&nbsp;</i>Download All...</span>'
+		});
+		
 		html += '<div id="d_favs"><div class="loading_container"><div class="loading"></div></div></div>';
 		this.div.html( html );
 		
@@ -80,7 +87,7 @@ Page.Favorites = class Favorites extends Page.Base {
 			html += '<div class="box"><div class="box_content"><div class="inline_page_message">No favorites found.  Click the <i class="mdi mdi-heart-outline">&nbsp;</i> icon on your favorite messages to add them!</div></div></div>';
 		}
 		if (resp.total && (this.opts.offset + resp.records.length < resp.total)) {
-			html += '<div class="load_more"><div class="button center" onMouseUp="$P().loadMoreFavs()">Load More...</div></div>';
+			html += '<div class="load_more"><div class="button center" onMouseUp="$P().loadMoreFavs()"><i class="mdi mdi-arrow-down-circle-outline">&nbsp;</i>Load More...</div></div>';
 		}
 		
 		$recent.append( html );
@@ -99,6 +106,60 @@ Page.Favorites = class Favorites extends Page.Base {
 		this.div.find('.load_more').html( '<div class="loading"></div>' );
 		this.opts.offset += config.items_per_page;
 		app.api.get( 'app/search', this.opts, this.receiveFavs.bind(this) );
+	}
+	
+	doDownload() {
+		// download all favs as Mbox archive
+		var self = this;
+		var squery = 'favorites:' + app.username;
+		
+		// determine a nice default filename
+		var filename = 'Favorites.mbox';
+		
+		var html = '';
+		html += '<div class="dialog_help" style="margin-bottom:0">Use this feature to download an <a href="https://en.wikipedia.org/wiki/Mbox" target="_blank">Mbox archive</a> of all your favorites.  You can then import the Mbox archive into your favorite e-mail application.</div>';
+		html += '<div class="box_content" style="padding-bottom:15px;">';
+		
+		html += this.getFormRow({
+			label: 'Filename:',
+			content: this.getFormText({
+				id: 'fe_mbox_filename',
+				spellcheck: 'false',
+				maxlength: 64,
+				value: filename
+			}),
+			caption: 'Enter a filename for your Mbox archive.'
+		});
+		
+		html += '</div>';
+		Dialog.confirm( 'Download Favorites', html, 'Download', function(result) {
+			if (!result) return;
+			filename = $('#fe_mbox_filename').val().trim().replace(/[^\w\-\.]+/g, '-');
+			if (!filename || !filename.match(/\w/)) return app.badField('#fe_mbox_filename', "Please enter a valid filename for your Mbox archive.");
+			if (!filename.match(/\.mbox$/i)) filename += '.mbox';
+			Dialog.showProgress( 1.0, "Preparing download..." );
+			
+			// get download token first
+			// (so we don't have to add the session ID onto the URL)
+			app.api.post( 'app/get_download_token', {}, function(resp) {
+				// got token
+				var url = '/api/app/download_mbox' + compose_query_string({
+					token: resp.token,
+					username: app.username,
+					query: squery,
+					filename: filename
+				});
+				window.location = url;
+				
+				setTimeout( function() {
+					Dialog.hideProgress();
+					app.showMessage('success', "Your download should begin momentarily.");
+				}, 50 );
+			} ); // api resp
+		} ); // Dialog.confirm
+		
+		// pre-select the filename sans extension
+		$('#fe_mbox_filename').focus().get(0).setSelectionRange(0, filename.length - 5);
 	}
 	
 	onDeactivate() {
