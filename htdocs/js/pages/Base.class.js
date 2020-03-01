@@ -52,7 +52,6 @@ Page.Base = class Base extends Page {
 		if (link) {
 			if (link === true) {
 				link = '#Tag?id=' + tag.id;
-				if (tag.id == 'events') link = '#Calendar';
 			}
 			html += '<a href="' + link + '" style="text-decoration:none">';
 			html += icon + '<span style="text-decoration:underline">' + tag.title + '</span></a>';
@@ -794,6 +793,16 @@ Page.Base = class Base extends Page {
 		});
 		
 		html += this.getFormRow({
+			label: 'Title:',
+			content: this.getFormText({
+				id: 'fe_erc_title',
+				maxlength: 255,
+				value: record.title || record.subject || ''
+			}),
+			caption: 'Specify the event title (as it will appear on the calendar).'
+		});
+		
+		html += this.getFormRow({
 			label: 'Start Date:',
 			content: this.getFormDate({
 				id: 'fe_erc_start',
@@ -825,6 +834,7 @@ Page.Base = class Base extends Page {
 				if (end_epoch < start_epoch) return app.doError("The event end date cannot come before the start date.");
 				if (end_epoch > start_epoch + (86400 * 32)) return app.doError("Event date ranges cannot span longer than a month.");
 				
+				record.title = $('#fe_erc_title').val();
 				record.tags = self.recordAddTagCSV( record.tags, 'events' );
 				record.when = self.recordGetDateRangeCSV( start_epoch, end_epoch );
 				
@@ -835,14 +845,22 @@ Page.Base = class Base extends Page {
 			}
 			else {
 				// remove event from calendar
+				record.title = '';
 				record.tags = self.recordRemoveTagCSV( record.tags, 'events' ) || 'unsorted';
-				// record.when = '';
+				record.when = '';
 			}
 			
 			Dialog.hide();
 			Dialog.showProgress( 1.0, "Saving calendar..." );
 			
-			app.api.post( 'app/update_message', { id: record.id, tags: record.tags, when: record.when }, function(resp) {
+			var updates = {
+				id: record.id, 
+				tags: record.tags, 
+				when: record.when,
+				title: record.title
+			};
+			
+			app.api.post( 'app/update_message', updates, function(resp) {
 				Dialog.hideProgress();
 				app.showMessage('success', "The calendar was updated successfully.");
 				app.cacheBust = hires_time_now();
