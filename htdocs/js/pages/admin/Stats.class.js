@@ -38,7 +38,7 @@ Page.Stats = class PageStats extends Page.Base {
 		// receive stats from server, render it
 		var self = this;
 		var html = '';
-		var stats = resp.stats;
+		var stats = this.stats = resp.stats;
 		
 		html += '<div class="stat_box_row">';
 		
