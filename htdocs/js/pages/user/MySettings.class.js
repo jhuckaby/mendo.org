@@ -65,7 +65,7 @@ Page.MySettings = class MySettings extends Page.Base {
 				options: [['markdown',"Rich Text (Markdown)"], ['text',"Plain Text"]],
 				value: user.text_format || ''
 			}),
-			caption: 'Choose your desired text format for reading posts.  Note that only Rich Text (Markdown) mode supports inline images.  You can read more about Markdown <a href="https://en.wikipedia.org/wiki/Markdown" target="_blank">here</a>.'
+			caption: 'Choose your desired text format for reading posts.  Note that only Rich Text (Markdown) mode supports inline images.  You can read more about rich text formatting <a href="#Document?id=markdown">here</a>.'
 		});
 		
 		// Font Family
@@ -113,15 +113,15 @@ Page.MySettings = class MySettings extends Page.Base {
 		});
 		
 		// Honor Single Line Breaks
-		html += this.getFormRow({
-			label: 'Line Breaks:',
-			content: this.getFormCheckbox({
-				id: 'fe_ms_line_breaks',
-				checked: !!user.line_breaks,
-				label: "Show Single Line Breaks"
-			}),
-			caption: 'Some e-mails have hard line breaks in them, usually at around 80 characters.  When this box is checked, they will be honored and displayed in their original format.  When unchecked, e-mail text will be reformatted and adjacent lines joined together.'
-		});
+		// html += this.getFormRow({
+		// 	label: 'Line Breaks:',
+		// 	content: this.getFormCheckbox({
+		// 		id: 'fe_ms_line_breaks',
+		// 		checked: !!user.line_breaks,
+		// 		label: "Show Single Line Breaks"
+		// 	}),
+		// 	caption: 'Some e-mails have hard line breaks in them, usually at around 80 characters.  When this box is checked, they will be honored and displayed in their original format.  When unchecked, e-mail text will be reformatted and adjacent lines joined together.'
+		// });
 		
 		// Show Inline Images
 		html += this.getFormRow({
@@ -134,22 +134,30 @@ Page.MySettings = class MySettings extends Page.Base {
 			caption: 'When checked, image URLs found in e-mails will be expanded, and the images displayed inline.  This is only applicable in <b>Rich Text</b> mode. If you are on limited bandwidth you might want to disable this feature.'
 		});
 		
-		// Email Signature
+		// Profanity
 		html += this.getFormRow({
-			label: 'Email Signature:',
-			content: this.getFormTextarea({
-				id: 'fe_ms_signature',
-				rows: 5,
-				value: user.signature || '',
-				maxlength: 8192,
-				onKeyDown: 'captureTabs(this,event)'
+			label: 'Profanity:',
+			content: this.getFormCheckbox({
+				id: 'fe_ms_profanity',
+				checked: !!user.profanity_filter,
+				label: "Censor Bad Words"
 			}),
-			caption: 'Optionally enter a personalized signature to append to the bottom of all your posts and replies.'
+			caption: 'Are you offended by seeing bad words?  If so, simply check this box, and we will do our best to censor all profanity from all messages across the site (English language only).'
+		});
+		
+		html += this.getFormRow({
+			label: 'Filters:',
+			content: this.getFormCheckbox({
+				id: 'fe_ms_enable_filters',
+				checked: !!user.enable_filters,
+				label: "Enable Filters &amp; Blocks"
+			}),
+			caption: 'This checkbox controls whether the category filters and blocked senders are enabled or not (see below).  Uncheck this box if you want to temporarily see all the bad content that you\'re missing.'
 		});
 		
 		// Filters (Negative Tags)
 		html += this.getFormRow({
-			label: 'Filters:',
+			label: 'Filter Categories:',
 			content: this.getFormMenuMulti({
 				id: 'fe_ms_filters',
 				title: 'Select Categories to Filter',
@@ -175,7 +183,20 @@ Page.MySettings = class MySettings extends Page.Base {
 				trim: 1,
 				lower: 1
 			}),
-			caption: 'Optionally add specific senders to block from your view.'
+			caption: 'Optionally add specific senders (names or e-mail addresses) to block from your view.'
+		});
+		
+		// Email Signature
+		html += this.getFormRow({
+			label: 'Email Signature:',
+			content: this.getFormTextarea({
+				id: 'fe_ms_signature',
+				rows: 5,
+				value: user.signature || '',
+				maxlength: 8192,
+				onKeyDown: 'captureTabs(this,event)'
+			}),
+			caption: 'Optionally enter a personalized signature to append to the bottom of all your posts and replies.'
 		});
 		
 		html += '</div>'; // box_content
@@ -211,11 +232,13 @@ Page.MySettings = class MySettings extends Page.Base {
 			text_format: this.div.find('#fe_ms_text_fmt').val(),
 			font_family: this.div.find('#fe_ms_font_family').val(),
 			font_size: this.div.find('#fe_ms_font_size').val(),
-			line_breaks: !!this.div.find('#fe_ms_line_breaks').is(':checked'),
+			// line_breaks: !!this.div.find('#fe_ms_line_breaks').is(':checked'),
 			inline_images: !!this.div.find('#fe_ms_inline_images').is(':checked'),
-			signature: this.div.find('#fe_ms_signature').val(),
+			profanity_filter: !!this.div.find('#fe_ms_profanity').is(':checked'),
+			enable_filters: !!this.div.find('#fe_ms_enable_filters').is(':checked'),
 			exclude_tags: this.div.find('#fe_ms_filters').val(),
-			exclude_froms: this.div.find('#fe_ms_blocks').val()
+			exclude_froms: this.div.find('#fe_ms_blocks').val(),
+			signature: this.div.find('#fe_ms_signature').val()
 		};
 	}
 	
@@ -230,8 +253,10 @@ Page.MySettings = class MySettings extends Page.Base {
 		if (json.text_format != user.text_format) return true;
 		if (json.font_family != user.font_family) return true;
 		if (json.font_size != user.font_size) return true;
-		if (json.line_breaks != user.line_breaks) return true;
+		// if (json.line_breaks != user.line_breaks) return true;
 		if (json.inline_images != user.inline_images) return true;
+		if (json.profanity_filter != user.profanity_filter) return true;
+		if (json.enable_filters != user.enable_filters) return true;
 		if (json.signature != user.signature) return true;
 		if (json.exclude_tags.join(',') != user.exclude_tags.join(',')) return true;
 		if (json.exclude_froms.join(',') != user.exclude_froms.join(',')) return true;
