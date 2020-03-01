@@ -31,7 +31,7 @@ Page.NewTopic = class NewTopic extends Page.Base {
 		html += '<div class="subject">' + this.getFormText({
 			id: 'fe_post_subject',
 			spellcheck: 'false',
-			maxlength: 256,
+			maxlength: 255,
 			value: '',
 			placeholder: 'Enter subject line here...',
 			style: 'width:100%; margin-bottom:20px; padding-top:6px; padding-bottom:6px; font-family:' + app.user.font_family, // family only, not size
