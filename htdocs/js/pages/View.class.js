@@ -226,18 +226,35 @@ Page.View = class PageView extends Page.Base {
 			}); // forEach
 			
 			if (this.opts.offset + resp.records.length < resp.total) {
-				html += '<div class="load_more"><div class="button center" onMouseUp="$P().loadMoreReplies()">Load More...</div></div>';
+				html += '<div class="load_more"><div class="button center" onMouseUp="$P().loadMoreReplies()"><i class="mdi mdi-arrow-down-circle-outline">&nbsp;</i>Load More...</div></div>';
 			}
 		}
 		
 		$replies.append( html );
 		
 		if (num_hidden && !this.opts.offset) {
-			this.div.find('#d_view > .box span.num_hidden').html( '&nbsp;(' + num_hidden + '&nbsp;hidden)' );
+			this.div.find('#d_view > .box span.num_hidden').html( 
+				'&nbsp;(<span class="link" onMouseUp="$P().showHidden()">' + num_hidden + '&nbsp;hidden</span>)' 
+			);
 		}
 		
 		if (this.args.reply) this.editRecordReply(false, null);
 		else this.expandInlineImages();
+	}
+	
+	showHidden() {
+		// prompt user to temporarily show hidden replies
+		var self = this;
+		var html = '';
+		
+		html += 'Some replies in this thread are hidden from view, due to your blocked sender settings.  You can manage these settings on the <b>Preferences</b> page.<br/><br/>If you want, you can temporarily reveal these replies here, to see what you\'re missing.  Go back to hide them again.';
+		
+		Dialog.confirm("Hidden Replies", html, "Reveal", function(ok) {
+			if (!ok) return; // user canceled
+			Dialog.hide();
+			
+			Nav.go( self.selfMergeNav({ filter: 0 }) );
+		}); // Dialog.confirm
 	}
 	
 	refresh() {
@@ -481,7 +498,7 @@ Page.View = class PageView extends Page.Base {
 		// determine a nice default filename
 		var filename = this.record.subject.replace(/\W+/g, '-');
 		if (filename.length > 26) filename = filename.substring(0, 26);
-		filename = filename.replace(/\-$/, '');
+		filename = filename.replace(/\-$/, '').replace(/^\-/, '');
 		filename += '.mbox';
 		
 		var html = '';
