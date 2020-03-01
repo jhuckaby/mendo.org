@@ -9,11 +9,13 @@ This is a community discourse site designed for all residents of Mendocino Count
 - Compact or expanded views of topics.
 - Calendar of upcoming events in the area.
 - Flag any topic or reply as a "favorite" to save it for later.
+- Filter out any categories of non-interest to you.
 - Easily block specific senders with one click (okay, it's actually two clicks).
+- Optional profanity filter for censoring bad words.
 - Search by category, location, date, or custom text query.
-- Save custom searches for quick access in the sidebar.
+- Save custom search presets for quick access in the sidebar.
 - Add "alerts" on searches, so you can be emailed for new matches.
-- Download search results as [Mbox](https://en.wikipedia.org/wiki/Mbox) mail archives.
+- Download search results or message threads as [Mbox](https://en.wikipedia.org/wiki/Mbox) mail archives.
 - Add attachments and images into your posts.
 - Light and dark themes.  <span class="link" style="user-select:none" onMouseUp="$P().toggleTheme()">Try it out!</span>
 - Works great on tablets and phones.
@@ -36,6 +38,8 @@ You can view content on the site in the following ways:
 - **Locations** &mdash; All topics are also sorted into locations (local city / town names), which are also available in the sidebar.
 
 In all cases, you can click on the subject line of any topic to see details, including all the replies.  Icons are provided on the top-right corner of each topic that allows you to reply, mark it as a "favorite", or block the sender.
+
+For more details, see our **[User's Guide](/guide)**.
 
 Ready to sign up and try this out?  Go ahead and **[create a free account!](/signup)**
 
@@ -111,6 +115,7 @@ Sure, please e-mail us at support@mendo.org, and we will reply as soon as we can
 
 ## Links
 
+- [User's Guide](/guide)
 - [Terms of Service](/terms)
 - [Privacy Policy](/privacy)
 - [Source Code](https://github.com/jhuckaby/mendo.org)
