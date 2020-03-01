@@ -99,7 +99,9 @@ Page.Search = class Search extends Page.Base {
 						['today', 'Today'],
 						['yesterday', 'Yesterday'],
 						['month', 'This Month'],
-						['year', 'This Year']
+						['lastmonth', 'Last Month'],
+						['year', 'This Year'],
+						['lastyear', 'Last Year']
 					];
 					html += this.getFormRow({
 						label: '<i class="icon mdi mdi-calendar-multiple">&nbsp;</i>Date Range:',
@@ -242,12 +244,29 @@ Page.Search = class Search extends Page.Base {
 		if (args.locations) query += ' locations:' + args.locations.split(/\,\s*/).join('|');
 		
 		if (args.date) {
-			var dargs = get_date_args( time_now() );
 			switch (args.date) {
-				case 'today': query += ' date:today'; break;
-				case 'yesterday': query += ' date:yesterday'; break;
-				case 'month': query += ' date:' + dargs.yyyy_mm; break;
-				case 'year': query += ' date:' + dargs.yyyy; break;
+				case 'today': 
+					query += ' date:today'; 
+				break;
+				case 'yesterday': 
+					query += ' date:yesterday'; 
+				break;
+				case 'month': 
+					var dargs = get_date_args( time_now() );
+					query += ' date:' + dargs.yyyy_mm; 
+				break;
+				case 'lastmonth':
+					var dargs = get_date_args( normalize_time( time_now(), { mday:1, hour:0, min:0, sec:0 } ) - 43200 );
+					query += ' date:' + dargs.yyyy_mm; 
+				break;
+				case 'year': 
+					var dargs = get_date_args( time_now() );
+					query += ' date:' + dargs.yyyy; 
+				break;
+				case 'lastyear':
+					var dargs = get_date_args( normalize_time( time_now(), { mon:1, mday:1, hour:0, min:0, sec:0 } ) - 43200 );
+					query += ' date:' + dargs.yyyy; 
+				break;
 			}
 		}
 		
@@ -332,7 +351,7 @@ Page.Search = class Search extends Page.Base {
 			html += '<div class="box"><div class="box_content"><div class="inline_page_message">No results matched your search query.</div></div></div>';
 		}
 		if (resp.total && (this.opts.offset + resp.records.length < resp.total)) {
-			html += '<div class="load_more"><div class="button center" onMouseUp="$P().loadMoreResults()">Load More...</div></div>';
+			html += '<div class="load_more"><div class="button center" onMouseUp="$P().loadMoreResults()"><i class="mdi mdi-arrow-down-circle-outline">&nbsp;</i>Load More...</div></div>';
 		}
 		
 		$results.append( preamble + html );
