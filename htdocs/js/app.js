@@ -172,7 +172,6 @@ app.extend({
 			return a.title.localeCompare( b.title );
 		} );
 		this.tags.forEach( function(tag) {
-			if (tag.id == 'events') return; // reserved for calendar
 			var $tag = $('<a></a>')
 				.prop('id', 'tab_Tag_' + tag.id)
 				.attr('href', '#Tag?id=' + tag.id)
