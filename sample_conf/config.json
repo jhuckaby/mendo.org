@@ -32,11 +32,12 @@
 	},
 	
 	"redirects": {
-		"^/privacy": "/#Document?id=privacy-policy",
-		"^/terms": "/#Document?id=terms-of-service",
-		"^/optout": "/#Document?id=opt-out",
-		"^/login": "/#Login",
-		"^/signup": "/#Login?create=1"
+		"guide": "/#Document?id=user-guide",
+		"privacy": "/#Document?id=privacy-policy",
+		"terms": "/#Document?id=terms-of-service",
+		"optout": "/#Document?id=opt-out",
+		"login": "/#Login",
+		"signup": "/#Login?create=1"
 	},
 	
 	"default_user": {
@@ -49,6 +50,8 @@
 		"font_size": "14px",
 		"line_breaks": false,
 		"inline_images": true,
+		"profanity_filter": false,
+		"enable_filters": true,
 		"signature": "\n\nSent via Mendo.org\n",
 		"opt_out": false
 	},
