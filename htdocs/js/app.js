@@ -224,7 +224,7 @@ app.extend({
 	
 	doUserLogin: function(resp) {
 		// user login, called from login page, or session recover
-		// overriding this from base.js, so we can pass the session ID to the websocket
+		// overriding this from base.js
 		delete resp.code;
 		
 		for (var key in resp) {
@@ -245,6 +245,9 @@ app.extend({
 			$('#d_sidebar_admin_group').hide();
 			$('body').removeClass('admin');
 		}
+		
+		// compile bad words regexp
+		this.badWordMatch = new RegExp( this.badWordMatchStr, 'ig' );
 		
 		// pre-compile user filter regexps
 		this.prepUser();
