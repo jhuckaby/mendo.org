@@ -43,6 +43,11 @@ Page.Location = class PageLocation extends Page.Base {
 		
 		var html = '';
 		
+		html += this.getMiniPageHeader({
+			title: 'All Topics',
+			subtitle: '(Newest on top)'
+		});
+		
 		/* if (!args.date) args.date = get_date_args().yyyy_mm;
 		var dargs = get_date_args( args.date + '/01 00:00:00' );
 		
@@ -108,7 +113,7 @@ Page.Location = class PageLocation extends Page.Base {
 			html += '<div class="box"><div class="box_content"><div class="inline_page_message">No topics found for location "' + this.loc.title + '".</div></div></div>';
 		}
 		if (resp.total && (this.opts.offset + resp.records.length < resp.total)) {
-			html += '<div class="load_more"><div class="button center" onMouseUp="$P().loadMoreTopics()">Load More...</div></div>';
+			html += '<div class="load_more"><div class="button center" onMouseUp="$P().loadMoreTopics()"><i class="mdi mdi-arrow-down-circle-outline">&nbsp;</i>Load More...</div></div>';
 		}
 		
 		$recent.append( html );
