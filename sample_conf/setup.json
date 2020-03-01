@@ -22,6 +22,8 @@
 			"font_size": "14px",
 			"line_breaks": false,
 			"inline_images": true,
+			"profanity_filter": false,
+			"enable_filters": true,
 			"signature": "",
 			"opt_out": false
 		} ],
@@ -44,6 +46,7 @@
 		["Classifieds", "coin-outline"],
 		["Crafts", "hammer"],
 		["Entertainment", "glass-cocktail"],
+		["Environment", "pine-tree"],
 		["Events", "calendar-blank"],
 		["Food", "food"],
 		["Humor", "emoticon-happy-outline"],
