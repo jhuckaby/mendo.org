@@ -34,7 +34,7 @@ Page.NewTopic = class NewTopic extends Page.Base {
 			maxlength: 256,
 			value: '',
 			placeholder: 'Enter subject line here...',
-			style: 'width:100%; margin-bottom:20px; font-family:' + app.user.font_family, // family only, not size
+			style: 'width:100%; margin-bottom:20px; padding-top:6px; padding-bottom:6px; font-family:' + app.user.font_family, // family only, not size
 			onKeyUp: '$P().lazySaveComposeText()'
 		}) + '</div>';
 		
