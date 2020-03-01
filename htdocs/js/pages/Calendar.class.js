@@ -99,7 +99,7 @@ Page.Calendar = class Calendar extends Page.Base {
 				html += '<div class="box_content" style="padding-top:0;">';
 				
 				records.forEach( function(record) {
-					var nice_subject = encode_entities(record.subject);
+					var nice_subject = self.getNiceSubject(record.subject);
 					
 					var widgets = [];
 					widgets.push(
@@ -125,7 +125,7 @@ Page.Calendar = class Calendar extends Page.Base {
 					});
 					
 					html += '<div class="cal_event">';
-						html += '<div class="cal_subject"><i class="mdi mdi-email-outline">&nbsp;</i><a href="#View?id=' + record.id + '">' + nice_subject + '</a></div>';
+						html += '<div class="cal_subject"><a href="#View?id=' + record.id + '">' + nice_subject + '</a></div>';
 						html += '<div class="cal_footer">' + widgets.join('') + '<div class="clear"></div>' + '</div>';
 					html += '</div>';
 					
