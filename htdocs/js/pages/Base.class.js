@@ -29,6 +29,7 @@ Page.Base = class Base extends Page {
 		// get formatted tag group
 		var self = this;
 		if (!glue) glue = ',&nbsp;&nbsp;';
+		if (!tags) return '&mdash;'
 		if (typeof(tags) == 'string') tags = tags.split(/\,\s*/);
 		return tags.map( function(tag) { return self.getNiceTag(tag, link); } ).join(glue);
 	}
@@ -100,7 +101,10 @@ Page.Base = class Base extends Page {
 			var email = RegExp.$1;
 			from = from.replace(/([\w\.\-]+\@[\w\.\-]+)/, '').replace(/[\<\>\(\)]+/g, '').trim();
 			if (!from.match(/\S/)) from = email;
-			from = '<a href="mailto:' + email + '">' + from + '</a>';
+			from = '<a href="mailto:' + email + '">' + this.filterProfanity(from, "*") + '</a>';
+		}
+		else {
+			from = this.filterProfanity(from, "*");
 		}
 		return '<i class="mdi mdi-account">&nbsp;</i>' + from;
 	}
@@ -164,7 +168,28 @@ Page.Base = class Base extends Page {
 	getNiceSubject(subject, icon) {
 		// format subject for display
 		if (!icon) icon = 'email-outline';
+		
+		if ((subject.length > 3) && (subject == subject.toUpperCase())) {
+			// convert all-upper-case subjects to title case
+			subject = subject.toLowerCase().replace( /(^|\W+)([a-z])/g, function(m_all, m_g1, m_g2) {
+				return m_g1 + m_g2.toUpperCase();
+			} );
+		}
+		
+		// profanity filter (user setting)
+		subject = this.filterProfanity(subject, "*");
+		
 		return '<i class="mdi mdi-' + icon + '">&nbsp;</i>' + encode_entities(subject);
+	}
+	
+	filterProfanity(text, str) {
+		// if configured, censor text using replacement string for each character
+		if (app.user.profanity_filter) {
+			text = text.replace( app.badWordMatch, function(m_all, m_g1) {
+				return (str).repeat( m_all.length );
+			});
+		}
+		return text;
 	}
 	
 	prepDisplayRecord(record, idx) {
@@ -184,14 +209,18 @@ Page.Base = class Base extends Page {
 			record.disp.subject = this.getNiceSubject(record.subject, 'reply');
 		}
 		
-		var body = '';
+		var body = record.body;
+		
 		if (app.user.text_format == 'markdown') {
 			// markdown
 			var renderer = new marked.Renderer();
 			renderer.code = function(code) { return '<p style="white-space:pre-wrap;">' + code + '</p>'; };
 			
 			// convert {{ curly-brace-style }} quotes to markdown syntax
-			var body = record.body.replace(/(^|\n)\{\{([\S\s]+?)\}\}(\n|$)/g, "$1> $2$3");
+			body = body.replace(/(^|\n)\{\{([\S\s]+?)\}\}(\n|$)/g, "$1> $2$3");
+			
+			// profanity filter (user setting)
+			body = this.filterProfanity(body, "\\*");
 			
 			record.disp.body = '<div class="markdown-body" style="' + this.getUserFontStyle() + '">' + marked(body, {
 				gfm: true,
@@ -209,16 +238,18 @@ Page.Base = class Base extends Page {
 		}
 		else if (app.user.line_breaks) {
 			// plain text (preserve line breaks)
+			body = this.filterProfanity(body, "*");
 			record.disp.body = 
 				'<div class="plain-body-prewrap" style="' + this.getUserFontStyle() + '">' + 
-					encode_enities(record.body) + 
+					encode_entities(body) + 
 				'</div>';
 		}
 		else {
 			// plain text
+			body = this.filterProfanity(body, "*");
 			record.disp.body = 
 				'<div class="plain-body" style="' + this.getUserFontStyle() + '">' + 
-					encode_enities(record.body).replace(/\n\n/g, "<br/><br/>") + 
+					encode_entities(body).replace(/\n\n/g, "<br/><br/>") + 
 				'</div>';
 		}
 		
@@ -268,9 +299,26 @@ Page.Base = class Base extends Page {
 			else {
 				foot_widgets.push('No Replies');
 			}
+			
+			var tags = (record.tags || 'unsorted').split(/\,\s*/);
+			if (tags.includes('events') && record.when) {
+				// special handling for events
+				var dates = record.when.split(/\,\s*/);
+				var nice_start_date = format_date( dates[0], '[mmm] [mday]' );
+				var nice_end_date = format_date( dates[dates.length - 1], '[mmm] [mday]' );
+				var nice_date_range = '<i class="mdi mdi-calendar-blank">&nbsp;</i>' + nice_start_date;
+				if (nice_end_date != nice_start_date) nice_date_range += ' - ' + nice_end_date;
+				var yyyy_mm = format_date( dates[0], '[yyyy]/[mm]' );
+				
+				foot_widgets.push(
+					'<span class="mfw_cal"><a href="#Calendar?date=' + yyyy_mm + '">' + nice_date_range + '</a></span>'
+				);
+				tags.splice( tags.indexOf('events'), 1 );
+			}
 			foot_widgets.push(
-				'<span class="mfw_tags">' + this.getNiceTagList(record.tags || 'unsorted', true) + '</span>'
+				'<span class="mfw_tags">' + this.getNiceTagList(tags.join(','), true) + '</span>'
 			);
+			
 			if (record.locations) {
 				foot_widgets.push( this.getNiceLocationList(record.locations, true) );
 			}
@@ -313,8 +361,8 @@ Page.Base = class Base extends Page {
 			html += '<div class="sel_dialog_search_icon"><i class="mdi mdi-magnify"></i></div>';
 		html += '</div>';
 		html += '<div id="d_sel_dialog_scrollarea" class="sel_dialog_scrollarea">';
-		for (var idx = 0, len = app.tags.length; idx < len; idx++) {
-			var tag = app.tags[idx];
+		for (var idy = 0, ley = app.tags.length; idy < ley; idy++) {
+			var tag = app.tags[idy];
 			var sel = old_tags.includes(tag.id);
 			html += '<div class="sel_dialog_item check ' + (sel ? 'selected' : '') + '" data-value="' + tag.id + '">';
 			html += '<span>' + tag.title + '</span>';
@@ -360,10 +408,13 @@ Page.Base = class Base extends Page {
 				app.cacheBust = hires_time_now();
 				app.clearPageAnchorCache();
 				
-				// redraw tags in message footer
-				$elem.closest('div.box').find('div.message_footer span.mfw_tags').html(
-					self.getNiceTagList(record.tags || 'unsorted', true)
-				);
+				// redraw message footer (if topic)
+				if (record.type == 'topic') {
+					self.prepDisplayRecord(record, idx);
+					$elem.closest('div.box').find('div.message_footer').html( 
+						record.disp.foot_widgets.join('') + '<div class="clear"></div>' 
+					);
+				}
 				
 				// remove suggestions
 				if (app.isAdmin()) {
@@ -371,7 +422,9 @@ Page.Base = class Base extends Page {
 				}
 				
 				// change load more to refresh, as pagination has changed
-				self.div.find('div.load_more').html( '<div class="button center" onMouseUp="$P().refresh()">Refresh...</div>' );
+				if ((self.ID != 'View') || (idx !== false)) {
+					self.div.find('div.load_more').html( '<div class="button center" onMouseUp="$P().refresh()"><i class="mdi mdi-cached">&nbsp;</i>Refresh...</div>' );
+				}
 				
 				app.showMessage('success', "Message categories updated successfully.");
 			} );
@@ -436,7 +489,7 @@ Page.Base = class Base extends Page {
 				if (elem) $(elem).closest('div.message_container').hide();
 				
 				// change load more to refresh, as pagination has changed
-				self.div.find('div.load_more').html( '<div class="button center" onMouseUp="$P().refresh()">Refresh...</div>' );
+				self.div.find('div.load_more').html( '<div class="button center" onMouseUp="$P().refresh()"><i class="mdi mdi-cached">&nbsp;</i>Refresh...</div>' );
 			}
 		} ); // api.post
 	}
@@ -452,25 +505,25 @@ Page.Base = class Base extends Page {
 		html += '<div class="box_content" style="padding-bottom:15px; max-width:600px;">';
 		
 		html += this.getFormRow({
-			class: 'widest',
+			class: 'single',
 			label: '',
 			content: this.getFormCheckbox({
 				id: 'fe_erb_block',
 				checked: true,
 				// checked: !!app.user.exclude_froms.includes(email),
-				label: '<span class="">Block sender &ldquo;<b>' + encode_entities(email) + '</b>&rdquo;</span>'
+				label: '<span style="">Block sender &ldquo;<b>' + encode_entities(email) + '</b>&rdquo;</span>'
 			})
 		});
 		
 		var tags = record.tags ? record.tags.split(/\,\s*/) : [];
 		tags.forEach( function(tag) {
 			html += self.getFormRow({
-				class: 'widest',
+				class: 'single',
 				label: '',
 				content: self.getFormCheckbox({
 					id: 'fe_erb_filter_' + tag,
 					checked: !!app.user.exclude_tags.includes(tag),
-					label: '<span class="nowrap">Filter entire category: <b>' + self.getNiceTag(tag) + '</b></span>'
+					label: 'Filter entire category: <span class="nowrap"><b>' + self.getNiceTag(tag) + '</b></span>'
 				})
 			});
 		}); // foreach tag
@@ -588,7 +641,9 @@ Page.Base = class Base extends Page {
 						$(elem).closest('div.message_container').hide();
 						
 						// change load more to refresh, as pagination has changed
-						self.div.find('div.load_more').html( '<div class="button center" onMouseUp="$P().refresh()">Refresh...</div>' );
+						if (self.ID != 'View') {
+							self.div.find('div.load_more').html( '<div class="button center" onMouseUp="$P().refresh()"><i class="mdi mdi-cached">&nbsp;</i>Refresh...</div>' );
+						}
 					}
 				} ); // api resp
 			} // confirmed
@@ -688,7 +743,9 @@ Page.Base = class Base extends Page {
 					$(elem).closest('div.message_container').hide();
 					
 					// change load more to refresh, as pagination has changed
-					self.div.find('div.load_more').html( '<div class="button center" onMouseUp="$P().refresh()">Refresh...</div>' );
+					if (self.ID != 'View') {
+						self.div.find('div.load_more').html( '<div class="button center" onMouseUp="$P().refresh()"><i class="mdi mdi-cached">&nbsp;</i>Refresh...</div>' );
+					}
 				}
 			} ); // api.post
 		} ); // Dialog.confirm
@@ -791,14 +848,15 @@ Page.Base = class Base extends Page {
 				app.cacheBust = hires_time_now();
 				app.clearPageAnchorCache();
 				
-				// redraw tags in message footer
-				$elem.closest('div.box').find('div.message_footer span.mfw_tags').html(
-					self.getNiceTagList(record.tags || 'unsorted', true)
+				// redraw message footer (if topic)
+				self.prepDisplayRecord(record, idx);
+				$elem.closest('div.box').find('div.message_footer').html(
+					record.disp.foot_widgets.join('') + '<div class="clear"></div>' 
 				);
 				
-				if (idx !== false) {
+				if ((self.ID != 'View') || (idx !== false)) {
 					// change load more to refresh, as pagination has changed
-					self.div.find('div.load_more').html( '<div class="button center" onMouseUp="$P().refresh()">Refresh...</div>' );
+					self.div.find('div.load_more').html( '<div class="button center" onMouseUp="$P().refresh()"><i class="mdi mdi-cached">&nbsp;</i>Refresh...</div>' );
 				}
 				
 				// remove suggestions
@@ -838,6 +896,13 @@ Page.Base = class Base extends Page {
 		}
 		if (record.from && record.from.match(app.userExcludeFromMatch)) result = false;
 		
+		if (!result && !app.user.enable_filters) {
+			// special user-activated setting to disable filters
+			// shows filtered results but highlights them in red
+			record.boxClass = 'red';
+			result = true;
+		}
+		
 		if (!result && this.args && ("filter" in this.args) && (this.args.filter == 0)) {
 			// special filter=0 mode, shows filtered results but highlights them in red
 			record.boxClass = 'red';
@@ -870,6 +935,29 @@ Page.Base = class Base extends Page {
 		}
 	}
 	
+	getMiniPageHeader(args) {
+		// return standard header box used by tags / locations pages
+		// (no date nav, no sort label)
+		var html = '';
+		
+		var size_widget = args.widget || '';
+		if (!size_widget) {
+			size_widget += '<span class="compact_view_link" onMouseUp="$P().setExpandedView(0)">Compact</span>';
+			size_widget += '&nbsp;&nbsp;|&nbsp;&nbsp;';
+			size_widget += '<span class="expanded_view_link" onMouseUp="$P().setExpandedView(1)">Expanded</span>';
+		}
+		
+		html += '<div class="box" style="border:none;">';
+			html += '<div class="box_title_trip">';
+				html += '<div class="box_title" style="grid-area:a; padding:0">' + args.title + '</div>';
+				html += '<div class="box_subtitle mobile_hide" style="grid-area:b; text-align:center; color:var(--label-color)"><i>' + args.subtitle + '</i></div>';
+				html += '<div class="box_subtitle" style="grid-area:c; text-align:right">' + size_widget + '</div>';
+			html += '</div>'; // quad
+		html += '</div>'; // box
+		
+		return html;
+	}
+	
 	getStandardPageHeader(args) {
 		// return standard header box used by several pages
 		var html = '';
@@ -888,11 +976,6 @@ Page.Base = class Base extends Page {
 		}
 		
 		html += '<div class="box" style="border:none;">';
-			// html += '<div class="box_title_triptych">';
-			// 	html += '<div class="one box_title" style="padding:0">All Topics for ' + dargs.mmmm + ' ' + dargs.yyyy + '</div>';
-			// 	html += '<div class="two box_subtitle" style="color:var(--label-color)"><i>(Newest on top)</i></div>';
-			// 	html += '<div class="three box_subtitle">' + widget + '</div>';
-			// html += '</div>';
 			
 			html += '<div class="box_title_quad">';
 				// one
@@ -988,7 +1071,9 @@ Page.Base = class Base extends Page {
 			);
 			
 			// change load more to refresh, as pagination has changed
-			self.div.find('div.load_more').html( '<div class="button center" onMouseUp="$P().refresh()">Refresh...</div>' );
+			if ((self.ID != 'View') || (idx !== false)) {
+				self.div.find('div.load_more').html( '<div class="button center" onMouseUp="$P().refresh()"><i class="mdi mdi-cached">&nbsp;</i>Refresh...</div>' );
+			}
 			
 			app.showMessage('success', "Message categories updated successfully.");
 		} );
