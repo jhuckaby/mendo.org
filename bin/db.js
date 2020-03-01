@@ -8,6 +8,8 @@
 //	./db.js "type:topic date:today"
 //	./db.js "tags:offtopic" --update --tags "+something" --dry
 //	./db.js "from:joe@mcn.org" --delete --dry
+//	./db.js --reindex --field from --field subject --field body --dry
+//	./db.js --stats
 
 var path = require('path');
 var cp = require('child_process');
@@ -70,6 +72,14 @@ else if (args.delete) {
 	action = 'delete';
 	delete args.delete;
 }
+else if (args.reindex) {
+	action = 'reindex';
+	delete args.reindex;
+}
+else if (args.stats) {
+	action = 'stats';
+	delete args.stats;
+}
 
 var params = {
 	query: query
@@ -99,6 +109,19 @@ switch (action) {
 	case 'delete': 
 		api_url = base_api_url + '/app/bulk';
 		params.action = action;
+	break;
+	
+	case 'reindex':
+		api_url = base_api_url + '/app/bulk';
+		params.action = action;
+		params.fields = args.field || false;
+		delete params.query;
+	break;
+	
+	case 'stats':
+		api_url = base_api_url + '/app/admin_stats';
+		params.action = action;
+		delete params.query;
 	break;
 } // switch action
 
