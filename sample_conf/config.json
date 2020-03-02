@@ -28,7 +28,7 @@
 	
 	"email_prep": {
 		"subject_strip": "^(\\w+\\:\\s*)*\\[.+\\]\\-\\s*",
-		"body_strip": "\\n[_-]{50,}\\n[\\S\\s]*$"
+		"body_strip": "(^|\\n)[_-]{50,}\\n[\\S\\s]*$"
 	},
 	
 	"redirects": {
