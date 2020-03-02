@@ -289,11 +289,11 @@ Page.Base = class Base extends Page {
 			var foot_widgets = [];
 			if (record.replies > 1) {
 				if (this.ID == 'View') foot_widgets.push(record.replies + ' Replies<span class="num_hidden"></span>');
-				else foot_widgets.push('<a href="#View?id=' + record.id + '" style="font-weight:bold">' + record.replies + ' Replies</a>');
+				else foot_widgets.push('<a href="#View?id=' + record.id + '&replies=1" style="font-weight:bold">' + record.replies + ' Replies</a>');
 			}
 			else if (record.replies == 1) {
 				if (this.ID == 'View') foot_widgets.push('1 Reply<span class="num_hidden"></span>');
-				else foot_widgets.push('<a href="#View?id=' + record.id + '" style="font-weight:bold">1 Reply</a>');
+				else foot_widgets.push('<a href="#View?id=' + record.id + '&replies=1" style="font-weight:bold">1 Reply</a>');
 			}
 			else {
 				foot_widgets.push('No Replies');
@@ -634,6 +634,7 @@ Page.Base = class Base extends Page {
 					if (idx === false) {
 						// deleted single message in view
 						$(elem).closest('div.box').html('<div class="inline_page_message">(This message has been deleted.)</div>');
+						self.div.find('div.load_more').remove();
 					}
 					else {
 						// topic list or reply list
@@ -705,7 +706,6 @@ Page.Base = class Base extends Page {
 			};
 			
 			// update record, then update UI
-			record.type = new_type;
 			if (new_type == 'reply') {
 				// changing to reply
 				updates.parent = parent_id;
@@ -727,6 +727,8 @@ Page.Base = class Base extends Page {
 				app.showMessage('success', "The message type was updated successfully.");
 				app.cacheBust = hires_time_now();
 				app.clearPageAnchorCache();
+				
+				record.type = new_type;
 				
 				// do not update pages that show mixed message types
 				if (self.ID == 'Favorites') return;
