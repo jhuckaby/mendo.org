@@ -774,7 +774,7 @@ Page.Base = class Base extends Page {
 		if (!record.tags) record.tags = '';
 		var html = '<div class="box_content" style="padding-bottom:15px; max-width:600px;">';
 		
-		var start_epoch = time_now();
+		var start_epoch = record.date;
 		var end_epoch = start_epoch;
 		if (record.when) {
 			var dates = record.when.split(/\,\s*/);
@@ -797,7 +797,7 @@ Page.Base = class Base extends Page {
 			content: this.getFormText({
 				id: 'fe_erc_title',
 				maxlength: 255,
-				value: record.title || record.subject || ''
+				value: (record.title || record.subject || '').replace(/\s+/g, ' ')
 			}),
 			caption: 'Specify the event title (as it will appear on the calendar).'
 		});
