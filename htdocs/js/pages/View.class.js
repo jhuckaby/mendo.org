@@ -33,7 +33,7 @@ Page.View = class PageView extends Page.Base {
 		ZeroUpload.on('error', this.uploadError.bind(this) );
 		ZeroUpload.init();
 		
-		app.api.get( 'app/view', { id: args.id }, this.receiveData.bind(this) );
+		app.api.get( 'app/view', { id: args.id }, this.receiveData.bind(this), this.fullPageError.bind(this) );
 		return true;
 	}
 	
@@ -240,6 +240,14 @@ Page.View = class PageView extends Page.Base {
 		
 		if (this.args.reply) this.editRecordReply(false, null);
 		else this.expandInlineImages();
+		
+		if (this.args.replies) this.scrollToReplies();
+	}
+	
+	scrollToReplies() {
+		// scroll down to replies (in case topic is long)
+		$(document).scrollTop( this.div.find('#d_replies').offset().top - 30 );
+		delete this.args.replies;
 	}
 	
 	showHidden() {
