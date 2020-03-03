@@ -242,7 +242,8 @@ Page.NewTopic = class NewTopic extends Page.Base {
 			date: time_now(),
 			body: this.div.find('#fe_post_body').val(),
 			subject: this.div.find('#fe_post_subject').val(),
-			from: app.user.full_name + ' <' + app.user.email + '>'
+			from: app.user.full_name + ' <' + app.user.email + '>',
+			admin: app.isAdmin()
 		};
 		this.prepDisplayRecord(record);
 		return record;

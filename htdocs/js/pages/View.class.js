@@ -435,7 +435,8 @@ Page.View = class PageView extends Page.Base {
 			date: time_now(),
 			body: this.div.find('#fe_reply_body').val(),
 			subject: this.replyRecord.subject,
-			from: app.user.full_name + ' <' + app.user.email + '>'
+			from: app.user.full_name + ' <' + app.user.email + '>',
+			admin: app.isAdmin()
 		};
 		this.prepDisplayRecord(record, 0);
 		return record;
