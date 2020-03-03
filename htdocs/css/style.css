@@ -120,6 +120,10 @@ body.compact span.expanded_view_link:hover {
 	color: var(--theme-color);
 }
 
+body.compact .compact_hide {
+	display: none;
+}
+
 div.message_footer {
 	height: 15px;
 	line-height: 15px;
@@ -329,6 +333,18 @@ div.rc_icon {
 
 .box.red {
 	border: 1px dashed var(--red) !important;
+}
+
+.box.admin {
+	border: 1px solid var(--theme-color) !important;
+	box-shadow: 0px 0px 8px var(--theme-color) !important;
+}
+.box.admin .box_subtitle.from {
+	font-weight: bold;
+	color: var(--theme-color) !important;
+}
+.box.admin .box_subtitle.from a {
+	color: var(--theme-color) !important;
 }
 
 .sidebar_foot_pad {
