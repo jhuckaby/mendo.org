@@ -100,7 +100,7 @@ Page.Base = class Base extends Page {
 			var email = RegExp.$1;
 			from = from.replace(/([\w\.\-]+\@[\w\.\-]+)/, '').replace(/[\<\>\(\)]+/g, '').trim();
 			if (!from.match(/\S/)) from = email;
-			from = '<a href="mailto:' + email + '">' + this.filterProfanity(from, "*") + '</a>';
+			from = '<a href="mailto:' + email + '" title="Send e-mail to ' + email + '">' + this.filterProfanity(from, "*") + '</a>';
 		}
 		else {
 			from = this.filterProfanity(from, "*");
@@ -202,6 +202,18 @@ Page.Base = class Base extends Page {
 			body: '',
 			admin: ''
 		};
+		
+		if (record.admin) {
+			// record was authored by an admin!
+			if (record.boxClass) record.boxClass += ' '; else record.boxClass = '';
+			record.boxClass += 'admin';
+			record.disp.from += ' (Administrator)';
+		}
+		else if (record.from.match(/([\w\.\-]+\@[\w\.\-]+)/)) {
+			var email = RegExp.$1;
+			var search_link = '#Search?query=from%3A' + email;
+			record.disp.from += ' &nbsp;<span class="mobile_hide compact_hide"><a href="' + search_link + '" style="text-decoration:none" title="See all posts from this author...">(<i class="mdi mdi-magnify"></i>)</a></span>';
+		}
 		
 		if (record.type == 'reply') {
 			if (!record.subject.match(/^re\:/i)) record.subject = 'Re: ' + record.subject;
@@ -919,13 +931,15 @@ Page.Base = class Base extends Page {
 		if (!result && !app.user.enable_filters) {
 			// special user-activated setting to disable filters
 			// shows filtered results but highlights them in red
-			record.boxClass = 'red';
+			if (record.boxClass) record.boxClass += ' '; else record.boxClass = '';
+			record.boxClass += 'red';
 			result = true;
 		}
 		
 		if (!result && this.args && ("filter" in this.args) && (this.args.filter == 0)) {
 			// special filter=0 mode, shows filtered results but highlights them in red
-			record.boxClass = 'red';
+			if (record.boxClass) record.boxClass += ' '; else record.boxClass = '';
+			record.boxClass += 'red';
 			result = true;
 		}
 		
@@ -1297,7 +1311,7 @@ Page.Base = class Base extends Page {
 		var width = $input.width();
 		var height = $input.height();
 		
-		var div = $('<div></div>').prop('id', 'd_post_preview').addClass('box').css({
+		var div = $('<div></div>').prop('id', 'd_post_preview').addClass('box ' + (record.boxClass || '')).css({
 			position: 'absolute',
 			left: '' + pos.left + 'px',
 			top: '' + pos.top + 'px',
