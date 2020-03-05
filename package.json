@@ -1,6 +1,6 @@
 {
 	"name": "mendo.org",
-	"version": "0.9.17",
+	"version": "0.9.18",
 	"description": "A community forum / discourse app with a web based UI.",
 	"author": "Joseph Huckaby <jhuckaby@gmail.com>",
 	"homepage": "https://github.com/jhuckaby/mendo.org",
@@ -57,7 +57,7 @@
 		"pixl-mail": "^1.0.9",
 		"pixl-perf": "^1.0.6",
 		"pixl-server": "^1.0.23",
-		"pixl-server-storage": "^3.0.0",
+		"pixl-server-storage": "^3.0.1",
 		"pixl-server-unbase": "^1.0.3",
 		"pixl-server-web": "^1.1.28",
 		"pixl-server-api": "^1.0.1",
