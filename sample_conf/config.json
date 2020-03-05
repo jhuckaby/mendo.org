@@ -214,7 +214,7 @@
 					{
 						"id": "from",
 						"source": "[/from] [/username]",
-						"min_word_length": 3,
+						"min_word_length": 2,
 						"max_word_length": 32,
 						"max_words": 10,
 						"use_remove_words": false,
@@ -223,7 +223,7 @@
 					{
 						"id": "subject",
 						"source": "/subject",
-						"min_word_length": 3,
+						"min_word_length": 2,
 						"max_word_length": 32,
 						"max_words": 50,
 						"use_remove_words": true,
@@ -232,7 +232,7 @@
 					{
 						"id": "body",
 						"source": "[/subject] [/from] [/body]",
-						"min_word_length": 3,
+						"min_word_length": 2,
 						"max_word_length": 32,
 						"max_words": 500,
 						"use_remove_words": true,
@@ -251,7 +251,7 @@
 						"type": "number"
 					}
 				],
-				"remove_words": ["the", "of", "and", "a", "to", "in", "is", "you", "that", "it", "he", "was", "for", "on", "are", "as", "with", "his", "they", "I", "at", "be", "this", "have", "from", "or", "one", "had", "by", "word", "but", "not", "what", "all", "were", "we", "when", "your", "can", "said", "there", "use", "an", "each", "which", "she", "do", "how", "their", "if", "will", "up", "other", "about", "out", "many", "then", "them", "these", "so", "some", "her", "would", "make", "like", "him", "into", "has", "look", "two", "more", "go", "see", "no", "way", "could", "my", "than", "been", "who", "its", "now", "did", "get", "come", "made"]
+				"remove_words": ["the", "of", "and", "a", "to", "in", "is", "you", "that", "it", "he", "was", "on", "are", "as", "with", "his", "they", "at", "be", "this", "have", "from", "or", "one", "had", "by", "word", "but", "not", "what", "all", "were", "we", "when", "your", "can", "said", "there", "use", "an", "each", "which", "she", "do", "how", "their", "if", "will", "up", "other", "about", "out", "many", "then", "them", "these", "so", "some", "her", "would", "make", "like", "him", "into", "has", "look", "two", "more", "go", "way", "could", "my", "than", "been", "who", "its", "now", "did", "get", "come", "made"]
 			}
 		}
 	}
