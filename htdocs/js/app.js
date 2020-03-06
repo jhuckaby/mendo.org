@@ -147,7 +147,7 @@ app.extend({
 		// capture enter key in header search
 		if ((event.keyCode == 13) && elem.value.length) {
 			event.preventDefault();
-			Nav.go( '#Search?query=' + encodeURIComponent(elem.value) );
+			$P().doQuickSearch( elem.value );
 			elem.value = '';
 		}
 	},
