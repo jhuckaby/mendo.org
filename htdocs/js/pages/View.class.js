@@ -58,7 +58,7 @@ Page.View = class PageView extends Page.Base {
 		
 		this.prepDisplayRecord(record);
 		
-		html += '<div class="box">';
+		html += '<div class="box ' + (record.boxClass || '') + '">';
 			html += '<div class="box_title subject">' + record.disp.subject;
 				html += record.disp.admin;
 				html += '<div class="box_subtitle from">' + record.disp.from + '</div>';
