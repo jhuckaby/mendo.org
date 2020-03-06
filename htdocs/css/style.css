@@ -337,7 +337,7 @@ div.rc_icon {
 
 .box.admin {
 	border: 1px solid var(--theme-color) !important;
-	box-shadow: 0px 0px 8px var(--theme-color) !important;
+	/* box-shadow: 0px 0px 8px var(--theme-color) !important; */
 }
 .box.admin .box_subtitle.from {
 	font-weight: bold;
