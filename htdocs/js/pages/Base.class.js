@@ -1378,4 +1378,9 @@ Page.Base = class Base extends Page {
 		}
 	}
 	
+	doQuickSearch(value) {
+		// perform quick search, pages can override this
+		Nav.go( '#Search?query=' + encodeURIComponent(value) );
+	}
+	
 };

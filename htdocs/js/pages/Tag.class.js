@@ -33,6 +33,9 @@ Page.Tag = class PageTag extends Page.Base {
 		var $sect = $('#tab_Tag_' + tag.id).parent().prev();
 		if ($sect.length && $sect.hasClass('section_title')) app.page_manager.expandSidebarGroup( $sect );
 		
+		// customize quick search for this page
+		$('#fe_header_search').attr('placeholder', 'Search Category...');
+		
 		// resume if coming back
 		var anchor = Nav.currentAnchor();
 		if (anchor == this.lastAnchor) {
@@ -160,9 +163,15 @@ Page.Tag = class PageTag extends Page.Base {
 		app.api.get( 'app/search', this.opts, this.receiveTopics.bind(this) );
 	}
 	
+	doQuickSearch(value) {
+		// perform quick search for tag
+		Nav.go( '#Search?query=' + encodeURIComponent(value) + '&tags=' + this.tag.id );
+	}
+	
 	onDeactivate() {
 		// called when page is deactivated
 		// this.div.html( '' );
+		$('#fe_header_search').attr('placeholder', 'Quick Search');
 		this.lastScrollY = $(document).scrollTop();
 		return true;
 	}

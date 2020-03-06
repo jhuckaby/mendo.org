@@ -15,6 +15,9 @@ Page.Calendar = class Calendar extends Page.Base {
 		app.setHeaderTitle( '<i class="mdi mdi-calendar-multiple">&nbsp;</i>Calendar of Events' );
 		app.showSidebar(true);
 		
+		// customize quick search for this page
+		$('#fe_header_search').attr('placeholder', 'Search Calendar...');
+		
 		// resume if coming back
 		var anchor = Nav.currentAnchor();
 		if (anchor == this.lastAnchor) {
@@ -32,7 +35,7 @@ Page.Calendar = class Calendar extends Page.Base {
 		
 		var widget = '&nbsp;';
 		if (dargs.yyyy_mm == today.yyyy_mm) {
-			widget = '<span class="link" onMouseUp="$P().scrollToToday()">Jump to Today</span>';
+			widget = '<span class="link" onMouseUp="$P().scrollToToday()"><i class="mdi mdi-arrow-down-circle-outline">&nbsp;</i>Jump to Today</span>';
 		}
 		
 		html += this.getStandardPageHeader({
@@ -161,9 +164,15 @@ Page.Calendar = class Calendar extends Page.Base {
 		this.div.find('div.today')[0].scrollIntoView(true);
 	}
 	
+	doQuickSearch(value) {
+		// perform quick search for calendar
+		Nav.go( '#Search?query=' + encodeURIComponent(value) + '&tags=events' );
+	}
+	
 	onDeactivate() {
 		// called when page is deactivated
 		// this.div.html( '' );
+		$('#fe_header_search').attr('placeholder', 'Quick Search');
 		this.lastScrollY = $(document).scrollTop();
 		return true;
 	}

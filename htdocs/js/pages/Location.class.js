@@ -33,6 +33,9 @@ Page.Location = class PageLocation extends Page.Base {
 		var $sect = $('#tab_Location_' + loc.id).parent().prev();
 		if ($sect.length && $sect.hasClass('section_title')) app.page_manager.expandSidebarGroup( $sect );
 		
+		// customize quick search for this page
+		$('#fe_header_search').attr('placeholder', 'Search Location...');
+		
 		// resume if coming back
 		var anchor = Nav.currentAnchor();
 		if (anchor == this.lastAnchor) {
@@ -140,9 +143,15 @@ Page.Location = class PageLocation extends Page.Base {
 		app.api.get( 'app/search', this.opts, this.receiveTopics.bind(this) );
 	}
 	
+	doQuickSearch(value) {
+		// perform quick search for location
+		Nav.go( '#Search?query=' + encodeURIComponent(value) + '&locations=' + this.loc.id );
+	}
+	
 	onDeactivate() {
 		// called when page is deactivated
 		// this.div.html( '' );
+		$('#fe_header_search').attr('placeholder', 'Quick Search');
 		this.lastScrollY = $(document).scrollTop();
 		return true;
 	}
