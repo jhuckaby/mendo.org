@@ -25,11 +25,7 @@ Page.RecentNew = class RecentNew extends Page.Base {
 		
 		var html = '';
 		
-		if (!args.date) {
-			if (app.lastRecentHotDate) args.date = app.lastRecentHotDate;
-			else args.date = get_date_args().yyyy_mm;
-		}
-		app.lastRecentHotDate = args.date;
+		if (!args.date) args.date = get_date_args().yyyy_mm;
 		var dargs = get_date_args( args.date + '/01 00:00:00' );
 		
 		html += this.getStandardPageHeader({
