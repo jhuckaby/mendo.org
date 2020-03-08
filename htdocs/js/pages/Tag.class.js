@@ -67,8 +67,8 @@ Page.Tag = class PageTag extends Page.Base {
 		}
 		
 		html += this.getMiniPageHeader({
-			title: 'All Topics',
-			subtitle: '(Newest on top)'
+			// title: 'All Topics',
+			subtitle: tag.notes || 'All topics for category, newest on top.'
 		});
 		
 		/* if (!args.date) args.date = get_date_args().yyyy_mm;
@@ -98,6 +98,29 @@ Page.Tag = class PageTag extends Page.Base {
 		app.api.get( 'app/search', this.opts, this.receiveTopics.bind(this) );
 		
 		return true;
+	}
+	
+	getMiniPageHeader(args) {
+		// return standard header box used by tags / locations pages
+		// (no date nav, no sort label)
+		var html = '';
+		
+		var size_widget = args.widget || '';
+		if (!size_widget) {
+			size_widget += '<span class="compact_view_link" onMouseUp="$P().setExpandedView(0)">Compact</span>';
+			size_widget += '&nbsp;&nbsp;|&nbsp;&nbsp;';
+			size_widget += '<span class="expanded_view_link" onMouseUp="$P().setExpandedView(1)">Expanded</span>';
+		}
+		
+		html += '<div class="box" style="border:none;">';
+			html += '<div class="box_title_doub">';
+				// html += '<div class="box_title" style="grid-area:a; padding:0">' + args.title + '</div>';
+				html += '<div class="box_subtitle" style="grid-area:a; text-align:left; color:var(--label-color)"><i>' + args.subtitle + '</i></div>';
+				html += '<div class="box_subtitle" style="grid-area:b; text-align:right">' + size_widget + '</div>';
+			html += '</div>'; // quad
+		html += '</div>'; // box
+		
+		return html;
 	}
 	
 	receiveTopics(resp) {

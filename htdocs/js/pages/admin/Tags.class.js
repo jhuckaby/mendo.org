@@ -298,13 +298,13 @@ Page.Tags = class Tags extends Page.Base {
 		
 		// notes
 		html += this.getFormRow({
-			label: 'Notes:',
+			label: 'Description:',
 			content: this.getFormTextarea({
 				id: 'fe_et_notes',
 				rows: 5,
 				value: tag.notes
 			}),
-			caption: 'Optionally enter any notes for the category, for internal use.'
+			caption: 'Optionally enter a description, which will be displayed on the category\'s page.'
 		});
 		
 		return html;
