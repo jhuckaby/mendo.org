@@ -214,6 +214,8 @@ Page.Locations = class Locations extends Page.Base {
 		// new location saved successfully
 		Dialog.hideProgress();
 		
+		this.location.modified = time_now();
+		
 		// refresh client-side loc list and sidebar
 		var loc = find_object( app.locations, { id: this.location.id } );
 		if (loc) merge_hash_into( loc, this.location );

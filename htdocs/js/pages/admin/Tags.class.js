@@ -215,6 +215,8 @@ Page.Tags = class Tags extends Page.Base {
 		// new tag saved successfully
 		Dialog.hideProgress();
 		
+		this.tag.modified = time_now();
+		
 		// refresh client-side tag list and sidebar
 		var tag = find_object( app.tags, { id: this.tag.id } );
 		if (tag) merge_hash_into( tag, this.tag );
@@ -285,7 +287,7 @@ Page.Tags = class Tags extends Page.Base {
 		
 		// icon
 		html += this.getFormRow({
-			label: 'Category Icon:',
+			label: 'Icon:',
 			content: this.getFormText({
 				id: 'fe_et_icon',
 				spellcheck: 'false',
