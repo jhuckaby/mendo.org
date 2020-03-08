@@ -286,6 +286,24 @@ div.rc_icon {
 	image-orientation: from-image;
 }
 
+.box_title_doub {
+	display: grid;
+	grid-template-columns: 3fr 1fr;
+	grid-template-areas: "a b";
+	grid-column-gap: 20px;
+	align-items: center;
+	padding: 15px 20px 15px 20px;
+}
+.box_title_doub > div { 
+	margin-top: 0 !important;
+	/* height: 16px; */
+	line-height: 16px;
+	
+	/* overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap; */
+}
+
 .box_title_trip {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
