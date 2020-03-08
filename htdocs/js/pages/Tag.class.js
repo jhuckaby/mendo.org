@@ -34,7 +34,7 @@ Page.Tag = class PageTag extends Page.Base {
 		if ($sect.length && $sect.hasClass('section_title')) app.page_manager.expandSidebarGroup( $sect );
 		
 		// customize quick search for this page
-		$('#fe_header_search').attr('placeholder', 'Search Category...');
+		$('#fe_header_search').attr('placeholder', 'Search ' + tag.title + '...');
 		
 		// resume if coming back
 		var anchor = Nav.currentAnchor();
@@ -115,7 +115,7 @@ Page.Tag = class PageTag extends Page.Base {
 		html += '<div class="box" style="border:none;">';
 			html += '<div class="box_title_doub">';
 				// html += '<div class="box_title" style="grid-area:a; padding:0">' + args.title + '</div>';
-				html += '<div class="box_subtitle" style="grid-area:a; text-align:left; color:var(--label-color)"><i>' + args.subtitle + '</i></div>';
+				html += '<div class="box_subtitle" style="grid-area:a; text-align:left; color:var(--label-color)"><i class="mdi mdi-information-outline">&nbsp;</i><i>' + args.subtitle + '</i></div>';
 				html += '<div class="box_subtitle" style="grid-area:b; text-align:right">' + size_widget + '</div>';
 			html += '</div>'; // quad
 		html += '</div>'; // box

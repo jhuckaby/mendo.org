@@ -34,7 +34,7 @@ Page.Location = class PageLocation extends Page.Base {
 		if ($sect.length && $sect.hasClass('section_title')) app.page_manager.expandSidebarGroup( $sect );
 		
 		// customize quick search for this page
-		$('#fe_header_search').attr('placeholder', 'Search Location...');
+		$('#fe_header_search').attr('placeholder', 'Search ' + loc.title + '...');
 		
 		// resume if coming back
 		var anchor = Nav.currentAnchor();
