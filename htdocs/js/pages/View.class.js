@@ -192,6 +192,11 @@ Page.View = class PageView extends Page.Base {
 		} );
 	}
 	
+	cleanSubject(subject) {
+		// clean up subject for comparison
+		return ('' + subject).replace(/\"+/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+	}
+	
 	receiveReplies(resp) {
 		// render all replies
 		var self = this;
@@ -215,6 +220,9 @@ Page.View = class PageView extends Page.Base {
 					
 					html += '<div class="box ' + (record.boxClass || '') + '">';
 						html += '<div class="box_title subject">';
+							if (self.cleanSubject(record.subject) != self.cleanSubject(self.record.subject)) {
+								html += '<span style="font-size:14px; color:var(--label-color);">' + record.disp.subject + '</span>';
+							}
 							html += record.disp.admin;
 							html += '<div class="box_subtitle from">' + record.disp.from + '</div>';
 							html += '<div class="box_subtitle date">' + record.disp.date + '</div>';
