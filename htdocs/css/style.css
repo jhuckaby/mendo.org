@@ -365,6 +365,10 @@ div.rc_icon {
 	color: var(--theme-color) !important;
 }
 
+.box.self {
+	border: 1px solid var(--theme-color) !important;
+}
+
 .sidebar_foot_pad {
 	height: 20px;
 }
