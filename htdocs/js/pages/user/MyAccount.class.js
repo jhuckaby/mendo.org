@@ -57,7 +57,7 @@ Page.MyAccount = class MyAccount extends Page.Base {
 		
 		// full name
 		html += this.getFormRow({
-			label: 'Full Name:',
+			label: 'Display Name:',
 			content: this.getFormText({
 				id: 'fe_ma_fullname',
 				spellcheck: 'false',
@@ -65,7 +65,7 @@ Page.MyAccount = class MyAccount extends Page.Base {
 				maxlength: 64,
 				value: user.full_name
 			}),
-			caption: 'Your first and last names, used for display purposes only.'
+			caption: 'Your first and last names (or a nickname), used for display purposes only.'
 		});
 		
 		// email
@@ -95,21 +95,22 @@ Page.MyAccount = class MyAccount extends Page.Base {
 				value: ''
 			}),
 			suffix: app.get_password_toggle_html(),
-			caption: "Enter your current account password to make changes."
+			caption: "Enter your current account password to make changes on this screen."
 		});
 		
 		// new password
 		html += this.getFormRow({
 			label: 'New Password:',
-			content: this.getFormText({
+			content: '<div class="button" onMouseUp="$P().showNewPasswordField(this)">Change Password...</div><div style="display:none">' + this.getFormText({
 				type: 'password',
 				id: 'fe_ma_new_password',
 				spellcheck: 'false',
 				autocomplete: 'off',
 				maxlength: 64,
 				value: ''
-			}),
-			suffix: app.get_password_toggle_html(),
+			}) + '</div>',
+			suffix: '&nbsp;',
+			// suffix: app.get_password_toggle_html(),
 			caption: "If you need to change your password, enter the new one here."
 		});
 		
@@ -175,6 +176,14 @@ Page.MyAccount = class MyAccount extends Page.Base {
 			app.showMessage('warning', "Users are managed by an external system, so some fields are locked.");
 			self.div.find('input').prop('disabled', true);
 		}
+	}
+	
+	showNewPasswordField(elem) {
+		// hide button, show new password field
+		var $elem = $(elem);
+		$elem.hide().next().show();
+		$elem.closest('.form_row').find('.fr_suffix').html( app.get_password_toggle_html() );
+		this.div.find('#fe_ma_new_password').focus();
 	}
 	
 	verifyOptOut() {
