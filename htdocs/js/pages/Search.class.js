@@ -19,7 +19,7 @@ Page.Search = class Search extends Page.Base {
 		if (preset) {
 			// load preset
 			for (var key in preset) {
-				args[key] = preset[key];
+				if (!args[key]) args[key] = preset[key];
 			}
 			delete args.name;
 			delete args.alerts;
@@ -233,6 +233,9 @@ Page.Search = class Search extends Page.Base {
 		
 		var args = this.getSearchArgs();
 		if (!args) return app.badField('#fe_s_query', "Please enter a search query.");
+		
+		// save editing state across searches
+		if (this.args.preset) args.preset = this.args.preset;
 		
 		Nav.go( this.selfNav(args) );
 	}
