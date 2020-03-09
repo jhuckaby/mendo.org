@@ -209,6 +209,11 @@ Page.Base = class Base extends Page {
 			record.boxClass += 'admin';
 			record.disp.from += ' (Administrator)';
 		}
+		else if (record.username && (record.username == app.username)) {
+			// record was authored by user!
+			if (record.boxClass) record.boxClass += ' '; else record.boxClass = '';
+			record.boxClass += 'self';
+		}
 		else if (record.from.match(/([\w\.\-]+\@[\w\.\-]+)/)) {
 			var email = RegExp.$1;
 			var search_link = '#Search?query=from%3A' + email;
