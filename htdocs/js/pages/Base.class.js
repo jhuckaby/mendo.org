@@ -216,8 +216,9 @@ Page.Base = class Base extends Page {
 		}
 		
 		if (record.type == 'reply') {
-			if (!record.subject.match(/^re\:/i)) record.subject = 'Re: ' + record.subject;
-			record.disp.subject = this.getNiceSubject(record.subject, 'reply');
+			var subject = record.subject;
+			if (!subject.match(/^re\:/i)) subject = 'Re: ' + subject;
+			record.disp.subject = this.getNiceSubject(subject, 'reply');
 		}
 		
 		var body = record.body;
