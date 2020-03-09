@@ -68,6 +68,7 @@ Page.Login = class Login extends Page.Base {
 				// if (config.free_accounts) {
 				// 	html += '<div class="button" onMouseUp="$P().navCreateAccount()">Create Account...</div>';
 				// }
+				html += '<div class="button mobile_hide" onMouseUp="$P().cancelCreate()">Cancel</div>';
 				html += '<div class="button" onMouseUp="$P().navPasswordRecovery()">Forgot Password...</div>';
 				html += '<div class="button primary" onMouseUp="$P().doLogin()"><i class="mdi mdi-key">&nbsp;</i>Login</div>';
 			html += '</div>';
@@ -174,7 +175,7 @@ Page.Login = class Login extends Page.Base {
 				
 				// full name
 				html += this.getFormRow({
-					label: 'Full Name:',
+					label: 'Display Name:',
 					content: this.getFormText({
 						id: 'fe_ca_fullname',
 						spellcheck: 'false',
