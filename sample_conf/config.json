@@ -17,12 +17,13 @@
 	"expiration": "5 years",
 	"track_user_activity": true,
 	"message_id_cache_size": 1000,
+	"subject_match_threshold": "7 days",
 	"ttl": 300,
 	
 	"web_hooks": {},
 	
 	"listserv_address": "announce@lists.mcn.org",
-	"email_override": "",
+	"bounce_reply": "noreply@mendo.org",
 	"special_fwd_address": "",
 	"special_fwd_match": "\\b(support|ingest)@mendo\\.org\\b",
 	
