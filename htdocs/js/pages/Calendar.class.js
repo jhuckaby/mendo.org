@@ -37,6 +37,7 @@ Page.Calendar = class Calendar extends Page.Base {
 		if (dargs.yyyy_mm == today.yyyy_mm) {
 			widget = '<span class="link" onMouseUp="$P().scrollToToday()"><i class="mdi mdi-arrow-down-circle-outline">&nbsp;</i>Jump to Today</span>';
 		}
+		this.isCurrentMonth = !!(dargs.yyyy_mm == today.yyyy_mm);
 		
 		html += this.getStandardPageHeader({
 			title: '' + dargs.mmmm + ' ' + dargs.yyyy,
@@ -96,7 +97,7 @@ Page.Calendar = class Calendar extends Page.Base {
 				return (record.when.indexOf(dargs.yyyy_mm_dd) > -1);
 			});
 			
-			if (records.length) {
+			if (records.length || is_today) {
 				html += '<div class="box cal ' + (is_today ? 'today' : '') + '">';
 				html += '<div class="box_title"><i class="mdi mdi-calendar-text">&nbsp;</i>' + nice_date + (is_today ? ' (Today)' : '') + '</div>';
 				html += '<div class="box_content" style="padding-top:0;">';
@@ -135,6 +136,12 @@ Page.Calendar = class Calendar extends Page.Base {
 					count++;
 				}); // foreach record
 				
+				if (!records.length) {
+					html += '<div class="cal_event">';
+						html += '<div class="cal_footer" style="font-style:italic">No events today!</div>';
+					html += '</div>';
+				}
+				
 				html += '</div>'; // box_content
 				html += '</div>'; // box
 			}
@@ -156,6 +163,8 @@ Page.Calendar = class Calendar extends Page.Base {
 		}
 		
 		$calendar.html( html );
+		
+		if (this.isCurrentMonth) this.scrollToToday();
 	}
 	
 	scrollToToday() {
