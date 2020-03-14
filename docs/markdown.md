@@ -19,7 +19,7 @@ The toolbar icons you see when composing posts or replies are simply convenience
 | <i class="mdi mdi-format-list-bulleted-square"></i> | Bullet&nbsp;List | This inserts a bulleted list into your post.  Bulleted lists can be typed by start a line with a hyphen (`-`), followed by a space. |
 | <i class="mdi mdi-format-list-numbered"></i> | Number&nbsp;List | This inserts a numbered list into your post.  Numbered lists can be typed by start a line with a number (`1.`), followed by a space. |
 | <i class="mdi mdi-format-quote-open"></i> | Blockquote | This inserts a blockquote into your post.  A blockquote is useful for quoting a previous reply or post, as the text will be offset and displayed in italics.  You can type a blockquote by starting a line with an angle bracket (`>`), followed by a space. |
-| <i class="mdi mdi-file-find-outline"></i> | Show&nbsp;Preview | Click this button to see your post with all formatting applied.  This is how it will apppear to readers on Mendo.org. |
+| <i class="mdi mdi-file-find-outline"></i> | Show&nbsp;Preview | Click this button to see your post with all formatting applied.  This is how it will appear to readers on Mendo.org. |
 
 ### Example Post
 

@@ -34,7 +34,7 @@ You can view content on the site in the following ways:
 - **Calendar** &mdash; This shows you upcoming special events in the area, such as concerts, shows, and festivals.
 - **Search** &mdash; Here you can compose your own custom search queries, and even save them for quick use in the sidebar.
 - **Favorites** &mdash; These are saved messages that you liked, or just want to remember or read later.
-- **Categores** &mdash; All topics are sorted into categories which are displayed on the sidebar.  Click to see the latest topics in each category.
+- **Categories** &mdash; All topics are sorted into categories which are displayed on the sidebar.  Click to see the latest topics in each category.
 - **Locations** &mdash; All topics are also sorted into locations (local city / town names), which are also available in the sidebar.
 
 In all cases, you can click on the subject line of any topic to see details, including all the replies.  Icons are provided on the top-right corner of each topic that allows you to reply, mark it as a "favorite", or block the sender.

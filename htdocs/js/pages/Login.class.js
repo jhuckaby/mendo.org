@@ -143,7 +143,7 @@ Page.Login = class Login extends Page.Base {
 		
 		html += '<div class="dialog inline wider">';
 			html += '<div class="dialog_title">Create Account</div>';
-			html += '<div class="dialog_help">Fill out this form to sign up for Mendo.org.  If you are a registered user of the MCN Accounce ListServ, please use the same e-mail address here, so you can cross-post.</div>';
+			html += '<div class="dialog_help">Fill out this form to sign up for Mendo.org.  If you are a registered user of the MCN Announce ListServ, please use the same e-mail address here, so you can cross-post.</div>';
 			html += '<div class="box_content">';
 				
 				// username

@@ -32,5 +32,5 @@ If you ever change your mind, you can simply log back in, return to the [My Acco
 
 ### Optional: Delete All Historical Mail
 
-If you want, we can also delete all your historcial mail from the site.  This must be done by sending us an e-mail at support@mendo.org (please send this from your verified e-mail address).  We will respond to your request within 24 hours, excluding weekends and holidays.
+If you want, we can also delete all your historical mail from the site.  This must be done by sending us an e-mail at support@mendo.org (please send this from your verified e-mail address).  We will respond to your request within 24 hours, excluding weekends and holidays.
 
