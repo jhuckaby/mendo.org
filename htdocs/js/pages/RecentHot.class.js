@@ -73,7 +73,7 @@ Page.RecentHot = class RecentHot extends Page.Base {
 				self.prepDisplayRecord(record, idx);
 				self.records.push(record);
 				
-				html += '<div class="message_container mc_topic" data-idx="' + idx + '">';
+				html += '<div class="message_container mc_topic ' + (record.contClass || '') + '" data-idx="' + idx + '">';
 					html += '<div class="box ' + (record.boxClass || '') + '">';
 						html += '<div class="box_title subject"><a href="#View?id=' + record.id + '">' + record.disp.subject + '</a>';
 							html += record.disp.admin;
@@ -82,6 +82,7 @@ Page.RecentHot = class RecentHot extends Page.Base {
 								html += '<div class="box_subtitle date">' + record.disp.date + '</div>';
 							html += '</div>';
 						html += '</div>';
+						html += '<div class="message_cbody">' + record.disp.compactBody + '</div>';
 						html += '<div class="message_body">' + record.disp.body + '</div>';
 						html += '<div class="message_footer">' + record.disp.foot_widgets.join('') + '<div class="clear"></div>' + '</div>';
 					html += '</div>'; // box
