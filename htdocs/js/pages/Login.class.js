@@ -45,7 +45,7 @@ Page.Login = class Login extends Page.Base {
 						id: 'fe_login_username',
 						class: 'monospace',
 						spellcheck: 'false',
-						autocomplete: 'username',
+						autocomplete: 'off',
 						value: app.getPref('username') || ''
 					})
 				});
@@ -153,7 +153,7 @@ Page.Login = class Login extends Page.Base {
 						id: 'fe_ca_username',
 						class: 'monospace',
 						spellcheck: 'false',
-						autocomplete: 'username',
+						autocomplete: 'off',
 						onChange: '$P().checkUserExists(this)'
 					}),
 					suffix: '<div class="checker"></div>',
@@ -190,7 +190,8 @@ Page.Login = class Login extends Page.Base {
 					content: this.getFormText({
 						id: 'fe_ca_email',
 						spellcheck: 'false',
-						autocomplete: 'email'
+						autocomplete: 'email',
+						onChange: '$P().suggestUsername()'
 					}),
 					caption: 'We will never send you unsoliticed e-mails.'
 				});
@@ -219,6 +220,15 @@ Page.Login = class Login extends Page.Base {
 		setTimeout( function() {
 			$( '#fe_ca_username' ).focus();
 		}, 1 );
+	}
+	
+	suggestUsername() {
+		// if user hasn't entered a username yet, but has entered an e-mail,
+		// suggest a username from first part of e-mail address
+		if (!this.div.find('#fe_ca_username').val() && this.div.find('#fe_ca_email').val().match(/^(\w+)/)) {
+			var username = RegExp.$1;
+			this.div.find('#fe_ca_username').val( username ).trigger('change');
+		}
 	}
 	
 	doCreateAccount(force) {
@@ -298,7 +308,7 @@ Page.Login = class Login extends Page.Base {
 						id: 'fe_pr_username',
 						class: 'monospace',
 						spellcheck: 'false',
-						autocomplete: 'username',
+						autocomplete: 'off',
 						value: app.getPref('username') || ''
 					})
 				});
