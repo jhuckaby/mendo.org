@@ -171,6 +171,9 @@ Page.Calendar = class Calendar extends Page.Base {
 		// scroll down to today marker
 		// $(document).scrollTop( this.div.find('div.today').offset().top );
 		this.div.find('div.today')[0].scrollIntoView(true);
+		
+		// nudge this so it looks a bit better
+		$(document).scrollTop( $(document).scrollTop() - (app.mobile ? 15 : 30) );
 	}
 	
 	doQuickSearch(value) {
