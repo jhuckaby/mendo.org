@@ -63,6 +63,6 @@
 		"pixl-server-api": "^1.0.1",
 		"pixl-server-user": "^1.0.13",
 		"pixl-boot": "^2.0.0",
-		"orchestra-theme": "^1.0.3"
+		"orchestra-theme": "^1.0.4"
 	}
 }
