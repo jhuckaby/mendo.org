@@ -70,15 +70,29 @@ div.message_body {
 	overflow: hidden;
 }
 
-body.compact div.message_container.mc_topic div.box_title {
+div.message_container.mc_topic.compact div.box_title {
 	padding-bottom: 4px;
 }
-body.compact div.message_container.mc_topic div.message_body {
+div.message_container.mc_topic.compact div.message_body {
 	display: none;
 }
-body.compact div.message_container.mc_topic .box_subtitle.from, body.compact div.message_container.mc_topic .box_subtitle.date {
+div.message_container.mc_topic.compact .box_subtitle.from, div.message_container.mc_topic.compact .box_subtitle.date {
 	display: inline-block;
 	margin-right: 10px;
+}
+div.message_container.mc_topic.compact .compact_hide {
+	display: none;
+}
+
+div.message_cbody {
+	display: none;
+	margin: 5px 40px 10px 40px;
+	font-size: 14px;
+	line-height: 18px;
+	overflow: hidden;
+}
+div.message_container.mc_topic.compact .message_cbody {
+	display: block;
 }
 
 span.compact_view_link {
@@ -118,10 +132,6 @@ body.compact span.expanded_view_link {
 }
 body.compact span.expanded_view_link:hover {
 	color: var(--theme-color);
-}
-
-body.compact .compact_hide {
-	display: none;
 }
 
 div.message_footer {
