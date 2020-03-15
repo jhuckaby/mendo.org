@@ -17,7 +17,10 @@ Page.NewTopic = class NewTopic extends Page.Base {
 		
 		if (!app.user.verified) {
 			app.api.post( 'app/send_email_verification', {}, function(resp) {} );
-			this.doFullPageError( "Sorry, but to post new topics you must first verify your e-mail address.  Please click the link in the e-mail sent to you." );
+			this.fullPageError({
+				title: "Please Verify Your E-mail Address",
+				description: "Sorry, but to post new topics you must first verify your e-mail address.  Please click the link in the e-mail sent to you." 
+			});
 			return true;
 		}
 		
@@ -273,11 +276,14 @@ Page.NewTopic = class NewTopic extends Page.Base {
 			delete localStorage.savePost;
 			
 			// show success message
-			app.showMessage('success', "Your topic was posted successfully.  It may take a few minutes to appear.");
+			app.showMessage('success', "Your topic was posted successfully!  It may take a few minutes for people to see it.");
 			
 			// clear text fields
 			self.div.find('#fe_post_subject').val('');
 			self.div.find('#fe_post_body').val('');
+			
+			// nav to topic thread
+			Nav.go( '#View?id=' + resp.id );
 			
 		} ); // api.post
 	}
