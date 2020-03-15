@@ -51,16 +51,24 @@ Page.RecentNew = class RecentNew extends Page.Base {
 		app.api.get( 'app/search', this.opts, this.receiveTopics.bind(this) );
 		
 		// auto-refresh every 5 minutes
-		this.refreshTimer = setInterval( this.autoRefresh.bind(this), 301 * 1000 );
+		this.setupAutoRefresh();
 		
 		return true;
 	}
 	
-	autoRefresh() {
+	setupAutoRefresh() {
 		// auto-refresh every 5 min, but ONLY if scrolled near the top
-		if ($(document).scrollTop() < 150) {
-			app.api.get( 'app/search', this.opts, this.receiveTopics.bind(this) );
+		var self = this;
+		
+		if (this.refreshTimer) {
+			clearTimeout( this.refreshTimer );
 		}
+		
+		this.refreshTimer = setInterval( function() {
+			if ($(document).scrollTop() < 150) {
+				self.refresh();
+			}
+		}, 301 * 1000 );
 	}
 	
 	receiveTopics(resp) {
@@ -119,6 +127,9 @@ Page.RecentNew = class RecentNew extends Page.Base {
 	onScrollDebounce() {
 		// look for visible dirty ML suggestion widgets, and populate them
 		this.updateSuggestions();
+		
+		// reset auto-fresh 5 min counter on scroll (i.e. user interaction)
+		this.setupAutoRefresh();
 	}
 	
 	refresh() {
