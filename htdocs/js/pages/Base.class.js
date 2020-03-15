@@ -195,6 +195,9 @@ Page.Base = class Base extends Page {
 		// prepare record bits for display
 		if (typeof(idx) == 'undefined') idx = false;
 		
+		// compact or expanded
+		record.contClass = app.getPref('expand_views') ? '' : 'compact';
+		
 		record.disp = {
 			subject: this.getNiceSubject(record.subject, (idx === false) ? 'email-open-outline' : 'email-outline'),
 			from: this.getNiceFrom(record.from),
@@ -236,6 +239,9 @@ Page.Base = class Base extends Page {
 			// convert {{ curly-brace-style }} quotes to markdown syntax
 			body = body.replace(/(^|\n)\{\{([\S\s]+?)\}\}(\n|$)/g, "$1> $2$3");
 			
+			// convert /slash-style/ italics to markdown
+			body = body.replace(/(\s)\/(\w[^\n]*?\w)\/(\s|\?|\!|\.|\,)/g, '$1*$2*$3');
+			
 			// profanity filter (user setting)
 			body = this.filterProfanity(body, "\\*");
 			
@@ -270,6 +276,17 @@ Page.Base = class Base extends Page {
 				'</div>';
 		}
 		
+		// compact body (preview)
+		var cbody = body;
+		if (cbody.length > 80) cbody = cbody.substring(0, 80) + '...';
+		
+		record.disp.compactBody = 
+			'<div class="plain-body" style="' + this.getUserFontStyle() + '">' + 
+				encode_entities(cbody) + 
+				' <span class="link" onMouseUp="$P().expandCurrentContainer(this)"><i class="mdi mdi-arrow-down-circle-outline">&nbsp;</i><b>Expand</b></span>' +
+			'</div>';
+		
+		// control buttons
 		var html = '';
 		// html += '<div class="box_admin_button" onMouseUp="$P().editRecordAll(' + idx + ',this)"><i class="mdi mdi-menu"></i></div>';
 		html += '<div class="box_admin_container">';
@@ -354,6 +371,12 @@ Page.Base = class Base extends Page {
 			
 			record.disp.foot_widgets = foot_widgets;
 		} // topics
+	}
+	
+	expandCurrentContainer(elem) {
+		// find containing container and remove compact class from it
+		var $elem = $(elem);
+		$elem.closest('div.message_container.mc_topic.compact').removeClass('compact');
 	}
 	
 	getRecordFromIdx(idx) {
@@ -967,10 +990,12 @@ Page.Base = class Base extends Page {
 		// set expanded / compact view, and save prefs
 		if (expanded) {
 			$('body').removeClass('compact');
+			this.div.find('div.message_container.mc_topic').removeClass('compact');
 			app.setPref('expand_views', true);
 		}
 		else {
 			$('body').addClass('compact');
+			this.div.find('div.message_container.mc_topic').addClass('compact');
 			app.setPref('expand_views', false);
 		}
 	}
