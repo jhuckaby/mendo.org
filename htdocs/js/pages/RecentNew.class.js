@@ -65,8 +65,8 @@ Page.RecentNew = class RecentNew extends Page.Base {
 		}
 		
 		this.refreshTimer = setInterval( function() {
-			if ($(document).scrollTop() < 150) {
-				self.refresh();
+			if (($(document).scrollTop() < 150) && !Dialog.active && !Popover.enabled) {
+				self.refreshNoBlink();
 			}
 		}, 301 * 1000 );
 	}
@@ -137,6 +137,17 @@ Page.RecentNew = class RecentNew extends Page.Base {
 		this.div.find('#d_recent').html( '<div class="loading_container"><div class="loading"></div></div>' );
 		this.opts.offset = 0;
 		app.api.get( 'app/search', this.opts, this.receiveTopics.bind(this) );
+	}
+	
+	refreshNoBlink() {
+		// refresh silently without blinking
+		var self = this;
+		this.opts.offset = 0;
+		
+		app.api.get( 'app/search', this.opts, function(resp) {
+			self.div.find('#d_recent').empty();
+			self.receiveTopics(resp);
+		} );
 	}
 	
 	loadMoreTopics() {
