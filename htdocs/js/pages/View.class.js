@@ -323,6 +323,7 @@ Page.View = class PageView extends Page.Base {
 		
 		// place caret at beginning of field
 		$reply.find('#fe_reply_body').get(0).setSelectionRange(0, 0);
+		$reply.find('#fe_reply_body').get(0).scrollTop = 0;
 		
 		delete this.args.reply;
 		this.replyRecord = record;
@@ -488,7 +489,7 @@ Page.View = class PageView extends Page.Base {
 			html += '<div class="message_container mc_reply">';
 				html += '<div class="rc_icon"><i class="mdi mdi-redo"></i></div>';
 				
-				html += '<div class="box flash">';
+				html += '<div class="box self">';
 					html += '<div class="box_title subject">';
 						html += '<div class="box_subtitle from">' + record.disp.from + '</div>';
 						html += '<div class="box_subtitle date">' + record.disp.date + '</div>';
