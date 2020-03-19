@@ -1,6 +1,6 @@
 {
 	"name": "mendo.org",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A community forum / discourse app with a web based UI.",
 	"author": "Joseph Huckaby <jhuckaby@gmail.com>",
 	"homepage": "https://github.com/jhuckaby/mendo.org",
