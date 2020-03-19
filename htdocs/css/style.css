@@ -766,6 +766,9 @@ i.favorite {
 	margin-bottom: 60px;
 }
 
+.section_item {
+	padding-left: 37px;
+}
 .section_item.filtered {
 	color: var(--icon-color);
 }
