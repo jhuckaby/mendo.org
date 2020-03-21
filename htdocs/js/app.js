@@ -119,6 +119,9 @@ app.extend({
 		// hook up mobile sidebar pullover
 		$('#d_sidebar_toggle').on('mouseup', function() { app.pullSidebar(); } );
 		
+		// only perform touch nav (horiz swipe) for mobile webapp
+		if (window.navigator.standalone) this.setupTouchNav();
+		
 		window.addEventListener( "scroll", debounce(this.onScrollDebounce.bind(this), 250), false );
 		
 		this.cacheBust = time_now();
@@ -375,6 +378,55 @@ app.extend({
 			var page = app.page_manager.find(app.page_manager.current_page_id);
 			if (page && page.onScrollDebounce) page.onScrollDebounce();
 		}
+	},
+	
+	setupTouchNav: function() {
+		// listen for touch events for nav swipes
+		this.touchOrigin = {};
+		this.touchCurrent = {};
+		
+		document.addEventListener( 'touchstart', this.touchStart.bind(this), false );
+		document.addEventListener( 'touchmove', this.touchMove.bind(this), false );
+		document.addEventListener( 'touchend', this.touchEnd.bind(this), false );
+	},
+	
+	touchStart: function(event) {
+		// record finger starting position
+		var touch = event.touches[0];
+		this.touchOrigin.x = touch.screenX;
+		this.touchOrigin.y = touch.screenY;
+	},
+	
+	touchMove: function(event) {
+		// track finger movement while dragging
+		var touch = event.touches[0];
+		this.touchCurrent.x = touch.screenX;
+		this.touchCurrent.y = touch.screenY;
+	},
+	
+	touchEnd: function(event) {
+		// finger lifted off the screen, check for swipe
+		var pt = this.touchCurrent;
+		var dx = Math.abs( pt.x - this.touchOrigin.x );
+		var dy = Math.abs( pt.y - this.touchOrigin.y );
+		var swipe_threshold = this.swipeThreshold || 100;
+		
+		if (Math.max(dx, dy) >= swipe_threshold) {
+			var direction = '';
+			if (dx > dy) {
+				// horiz swipe
+				direction = ((pt.x - this.touchOrigin.x) > 0) ? 'right' : 'left';
+			}
+			else {
+				// vert swipe
+				direction = ((pt.y - this.touchOrigin.y) > 0) ? 'down' : 'up';
+			}
+			
+			switch (direction) {
+				case 'left': history.go(1); break;
+				case 'right': history.go(-1); break;
+			}
+		} // swiped
 	}
 	
 }); // app
