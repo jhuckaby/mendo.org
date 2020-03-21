@@ -55,12 +55,6 @@ Nope, you do not, but it is recommended.  The reason is, if you are a registered
 
 We are not affiliated with the [Mendocino Community Network](http://mcn.org/), but we are a happy customer of theirs.  We are simply an independent local subscriber of the [MCN Announce ListServ](http://www.mcn.org/email/listserv.html), and we automatically import all ListServ messages into Mendo.org for your online viewing pleasure.
 
-### Is this even allowed?
-
-We certainly hope so!  Nothing in the [MCN ListServ Terms of Service](http://www.mcn.org/email/atos.html) seems to *disallow* the importing of mail messages into a web application, but that could change.  If it does, we will promptly stop ingesting mail from the ListServ.
-
-Also, if you personally do not want your ListServ e-mails imported to Mendo.org, you can always [opt out](/optout).
-
 ### So I can post anything I want?
 
 Well, within reason.  It should be said that we reserve the right to delete any message we deem inappropriate (examples include fake news, hate speech, adult content, etc.), or we may move messages into an "Off-Topic" category, which is hidden for all users by default.  For repeated offenses we may ban accounts and/or block sender addresses.  See our [terms of service](/terms) for more details.
