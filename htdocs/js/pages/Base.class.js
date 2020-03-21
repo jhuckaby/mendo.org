@@ -237,10 +237,10 @@ Page.Base = class Base extends Page {
 			renderer.code = function(code) { return '<p style="white-space:pre-wrap;">' + code + '</p>'; };
 			
 			// convert leading tabs and spaces so marked doesn't code-ify them
-			body = body.replace(/(^|\n)(\t+)/g, function(m_all, m_g1, m_g2) {
+			body = body.replace(/(^|\n\n)(\t+)/g, function(m_all, m_g1, m_g2) {
 				return m_g1 + ('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;').repeat( m_g2.length );
 			});
-			body = body.replace(/(^|\n)( +)/g, function(m_all, m_g1, m_g2) {
+			body = body.replace(/(^|\n\n)( +)/g, function(m_all, m_g1, m_g2) {
 				return m_g1 + ('&nbsp;').repeat( m_g2.length );
 			});
 			
