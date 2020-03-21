@@ -52,7 +52,9 @@ Page.View = class PageView extends Page.Base {
 		if (record.parent) {
 			// For now, we cannot view a reply directly like this.
 			// Redirect to parent record (i.e. thread, will show reply in list).
-			Nav.go( this.selfNav({ id: record.parent }) );
+			// Nav.go( this.selfMergeNav({ id: record.parent }) );
+			this.args.id = record.parent;
+			app.api.get( 'app/view', { id: this.args.id }, this.receiveData.bind(this), this.fullPageError.bind(this) );
 			return;
 		}
 		
