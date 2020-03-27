@@ -35,6 +35,7 @@
 		[ "listCreate", "global/tags", { "page_size": 100 } ],
 		[ "listCreate", "global/locations", { "page_size": 100 } ],
 		[ "listCreate", "global/bans", { "page_size": 100 } ],
+		[ "listCreate", "global/sorters", { "page_size": 100 } ],
 		
 		[ "hashCreate", "global/emails", { "page_size": 1000 } ],
 		[ "hashPut", "global/emails", "admin@localhost", "admin" ]

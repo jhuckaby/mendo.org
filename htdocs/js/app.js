@@ -63,6 +63,7 @@ app.extend({
 			{ ID: 'Tags' },
 			{ ID: 'Locations' },
 			{ ID: 'Bans' },
+			{ ID: 'Sorters' },
 			{ ID: 'Users' },
 			{ ID: 'ActivityLog' },
 			{ ID: 'Stats' }

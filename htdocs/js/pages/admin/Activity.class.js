@@ -13,7 +13,8 @@ Page.ActivityLog = class ActivityLog extends Page.Base {
 			'^message': '<i class="mdi mdi-email-outline">&nbsp;</i>Message',
 			'^ban': '<i class="mdi mdi-target-account">&nbsp;</i>Ban',
 			'^tag': '<i class="mdi mdi-tag">&nbsp;</i>Category',
-			'^location': '<i class="mdi mdi-map-marker">&nbsp;</i>Location'
+			'^location': '<i class="mdi mdi-map-marker">&nbsp;</i>Location',
+			'^sorter': '<i class="mdi mdi-filter">&nbsp;</i>Sorter'
 		};
 	}
 	
@@ -115,6 +116,22 @@ Page.ActivityLog = class ActivityLog extends Page.Base {
 				break;
 				case 'ban_delete':
 					desc = 'Ban deleted: <b>' + item.ban.email + '</b>';
+				break;
+				
+				// sorters
+				case 'sorter_create':
+					desc = 'New auto-sorter created: <b>' + item.sorter.id + '</b>';
+					actions.push( '<a href="#Sorters?sub=edit&id=' + item.sorter.id + '">Edit Sorter</a>' );
+				break;
+				case 'sorter_update':
+					desc = 'Auto-sorter updated: <b>' + item.sorter.id + '</b>';
+					actions.push( '<a href="#Sorters?sub=edit&id=' + item.sorter.id + '">Edit Sorter</a>' );
+				break;
+				case 'sorter_delete':
+					desc = 'Auto-sorter deleted: <b>' + item.sorter.id + '</b>';
+				break;
+				case 'sorter_multi_update':
+					desc = 'Auto-sorter order changed';
 				break;
 				
 				// messages
