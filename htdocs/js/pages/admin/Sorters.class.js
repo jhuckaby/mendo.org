@@ -120,10 +120,16 @@ Page.Sorters = class Sorters extends Page.Base {
 		
 		$rows.each( function(idx) {
 			var $row = $(this);
+			var sorter_id = $row.data('id');
+			
 			items.push({
-				id: $row.data('id'),
+				id: sorter_id,
 				sort_order: idx
 			});
+			
+			// update client-side cache too
+			var sorter = find_object( app.sorters, { id: sorter_id } );
+			if (sorter) sorter.sort_order = idx;
 		});
 		
 		var data = {
