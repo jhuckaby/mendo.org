@@ -102,7 +102,7 @@ The Preferences page also allows you to enable or disable all your filters with 
 
 Mendo.org allows you to download any set of search results, topic threads, or your favorites list as a [Mbox mail archive](https://en.wikipedia.org/wiki/Mbox) file.  This is a special file format that can be imported into many popular e-mail applications, including Apple Mail and Mozilla Thunderbird.  Basically, this allows you to download a local copy of any messages you want.
 
-Simply click the **<i class="mdi mdi-cloud-download-outline"></i> Download All**" button to download all the messages in the current view as an Mbox file.  Download buttons are provided on search results, message threads (when you click on a topic subject line), and the Favorites page.  You will be prompted to enter a desired filename for the Mbox file, which should then arrive in your "Downloads" folder (or wherever your browser downloads files to).
+Simply click the **<i class="mdi mdi-cloud-download-outline"></i> Download All** button to download all the messages in the current view as an Mbox file.  Download buttons are provided on search results, message threads (when you click on a topic subject line), and the Favorites page.  You will be prompted to enter a desired filename for the Mbox file, which should then arrive in your "Downloads" folder (or wherever your browser downloads files to).
 
 ### Changing Preferences
 
