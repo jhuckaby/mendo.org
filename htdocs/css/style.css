@@ -800,6 +800,13 @@ i.favorite {
 	text-overflow: ellipsis;
 }
 
+.data_table tr td a i.mdi {
+	padding-right: 2px;
+}
+.data_table tr td a i.mdi:before {
+	transform: scale(1.20);
+}
+
 /* Basic Responsive Overrides */
 
 @media only screen and (min-width: 1025px) and (max-width: 1280px) {
