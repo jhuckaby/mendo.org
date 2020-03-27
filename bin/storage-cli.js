@@ -355,6 +355,19 @@ var storage = new StandaloneStorage(config.Storage, function(err) {
 			} );
 		break;
 		
+		case 'list_shift':
+			// pop item off front of list
+			// Usage: ./storage-cli.js list_shift key
+			var key = commands.shift();
+			storage.listShift( key, function(err, item) {
+				if (err) throw err;
+				print("Item shifted off list: " + key + ": " + JSON.stringify(item, null, "\t") + "\n");
+				print("\n");
+				
+				storage.shutdown( function() {;} );
+			} );
+		break;
+		
 		case 'list_get':
 			// fetch items from list
 			// Usage: ./storage-cli.js list_get key idx len

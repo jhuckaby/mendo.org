@@ -233,6 +233,7 @@ Page.Login = class Login extends Page.Base {
 	
 	doCreateAccount(force) {
 		// actually create account
+		if (Dialog.active) return; // prevent double-click
 		app.clearError();
 		
 		var username = trim($('#fe_ca_username').val().toLowerCase());
