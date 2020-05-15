@@ -153,8 +153,9 @@ Page.Base = class Base extends Page {
 			if ($this.data('expanded')) return; // do not re-expand an expanded link
 			if ($this.next().length) return; // only process links at the end of parent blocks
 			
-			$this.after('<br/><img src="' + href + '" class="inline_image" onMouseUp="window.open(this.src)">');
-			$this.data('expanded', true);
+			$this.after('<img src="' + href + '" class="inline_image" onMouseUp="window.open(this.src)">');
+			// $this.data('expanded', true);
+			$this.remove();
 		});
 	}
 	
@@ -205,6 +206,10 @@ Page.Base = class Base extends Page {
 			body: '',
 			admin: ''
 		};
+		
+		if (record.edited) {
+			record.disp.date += ' (<span title="Edited on ' + this.getNiceDateTimeText(record.edited) + '">Edited</span>)';
+		}
 		
 		if (record.admin) {
 			// record was authored by an admin!
@@ -304,8 +309,13 @@ Page.Base = class Base extends Page {
 		if (record.fav) html += '<i class="mdi mdi-heart favorite"></i></div>';
 		else html += '<i class="mdi mdi-heart-outline"></i></div>';
 		
-		// block
-		html += '<div class="box_admin_icon_widget" title="Block Content" onMouseUp="$P().editRecordBlock(' + idx + ',this)"><i class="mdi mdi-cancel"></i></div>';
+		// block or edit
+		if (record.username == app.username) {
+			html += '<div class="box_admin_icon_widget" title="Edit Post..." onMouseUp="$P().editPost(' + idx + ',this)"><i class="mdi mdi-file-document-edit-outline"></i></div>';
+		}
+		else {
+			html += '<div class="box_admin_icon_widget" title="Block Content" onMouseUp="$P().editRecordBlock(' + idx + ',this)"><i class="mdi mdi-cancel"></i></div>';
+		}
 		
 		// reply
 		html += '<div class="box_admin_icon_widget" title="Reply" onMouseUp="$P().editRecordReply(' + idx + ',this)"><i class="mdi mdi-reply-all"></i></div>';
@@ -511,6 +521,12 @@ Page.Base = class Base extends Page {
 		// nav to view page and activate reply on load
 		var record = this.getRecordFromIdx(idx);
 		Nav.go( 'View?id=' + record.id + '&reply=1' );
+	}
+	
+	editPost(idx, elem) {
+		// nav to edit page
+		var record = this.getRecordFromIdx(idx);
+		Nav.go( 'EditPost?id=' + record.id );
 	}
 	
 	editRecordFavorite(idx, elem) {

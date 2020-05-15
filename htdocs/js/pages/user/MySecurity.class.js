@@ -103,6 +103,16 @@ Page.MySecurity = class MySecurity extends Page.Base {
 						actions.push( '<a href="#View?id=' + item.message.id + '">View Topic</a>' );
 					}
 				break;
+				case 'message_update':
+					if (item.message.type == 'reply') {
+						desc = 'Reply updated: <b>' + encode_entities(item.message.subject) + '</b>';
+						actions.push( '<a href="#View?id=' + item.message.id + '">View Thread</a>' );
+					}
+					else {
+						desc = 'Topic updated: <b>' + encode_entities(item.message.subject) + '</b>';
+						actions.push( '<a href="#View?id=' + item.message.id + '">View Topic</a>' );
+					}
+				break;
 				
 				// misc
 				case 'error':

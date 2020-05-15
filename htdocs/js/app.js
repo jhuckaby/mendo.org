@@ -50,6 +50,7 @@ app.extend({
 			{ ID: 'Favorites' },
 			{ ID: 'Search' },
 			{ ID: 'NewTopic' },
+			{ ID: 'EditPost' },
 			{ ID: 'Tag' },
 			{ ID: 'Location' },
 			{ ID: 'View' },
@@ -136,7 +137,7 @@ app.extend({
 		var html = '';
 		// html += '<div class="header_widget user" style="background-image:url(' + this.getUserAvatarURL( this.retina ? 64 : 32, bust ) + ')" onMouseUp="app.doMyAccount()" title="My Account"></div>';
 		html += '<div class="header_widget icon"><i class="mdi mdi-logout" onMouseUp="app.doUserLogout()" title="Logout"></i></div>';
-		html += '<div class="header_widget icon"><i class="mdi mdi-account" onMouseUp="app.doMyAccount()" title="My Account"></i></div>';
+		html += '<div class="header_widget icon"><i class="mdi mdi-account" onMouseUp="app.doMyAccount()" title="My Account (' + app.username + ')"></i></div>';
 		html += '<div class="header_widget icon"><i class="mdi mdi-settings" onMouseUp="app.doMySettings()" title="Edit Settings"></i></div>';
 		html += '<div id="d_theme_ctrl" class="header_widget icon" onMouseUp="app.toggleTheme()" title="Toggle Light/Dark Theme"></div>';
 		// html += '<div class="header_widget icon"><i class="mdi mdi-file-document-edit-outline" onMouseUp="app.doNewTopic()" title="Post New Topic"></i></div>';

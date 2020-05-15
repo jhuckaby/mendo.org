@@ -295,7 +295,7 @@ Page.View = class PageView extends Page.Base {
 		var $reply = this.div.find('#d_reply');
 		
 		if (!app.user.verified) {
-			app.api.post( 'app/send_email_verification', {}, function(resp) {} );
+			// app.api.post( 'app/send_email_verification', {}, function(resp) {} );
 			return app.doError("Sorry, but to send replies you must first verify your e-mail address.  Please click the link in the e-mail sent to you.");
 		}
 		

@@ -11,7 +11,16 @@ Page.Document = class Document extends Page.Base {
 		
 		app.setWindowTitle('View Document');
 		
-		if (app.user) {
+		if (args.standalone) {
+			// standalone mode, no login, no prefs, no header, no footer
+			app.setHeaderTitle( '' );
+			app.showSidebar(false);
+			$('body').addClass('relative');
+			app.setTheme('light');
+			$('.header').hide();
+			$('#d_footer').hide();
+		}
+		else if (app.user) {
 			// user is logged in
 			app.setHeaderTitle( '<i class="mdi mdi-file-document-outline">&nbsp;</i>View Document' );
 			app.showSidebar(true);
@@ -44,7 +53,7 @@ Page.Document = class Document extends Page.Base {
 		}
 		
 		this.div.html('<div class="loading_container"><div class="loading"></div></div>');
-		app.api.get( 'app/doc', { id: args.id }, this.receiveDoc.bind(this), this.fullPageError.bind(this) );
+		app.api.get( 'app/doc', args, this.receiveDoc.bind(this), this.fullPageError.bind(this) );
 		
 		return true;
 	}
@@ -53,9 +62,18 @@ Page.Document = class Document extends Page.Base {
 		// receive markdown from server, render it
 		var html = '';
 		var text = resp.data;
+		var args = this.args;
+		
+		if ((typeof(text) == 'object') && text.subject && text.body) {
+			// viewing DB record as document
+			var record = resp.data;
+			text = "";
+			if (args.subject) text += "# " + record.subject + "\n\n";
+			text += record.body;
+		}
 		
 		// promote first heading into title, if user is logged in and it's a level 1 or 2 header
-		if (app.user && text.match(/^\#{1,2}\s+([^\n]+)\n\n/)) {
+		if (app.user && !args.standalone && text.match(/^\#{1,2}\s+([^\n]+)\n\n/)) {
 			var title = RegExp.$1;
 			app.setWindowTitle( title );
 			app.setHeaderTitle( '<i class="mdi mdi-file-document-outline">&nbsp;</i>' + title );
@@ -85,6 +103,25 @@ Page.Document = class Document extends Page.Base {
 		html += '</div>'; // box
 		
 		this.div.html(html);
+		this.expandInlineImages();
+	}
+	
+	expandInlineImages(elem) {
+		// expand all inline image URLs in doc
+		var self = this;
+		if (!elem) elem = this.div;
+		
+		elem.find('div.markdown-body p a').each( function() {
+			var $this = $(this);
+			var href = $this.attr('href') || '';
+			if (!href.match(/\.(jpg|jpeg|gif|png)(\?|$)/i)) return; // supported images only
+			if ($this.data('expanded')) return; // do not re-expand an expanded link
+			if ($this.next().length) return; // only process links at the end of parent blocks
+			
+			$this.after('<img src="' + href + '" class="inline_image" onMouseUp="window.open(this.src)">');
+			// $this.data('expanded', true);
+			$this.remove();
+		});
 	}
 	
 	doCreateAccount() {
@@ -101,6 +138,9 @@ Page.Document = class Document extends Page.Base {
 		if (!app.user) {
 			$('body').removeClass('relative');
 			$('#d_header_user_container').html('');
+			$('.header').show();
+			$('#d_footer').show();
+			app.initTheme();
 		}
 		return true;
 	}

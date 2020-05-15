@@ -16,7 +16,7 @@ Page.NewTopic = class NewTopic extends Page.Base {
 		app.showSidebar(true);
 		
 		if (!app.user.verified) {
-			app.api.post( 'app/send_email_verification', {}, function(resp) {} );
+			// app.api.post( 'app/send_email_verification', {}, function(resp) {} );
 			this.fullPageError({
 				title: "Please Verify Your E-mail Address",
 				description: "Sorry, but to post new topics you must first verify your e-mail address.  Please click the link in the e-mail sent to you." 
@@ -180,13 +180,13 @@ Page.NewTopic = class NewTopic extends Page.Base {
 	}
 	
 	uploadStart(files, userData) {
-		// avatar upload has started
+		// file upload has started
 		Dialog.showProgress( 0.0, "Uploading " + pluralize('file', files.length) + "..." );
 		Debug.trace('upload', "Upload started");
 	}
 	
 	uploadProgress(progress) {
-		// avatar is on its way
+		// file is on its way
 		Dialog.showProgress( progress.amount );
 		Debug.trace('upload', "Upload progress: " + progress.pct);
 	}
