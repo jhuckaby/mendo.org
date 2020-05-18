@@ -80,9 +80,12 @@ Page.Document = class Document extends Page.Base {
 			text = text.replace(/^\#{1,2}\s+([^\n]+)\n\n/, '');
 		}
 		
+		var extra_classes = 'code';
+		if (args.standalone) extra_classes = '';
+		
 		html += '<div class="box">';
 		html += '<div class="box_content">';
-		html += '<div class="markdown-body code" style="' + (app.user ? this.getUserFontStyle() : 'font-size:16px') + '">';
+		html += '<div class="markdown-body ' + extra_classes + '" style="' + (app.user ? this.getUserFontStyle() : 'font-size:16px') + '">';
 		// html += '<div class="markdown-body code" style="font-size:16px">';
 		
 		html += marked(text, {

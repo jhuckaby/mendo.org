@@ -110,7 +110,7 @@ Page.EditPost = class EditPost extends Page.NewTopic {
 		html += '</div>'; // box
 		
 		this.div.html( html );
-		this.div.find('#fe_post_subject').focus();
+		this.div.find('#fe_post_body').focus();
 		
 		// setup upload system
 		ZeroUpload.setURL( '/api/app/upload_files' );
