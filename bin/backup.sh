@@ -7,7 +7,9 @@ HOME=/root
 export HOME
 
 # Nightly backup of entire DB to S3
-/usr/bin/aws s3 sync /data/storage/ s3://mendo.org/data/ --quiet
+# /usr/bin/aws s3 sync /data/storage/ s3://mendo.org/data/ --quiet
 
 # Log archives too
-/usr/bin/aws s3 sync /data/logs/archives/ s3://mendo.org/logs/ --quiet
+# /usr/bin/aws s3 sync /data/logs/archives/ s3://mendo.org/logs/ --quiet
+find /data/logs/archives/ -type f -name '*.gz' -mtime +30 -delete >/dev/null 2>&1
+
