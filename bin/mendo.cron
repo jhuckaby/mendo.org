@@ -4,7 +4,7 @@
 # Monitor Mendo.org daemon once per minute (Upstart).
 * * * * * root /opt/mendo/bin/monitor.js
 
-# Nightly backup of entire DB to S3
+# Nightly backup
 15 03 * * * root /opt/mendo/bin/backup.sh
 
 # SSL cert renewal
