@@ -71,7 +71,7 @@
 	},
 	
 	"ML": {
-		"enabled": true,
+		"enabled": false,
 		"dir": "ml",
 		"mode": "suggest",
 		"train_schedule": "03:00",
