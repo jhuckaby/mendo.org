@@ -115,7 +115,7 @@
 	"WebServer": {
 		"http_port": 5522,
 		"http_htdocs_dir": "htdocs",
-		"http_max_upload_size": 10485760,
+		"http_max_upload_size": 10737418240,
 		"http_static_ttl": 31536000,
 		"http_static_index": "index.html",
 		"http_server_signature": "Mendo.org v1.0",
