@@ -5,7 +5,7 @@ This is a community discourse site designed for all residents of Mendocino Count
 - Integration with the [MCN Announce ListServ](http://www.mcn.org/email/listserv.html) for automatic message ingest.
 - Post new topics and replies that can also be cross-posted to the ListServ.
 - Threaded e-mail discussions (replies automatically organized under each topic).
-- Automatic message classification and tagging via machine learning AI (coming soon).
+- Automatic message classification and tagging for most posts.
 - Compact or expanded views of topics.
 - Calendar of upcoming events in the area.
 - Flag any topic or reply as a "favorite" to save it for later.
