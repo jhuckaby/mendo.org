@@ -271,6 +271,9 @@ Page.Base = class Base extends Page {
 				mangle: false,
 				renderer: renderer
 			}) + '</div>';
+			
+			// prevent script tags from injecting code
+			record.disp.body = record.disp.body.replace(/<script/ig, '');
 		}
 		else if (app.user.line_breaks) {
 			// plain text (preserve line breaks)
@@ -317,8 +320,11 @@ Page.Base = class Base extends Page {
 			html += '<div class="box_admin_icon_widget" title="Block Content" onMouseUp="$P().editRecordBlock(' + idx + ',this)"><i class="mdi mdi-cancel"></i></div>';
 		}
 		
+		// forward
+		html += '<div class="box_admin_icon_widget" title="Forward" onMouseUp="$P().editRecordForward(' + idx + ',this)"><i class="mdi mdi-share"></i></div>';
+		
 		// reply
-		html += '<div class="box_admin_icon_widget" title="Reply" onMouseUp="$P().editRecordReply(' + idx + ',this)"><i class="mdi mdi-reply-all"></i></div>';
+		html += '<div class="box_admin_icon_widget" title="Reply" onMouseUp="$P().editRecordReply(' + idx + ',this)"><i class="mdi mdi-reply"></i></div>';
 		
 		if (app.isAdmin()) {
 			html += '<div class="box_admin_spacer admin"></div>';
@@ -423,6 +429,7 @@ Page.Base = class Base extends Page {
 			var tag = app.tags[idy];
 			var sel = old_tags.includes(tag.id);
 			html += '<div class="sel_dialog_item check ' + (sel ? 'selected' : '') + '" data-value="' + tag.id + '">';
+			if (tag.icon) html += '<i class="mdi mdi-' + tag.icon + '">&nbsp;</i>';
 			html += '<span>' + tag.title + '</span>';
 			html += '<div class="sel_dialog_item_check"><i class="mdi mdi-check"></i></div>';
 			html += '</div>';
@@ -515,6 +522,19 @@ Page.Base = class Base extends Page {
 				$('#d_sel_dialog_scrollarea > div.sel_dialog_item.match').slice(0, 1).trigger('mouseup');
 			}
 		});
+	}
+	
+	editRecordForward(idx, elem) {
+		// jump out to user's local email app for forwarding
+		var record = this.getRecordFromIdx(idx);
+		var self_url = location.protocol + '//' + location.host + '/#View?id=' + record.id;
+		var url = 'mailto:' + compose_query_string({
+			subject: 'Fwd: ' + record.subject,
+			body: 'From: ' + record.from + "\n" + 
+				"Date: " + (new Date(record.date * 1000)).toString() + "\n" + 
+				"\n" + record.body.trim() + "\n\n----\nForwareded from Mendo.org.\n" + self_url
+		});
+		window.location = url;
 	}
 	
 	editRecordReply(idx, elem) {
