@@ -693,17 +693,17 @@ div.box_admin_container {
 	/* max-width: 400px; */
 	
 	position: absolute;
-	width: 90px;
+	width: 120px;
 	height: auto;
 	left: 100%;
 	top: 15px;
-	margin-left: -106px;
+	margin-left: -136px;
 	
 	/* background-color: rgba(255, 0, 0, 0.1); */
 }
 body.admin div.box_admin_container {
-	width: 210px;
-	margin-left: -226px;
+	width: 240px;
+	margin-left: -256px;
 }
 
 div.box_admin_icon_widget {
