@@ -223,8 +223,8 @@ Page.Users = class Users extends Page.Base {
 		if (!user.username.length) {
 			return app.badField('#fe_eu_username', "Please enter a username for the new account.");
 		}
-		if (!user.username.match(/^[\w\-\.]+$/)) {
-			return app.badField('#fe_eu_username', "Please make sure the username contains only alphanumerics, periods and dashes.");
+		if (!user.username.match(/^\w+$/)) {
+			return app.badField('#fe_eu_username', "Please make sure the username contains only alphanumerics.");
 		}
 		if (!user.email.length) {
 			return app.badField('#fe_eu_email', "Please enter an e-mail address where the user can be reached.");

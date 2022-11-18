@@ -244,8 +244,8 @@ Page.Login = class Login extends Page.Base {
 		if (!username.length) {
 			return app.badField('#fe_ca_username', "Please enter a username for your account.");
 		}
-		if (!username.match(/^[\w\-\.]+$/)) {
-			return app.badField('#fe_ca_username', "Please make sure your username contains only alphanumerics, dashes and periods.");
+		if (!username.match(/^\w+$/)) {
+			return app.badField('#fe_ca_username', "Please make sure your username contains only alphanumerics (letters and numbers).");
 		}
 		if (!email.length) {
 			return app.badField('#fe_ca_email', "Please enter an e-mail address where you can be reached.");
