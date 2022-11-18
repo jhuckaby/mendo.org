@@ -38,7 +38,7 @@ All topics on Mendo.org are sorted into categories (either automatically or by h
 
 There are two "special" categories to mention.  The first is **[<i class="mdi mdi-filter-outline"></i> Unsorted](#Tag?id=unsorted)**, which holds all topics that have not yet been sorted.  Once they are assigned a category, they are removed from Unsorted.  The second is **[<i class="mdi mdi-content-cut"></i> Off-Topic](#Tag?id=offtopic)**, which holds all posts deemed irrelevant to the community.  Examples include fake news, hate speech, adult content, trolling, etc.
 
-Off-Topic is filtered by default for all new users, meaning all posts are hidden from view.  If you want to see them, you can either click directly on the Off-Topic link in the sidebar, or remove the filter on the **[<i class="mdi mdi-settings"></i> Preferences](#MySettings)** page.
+Off-Topic is filtered by default for all new users, meaning all posts are hidden from view.  If you want to see them, you can either click directly on the Off-Topic link in the sidebar, or remove the filter on the **[<i class="mdi mdi-cog"></i> Preferences](#MySettings)** page.
 
 ### Locations
 
@@ -94,7 +94,7 @@ When you block an individual user, their e-mail address is added to a filter lis
 
 When you filter a category, all topics tagged with that category are hidden from your view.  This includes the Recent Topics, Hot Topics, and all search results.  The categories themselves are still listed in the sidebar, but they are grayed out, and will be empty if you click on them.
 
-You can manage your blocked senders and filtered categories on the **[<i class="mdi mdi-settings"></i> Preferences](#MySettings)** page.  Click the (x) icons to remove items from the filtered lists, or click anywhere else in the field to add more entries.  You can block as many users and categories as you want.
+You can manage your blocked senders and filtered categories on the **[<i class="mdi mdi-cog"></i> Preferences](#MySettings)** page.  Click the (x) icons to remove items from the filtered lists, or click anywhere else in the field to add more entries.  You can block as many users and categories as you want.
 
 The Preferences page also allows you to enable or disable all your filters with one checkbox.
 
@@ -106,7 +106,7 @@ Simply click the **<i class="mdi mdi-cloud-download-outline"></i> Download All**
 
 ### Changing Preferences
 
-Click the **[<i class="mdi mdi-settings"></i> Preferences](#MySettings)** link in the sidebar (towards the bottom), to edit your preferences for Mendo.org.  These settings are set for your account, and automatically saved.  Here are the settings you can customize:
+Click the **[<i class="mdi mdi-cog"></i> Preferences](#MySettings)** link in the sidebar (towards the bottom), to edit your preferences for Mendo.org.  These settings are set for your account, and automatically saved.  Here are the settings you can customize:
 
 | Setting | Description |
 |-|-|

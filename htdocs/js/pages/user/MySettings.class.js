@@ -13,7 +13,7 @@ Page.MySettings = class MySettings extends Page.Base {
 		this.args = args;
 		
 		app.setWindowTitle('Preferences');
-		app.setHeaderTitle( '<i class="mdi mdi-settings">&nbsp;</i>User Settings' );
+		app.setHeaderTitle( '<i class="mdi mdi-cog">&nbsp;</i>User Settings' );
 		app.showSidebar(true);
 		
 		this.receiveUser({ user: app.user });
