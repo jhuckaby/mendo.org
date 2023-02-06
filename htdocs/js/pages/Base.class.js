@@ -532,7 +532,7 @@ Page.Base = class Base extends Page {
 			subject: 'Fwd: ' + record.subject,
 			body: 'From: ' + record.from + "\n" + 
 				"Date: " + (new Date(record.date * 1000)).toString() + "\n" + 
-				"\n" + record.body.trim() + "\n\n----\nForwareded from Mendo.org.\n" + self_url
+				"\n" + record.body.trim() + "\n\n----\nForwarded from Mendo.org.\n" + self_url
 		});
 		window.location = url;
 	}
