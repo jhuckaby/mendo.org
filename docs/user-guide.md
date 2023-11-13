@@ -36,7 +36,7 @@ At the very top of both pages, you will find links to navigate to past months, a
 
 All topics on Mendo.org are sorted into categories (either automatically or by hand).  These categories are all listed on the left-hand sidebar, and you can click each one to see all the recent topics for that category (newest on top).  Note that a topic may be tagged in *multiple* categories, for example **[<i class="mdi mdi-food"></i> Food](#Tag?id=food)** and **[<i class="mdi mdi-glass-cocktail"></i> Entertainment](#Tag?id=entertainment)**.
 
-There are two "special" categories to mention.  The first is **[<i class="mdi mdi-filter-outline"></i> Unsorted](#Tag?id=unsorted)**, which holds all topics that have not yet been sorted.  Once they are assigned a category, they are removed from Unsorted.  The second is **[<i class="mdi mdi-content-cut"></i> Off-Topic](#Tag?id=offtopic)**, which holds all posts deemed irrelevant to the community.  Examples include fake news, hate speech, adult content, trolling, etc.
+There are two "special" categories to mention.  The first is **[<i class="mdi mdi-filter-outline"></i> Unsorted](#Tag?id=unsorted)**, which holds all topics that have not yet been sorted.  Once they are assigned a category, they are removed from Unsorted.  The second is **[<i class="mdi mdi-content-cut"></i> Off-Topic](#Tag?id=offtopic)**, which holds all posts deemed irrelevant to the community.  Examples include hate speech, adult content, etc.
 
 Off-Topic is filtered by default for all new users, meaning all posts are hidden from view.  If you want to see them, you can either click directly on the Off-Topic link in the sidebar, or remove the filter on the **[<i class="mdi mdi-cog"></i> Preferences](#MySettings)** page.
 

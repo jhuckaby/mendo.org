@@ -57,7 +57,7 @@ We are not affiliated with the [Mendocino Community Network](http://mcn.org/), b
 
 ### So I can post anything I want?
 
-Well, within reason.  It should be said that we reserve the right to delete any message we deem inappropriate (examples include fake news, hate speech, adult content, etc.), or we may move messages into an "Off-Topic" category, which is hidden for all users by default.  For repeated offenses we may ban accounts and/or block sender addresses.  See our [terms of service](/terms) for more details.
+Well, within reason.  It should be said that we reserve the right to delete any message we deem inappropriate (examples include hate speech, adult content, etc.), or we may move messages into an "Off-Topic" category, which is hidden for all users by default.  For repeated offenses we may ban accounts and/or block sender addresses.  See our [terms of service](/terms) for more details.
 
 Another important note: If you are going to cross-post your messages onto the ListServ (we provide a checkbox to do this on a post-by-post basis), please observe [their rules and conditions](http://www.mcn.org/email/atos.html).
 
@@ -79,7 +79,7 @@ But to answer your question, your e-mails sent to the ListServ or messages poste
 
 ### Will you block trolls and hackers?
 
-We will do our best to prevent hackers from compromising the site, and our administrators will delete all spam messages that make it through.  Trolls are a more complicated topic, however.  You should read our [terms of service](/terms) for details, but in short, we will delete any message we deem inappropriate (examples include fake news, hate speech, adult content, etc.), or more often we will move messages into an "Off-Topic" category, which is hidden for all users by default.  For repeated offenses we may ban accounts and/or block sender addresses.
+We will do our best to prevent hackers from compromising the site, and our administrators will delete all spam messages that make it through.  Trolls are a more complicated topic, however.  You should read our [terms of service](/terms) for details, but in short, we will delete any message we deem inappropriate (examples include hate speech, adult content, etc.), or more often we will move messages into an "Off-Topic" category, which is hidden for all users by default.  For repeated offenses we may ban accounts and/or block sender addresses.
 
 Also, you can block any senders that you want when using Mendo.org.  Every message has a convenient <i class="mdi mdi-cancel"></i> **Block Sender** icon in the top-right corner, which you can click and never see another e-mail from them ever again.  You can also hide entire categories if they don't suit your fancy.  Your settings are saved with your account (you can manage your blocked senders list and category filters on the Preferences page).
 
