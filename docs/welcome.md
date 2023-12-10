@@ -95,13 +95,9 @@ The plan is to keep the latest five years worth of e-mail going forward, but we'
 
 Mendo.org is a donation to the community, and is not for profit.  The software is also [open source](https://github.com/jhuckaby/mendo.org).
 
-### How much does it cost to run this site?
-
-It costs about $35 per month to run the service.
-
 ### Who made this thing?
 
-I did.  I'm [Joseph Huckaby](https://twitter.com/jhuckaby), and I live in the village of Mendocino.
+I did.  I'm Joseph Huckaby, and I live in the village of Mendocino.
 
 ### I need some help!
 
