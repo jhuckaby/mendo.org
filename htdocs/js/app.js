@@ -24,13 +24,16 @@ app.extend({
 		delete resp.code;
 		window.config = resp.config;
 		
+		// load prefs and populate for first time users
+		this.initPrefs();
+		
+		// allow prefs to enable debug
+		if (this.getPref('debug')) config.debug = true;
+		
 		if (config.debug) {
 			Debug.enable( this.debug_cats );
 			Debug.trace('system', "Mendo.org Client Starting Up");
 		}
-		
-		// load prefs and populate for first time users
-		this.initPrefs();
 		
 		// setup theme (light / dark)
 		this.initTheme();
