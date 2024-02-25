@@ -42,7 +42,7 @@
 		"marked": "0.8.0",
 		"planer": "1.1.1",
 		"mailparser": "2.7.7",
-		"chrono-node": "1.4.2",
+		"chrono-node": "2.2.4",
 		"he": "1.1.1",
 		"unidecode": "0.1.8",
 		"useragent": "2.3.0",
