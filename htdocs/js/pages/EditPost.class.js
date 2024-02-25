@@ -115,7 +115,7 @@ Page.EditPost = class EditPost extends Page.NewTopic {
 		// setup upload system
 		ZeroUpload.setURL( '/api/app/upload_files' );
 		ZeroUpload.setMaxFiles( 10 );
-		ZeroUpload.setMaxBytes( 10 * 1024 * 1024 ); // 10 MB
+		ZeroUpload.setMaxBytes( 100 * 1024 * 1024 ); // 100 MB
 		ZeroUpload.setFileTypes();
 		ZeroUpload.on('start', this.uploadStart.bind(this) );
 		ZeroUpload.on('progress', this.uploadProgress.bind(this) );
