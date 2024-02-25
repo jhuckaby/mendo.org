@@ -28,7 +28,7 @@
 		"webapp"
 	],
 	"dependencies": {
-		"aws-sdk": "2.610.0",
+		"aws-sdk": "2.814.0",
 		"async": "2.6.4",
 		"jimp": "0.6.4",
 		"mime": "2.4.4",
